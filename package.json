@@ -1,7 +1,7 @@
 {
-  "name": "fcc-front-end-projects-template",
+  "name": "drum-machine",
   "version": "0.1.0",
-  "homepage": "https://kandoruus.github.io/fcc-front-end-projects-template",
+  "homepage": "https://kandoruus.github.io/drum-machine",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.2",
