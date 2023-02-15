@@ -1,12 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
-const templateReducer = (state: number = 0):number =>  {
+const templateReducer = (state = 0): number => {
   return state;
-}
+};
 
 export const store = configureStore({
   reducer: {
-    default: templateReducer
+    default: templateReducer,
   },
 });
 
