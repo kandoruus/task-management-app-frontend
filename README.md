@@ -7,6 +7,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 1. Change homepage and name in package.json to match the project name.
 2. npm run deploy
 
+## Copy Template
+
+cp -R project-template/ new-project-name/
+
 ## Available Scripts
 
 In the project directory, you can run:
