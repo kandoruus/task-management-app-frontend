@@ -1,7 +1,7 @@
 {
-  "name": "project-template",
+  "name": "task-management-app",
   "version": "0.1.0",
-  "homepage": "https://kandoruus.github.io/project-template",
+  "homepage": "https://kandoruus.github.io/task-management-app",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.2",
