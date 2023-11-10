@@ -1,8 +1,11 @@
 import React from 'react';
 import './App.css';
+import { TaskControlPane } from 'component/TaskControlPane';
 
-function App() {
-  return <div className="App-header">TEMPLATE</div>;
+export function App(): JSX.Element {
+  return (
+    <div className="App-wrapper">
+      <TaskControlPane />
+    </div>
+  );
 }
-
-export default App;
