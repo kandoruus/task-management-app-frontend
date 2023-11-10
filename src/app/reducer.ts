@@ -1,1 +1,4 @@
-export const temp2 = true;
+import { combineReducers } from 'redux';
+import { tasklistSlice } from 'app/slices';
+
+export const reducer = combineReducers({ tasklist: tasklistSlice.reducer });

@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import { TaskControlPane } from 'component/TaskControlPane';
+import { TasklistMasterPane } from 'component/TaskListManagement/TasklistMasterPane';
 
 export function App(): JSX.Element {
   return (
     <div className="App-wrapper">
-      <TaskControlPane />
+      <TasklistMasterPane />
     </div>
   );
 }
