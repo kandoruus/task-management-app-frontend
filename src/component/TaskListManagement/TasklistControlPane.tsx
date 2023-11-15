@@ -1,20 +1,20 @@
-import { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
-import { AppDispatch } from 'app/store';
-import { tasklistCtrlBtns } from 'helper/constants';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'app/hooks';
+import { AppDispatch } from 'app/store';
+import { ctrlBtnClick, tasklistCtrlBtns } from 'helper/componentConfig';
 
 export const TasklistControlPane: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useAppDispatch();
 
-  function getActionType(triggerId: string): ActionCreatorWithoutPayload {
+  const getActionType = (triggerId: string): ctrlBtnClick => {
     const action = tasklistCtrlBtns.find(
       (btn) => btn.id === triggerId
     )?.actionType;
-    if (action === undefined)
+    if (action === undefined) {
       throw new Error('tasklistCtrlBtns list is corrupted, no action found');
+    }
     return action;
-  }
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
