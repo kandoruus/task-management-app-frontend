@@ -81,11 +81,11 @@ export const TasklistEditor: React.FC = () => {
     );
   };
   const handleDescriptionInput = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     dispatch(
       taskEditorSlice.actions.updateDescription(
-        (event.target as HTMLInputElement).value
+        (event.target as HTMLTextAreaElement).value
       )
     );
   };
@@ -105,7 +105,7 @@ export const TasklistEditor: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="task-pane task-editor">
       <input
         id="task-name"
         type="text"
@@ -115,9 +115,9 @@ export const TasklistEditor: React.FC = () => {
         value={name}
         onChange={handleNameInput}
       />
-      <input
+      <textarea
+        className="task-desc"
         id="task-desc"
-        type="text"
         name="description"
         placeholder="description"
         value={description}
@@ -139,10 +139,12 @@ export const TasklistEditor: React.FC = () => {
         value={priority}
         onChange={handlePriorityInput}
       />
-      <button onClick={handleCancelClick}>Cancel</button>
-      <button onClick={handleDeleteClick}>Delete</button>
-      <button onClick={handleSaveClick}>Save</button>
-      <button onClick={handleSaveExitClick}>Save and Exit</button>
+      <div className="task-editor-btns">
+        <button onClick={handleCancelClick}>Cancel</button>
+        <button onClick={handleDeleteClick}>Delete</button>
+        <button onClick={handleSaveClick}>Save</button>
+        <button onClick={handleSaveExitClick}>Save and Exit</button>
+      </div>
     </div>
   );
 };

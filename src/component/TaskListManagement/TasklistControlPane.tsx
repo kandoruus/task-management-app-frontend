@@ -30,7 +30,7 @@ export const TasklistControlPane: React.FC = () => {
       {tasklistCtrlBtns.map((button) => (
         <button
           id={button.id}
-          className={button.className}
+          className={button.className && ' ctrl-btn'}
           onClick={handleClick}
           value={button.value}
           key={button.id}

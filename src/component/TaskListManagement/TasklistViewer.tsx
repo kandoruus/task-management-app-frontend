@@ -25,11 +25,16 @@ export const TasklistViewer: React.FC = () => {
     }
   };
   return (
-    <div>
+    <div className="task-pane task-viewer">
       {tasks.length !== 0 && (
         <div>
           {tasks.map((task, idx) => (
-            <button key={idx} id={idx.toString()} onClick={handleClick}>
+            <button
+              className="task-button"
+              key={idx}
+              id={idx.toString()}
+              onClick={handleClick}
+            >
               {task.data.name}
             </button>
           ))}

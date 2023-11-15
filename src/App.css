@@ -1,39 +1,79 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
+input,
+textarea {
+  margin: 4px 25px 0px;
 }
 
 .App-wrapper {
-  min-height: 100vh;
+  margin: auto;
+  height: 100vh;
+  width: 100vw;
+  background-color: cadetblue;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.tasklist-master-pane {
+  background-color: white;
+  margin: 50px auto 0px;
+  width: 80%;
+  height: fit-content;
+}
+
+.tasklist-control-pane {
+  background-color: lightgrey;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 30px;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+.ctrl-btn {
+  margin: auto;
+  width: 100%;
+  height: 100%;
 }
 
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+.task-pane {
+  height: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  margin: auto;
+}
+
+.task-viewer {
+  background-color: lightgrey;
+  height: 500px;
+}
+
+.task-button {
+  width: 100%;
+  height: 25px;
+}
+
+.task-editor {
+  background-color: rgb(169, 188, 189);
+  padding: 25px 0px 25px;
+}
+
+.task-editor-btns {
+  margin: 9px 25px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 4px;
+}
+
+.task-desc {
+  resize: none;
+  height: 150px;
 }
