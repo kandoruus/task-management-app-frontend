@@ -1,45 +1,22 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppDispatch, RootState, store } from 'app/store';
-import axios from 'axios';
-import { SAVE_NEW_TASKS_API, SAVE_TASK_HEADERS } from 'helper/constants';
-import { taskCtrlSlice } from 'app/taskCtrlSlice';
-import { Task } from 'app/types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from 'app/store';
+import { NEW_TASK_DATA } from 'helper/constants';
+import { TaskData, TaskDataWIdx } from 'app/types';
 
-export const saveNewTask = createAsyncThunk(
-  'tasklist/saveNewTask',
-  async (dispatch: AppDispatch) => {
-    try {
-      const newTask = store.getState().taskEditor;
-      const response = await axios.post(
-        SAVE_NEW_TASKS_API,
-        newTask.data,
-        SAVE_TASK_HEADERS
-      );
-      if (response.data.id) {
-        dispatch(
-          taskCtrlSlice.actions.saveNewTaskLocal({
-            _id: response.data.id,
-            data: newTask.data,
-            __v: newTask.__v,
-          })
-        );
-      } else {
-        throw new Error('No id returned from Database');
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
-);
+const sliceName = 'taskEditor';
+
+interface TaskEditorState {
+  data: TaskData;
+  indexOfFocus: number | null;
+}
 
 const initialState = {
-  _id: '',
-  data: { name: 'New Task', description: '', status: '', priority: '' },
-  __v: 0,
-} as Task;
+  data: { ...NEW_TASK_DATA },
+  indexOfFocus: null,
+} as TaskEditorState;
 
 export const taskEditorSlice = createSlice({
-  name: 'taskEditor',
+  name: sliceName,
   initialState: initialState,
   reducers: {
     updateName: (state, action: PayloadAction<string>) => {
@@ -54,16 +31,14 @@ export const taskEditorSlice = createSlice({
     updatePriority: (state, action: PayloadAction<string>) => {
       state.data.priority = action.payload;
     },
-    updateId: (state, action: PayloadAction<string>) => {
-      state._id = action.payload;
+    loadTaskData: (state, action: PayloadAction<TaskDataWIdx>) => {
+      state.data = { ...action.payload.data };
+      state.indexOfFocus = action.payload.indx;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(saveNewTask.fulfilled, (state) => {
-      state._id = initialState._id;
-      state.data = initialState.data;
-      state.__v = initialState.__v;
-    });
+    clearTaskData: (state) => {
+      state.data = { ...NEW_TASK_DATA };
+      state.indexOfFocus = null;
+    },
   },
 });
 
@@ -72,7 +47,8 @@ export const {
   updateDescription,
   updateStatus,
   updatePriority,
-  updateId,
+  loadTaskData,
+  clearTaskData,
 } = taskEditorSlice.actions;
 export const selectTaskEditor = (state: RootState) => state.taskEditor;
 export default taskEditorSlice.reducer;

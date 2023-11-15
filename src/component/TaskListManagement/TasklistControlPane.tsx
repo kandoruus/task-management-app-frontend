@@ -9,7 +9,7 @@ export const TasklistControlPane: React.FC = () => {
   const getActionType = (triggerId: string): ctrlBtnClick => {
     const action = tasklistCtrlBtns.find(
       (btn) => btn.id === triggerId
-    )?.actionType;
+    )?.onClick;
     if (action === undefined) {
       throw new Error('tasklistCtrlBtns list is corrupted, no action found');
     }
@@ -19,7 +19,7 @@ export const TasklistControlPane: React.FC = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
-      dispatch(getActionType((event.target as HTMLButtonElement).id)());
+      getActionType((event.target as HTMLButtonElement).id)(dispatch);
     } catch (e) {
       console.error(e);
     }

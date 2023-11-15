@@ -1,46 +1,56 @@
+import { AppDispatch, store } from 'app/store';
 import {
+  createNewTask,
   deleteTasklist,
   fetchTasklist,
+  openEditor,
   saveTasklist,
-  taskCtrlSlice,
 } from 'app/taskCtrlSlice';
+import { loadTaskData } from 'app/taskEditorSlice';
 
-export type ctrlBtnClick =
-  | typeof fetchTasklist
-  | typeof deleteTasklist
-  | typeof saveTasklist
-  | typeof taskCtrlSlice.actions.openEditor;
+export type ctrlBtnClick = (dispatch: AppDispatch) => void;
 
 export const tasklistCtrlBtns: {
   id: string;
   className: string;
   value: string;
-  actionType: ctrlBtnClick;
+  onClick: ctrlBtnClick;
 }[] = [
   {
     id: 'load-tl-btn',
     className: 'tl-control-btn',
     value: 'Load Tasks',
-    actionType: fetchTasklist,
+    onClick: (dispatch: AppDispatch) => {
+      dispatch(fetchTasklist());
+    },
   },
   {
     id: 'delete-tl-btn',
     className: 'tl-control-btn',
     value: 'Delete Tasks',
-    actionType: deleteTasklist,
-    //actionType: tasklistSlice.actions.deleteAllTasks,
+    onClick: (dispatch: AppDispatch) => {
+      dispatch(deleteTasklist());
+    },
   },
   {
     id: 'save-tl-btn',
     className: 'tl-control-btn',
     value: 'Save Tasks',
-    actionType: saveTasklist,
-    //actionType: tasklistSlice.actions.saveTasks,
+    onClick: (dispatch: AppDispatch) => {
+      dispatch(saveTasklist());
+    },
   },
   {
     id: 'new-task-tl-btn',
     className: 'tl-control-btn',
     value: 'Create Task',
-    actionType: taskCtrlSlice.actions.openEditor,
+    onClick: (dispatch: AppDispatch) => {
+      dispatch(createNewTask(dispatch)).then(() => {
+        const indx = store.getState().taskCtrl.tasklist.length - 1;
+        const data = store.getState().taskCtrl.tasklist[indx].data;
+        dispatch(loadTaskData({ data, indx }));
+        dispatch(openEditor());
+      });
+    },
   },
 ];
