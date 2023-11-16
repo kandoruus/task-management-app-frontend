@@ -9,9 +9,13 @@ textarea {
   margin: 4px 25px 0px;
 }
 
+button > * {
+  pointer-events: none;
+}
+
 .App-wrapper {
   margin: auto;
-  height: 100vh;
+  height: max(100vh, 600px);
   width: 100vw;
   background-color: cadetblue;
   display: flex;
@@ -34,15 +38,24 @@ textarea {
   align-items: center;
   justify-content: center;
   height: 30px;
+  border: 1px solid grey;
 }
 
 .ctrl-btn {
   margin: auto;
   width: 100%;
   height: 100%;
+  background-color: rgb(141, 207, 209);
+  border: none;
+  border-right: 1px solid grey;
+}
+
+.ctrl-btn:last-of-type {
+  border-right: none;
 }
 
 .task-pane {
+  position: relative;
   height: calc(100% - 30px);
   display: flex;
   flex-direction: column;
@@ -52,17 +65,64 @@ textarea {
 
 .task-viewer {
   background-color: lightgrey;
-  height: 500px;
+  height: 520px;
+  border: 1px solid grey;
+  border-top: none;
+}
+
+.task-delete,
+.task-save {
+  width: 20px;
+  border: none;
+  border-left: 1px solid grey;
 }
 
 .task-button {
   width: 100%;
-  height: 25px;
+  border: none;
+  text-align: start;
+  padding-left: 10px;
+}
+
+.task-row {
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  margin: auto;
+  border-bottom: 1px solid grey;
+  z-index: 1;
+}
+
+.task-bottom-row {
+  position: absolute;
+  top: 499px;
+  left: 0;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: rgb(141, 207, 209);
+  width: 100%;
+  border-top: 1px solid grey;
+}
+
+.task-bottom-row button {
+  border: none;
+  width: 26px;
+  background-color: rgb(141, 207, 209);
+}
+.task-bottom-row div {
+  text-align: center;
+  line-height: 18px;
+  font-size: 0.9em;
 }
 
 .task-editor {
   background-color: rgb(169, 188, 189);
   padding: 25px 0px 25px;
+  border: 1px solid grey;
+  border-top: none;
 }
 
 .task-editor-btns {

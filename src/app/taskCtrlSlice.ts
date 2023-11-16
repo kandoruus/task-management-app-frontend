@@ -10,6 +10,8 @@ import {
   SAVE_NEW_TASKS_API,
   NEW_TASK_DATA,
   DELETE_TASK_API,
+  SAVE_ONE_TASK_API,
+  TASKS_PER_PAGE,
 } from 'helper/constants';
 
 const sliceName = 'taskCtrl';
@@ -54,7 +56,7 @@ export const createNewTask = createAsyncThunk(
     try {
       const response = await axios.post(
         SAVE_NEW_TASKS_API,
-        NEW_TASK_DATA,
+        { data: JSON.stringify(NEW_TASK_DATA) },
         SAVE_TASK_HEADERS
       );
       if (response.data.id) {
@@ -67,6 +69,27 @@ export const createNewTask = createAsyncThunk(
         );
       } else {
         throw new Error('No id returned from Database');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+);
+
+export const saveOneTask = createAsyncThunk(
+  sliceName + '/saveOneTask',
+  async (task: Task) => {
+    try {
+      const response = await axios.post(
+        SAVE_ONE_TASK_API,
+        {
+          _id: task._id,
+          data: JSON.stringify(task.data),
+        },
+        SAVE_TASK_HEADERS
+      );
+      if (response.data.error) {
+        throw new Error(response.data.error);
       }
     } catch (e) {
       console.error(e);
@@ -95,11 +118,13 @@ export const deleteTask = createAsyncThunk(
 interface TaskCtrlState {
   tasklist: Tasklist;
   showEditor: boolean;
+  page: number;
 }
 
 const initialState = {
   tasklist: [],
   showEditor: false,
+  page: 1,
 } as TaskCtrlState;
 
 export const taskCtrlSlice = createSlice({
@@ -117,6 +142,24 @@ export const taskCtrlSlice = createSlice({
     },
     updateTaskData: (state, action: PayloadAction<TaskDataWIdx>) => {
       state.tasklist[action.payload.indx].data = { ...action.payload.data };
+    },
+    nextPage: (state) => {
+      state.page = Math.min(
+        state.page + 1,
+        Math.max(Math.ceil(state.tasklist.length / TASKS_PER_PAGE), 1)
+      );
+    },
+    prevPage: (state) => {
+      state.page = Math.max(state.page - 1, 1);
+    },
+    firstPage: (state) => {
+      state.page = 1;
+    },
+    lastPage: (state) => {
+      state.page = Math.max(
+        Math.ceil(state.tasklist.length / TASKS_PER_PAGE),
+        1
+      );
     },
   },
   extraReducers: (builder) => {

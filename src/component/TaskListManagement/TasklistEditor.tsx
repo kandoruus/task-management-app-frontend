@@ -22,7 +22,7 @@ export const TasklistEditor: React.FC = () => {
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
-      const indexToDelete = indexOfFocus;
+      const indexToDelete = indexOfFocus as number;
       dispatch(taskCtrlSlice.actions.closeEditor());
       dispatch(taskEditorSlice.actions.clearTaskData());
       if (indexToDelete) {
