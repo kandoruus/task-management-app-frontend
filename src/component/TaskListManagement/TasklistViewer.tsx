@@ -80,7 +80,7 @@ export const TasklistViewer: React.FC = () => {
   };
 
   return (
-    <div className="task-pane task-viewer">
+    <div className="task-pane task-viewer" data-testid="task-viewer">
       {tasks.length !== 0 && (
         <div>
           {tasks

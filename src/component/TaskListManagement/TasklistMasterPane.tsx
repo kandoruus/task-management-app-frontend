@@ -7,7 +7,7 @@ import React from 'react';
 export const TasklistMasterPane: React.FC = () => {
   const showEditor = useAppSelector((state) => state.taskCtrl.showEditor);
   return (
-    <div className="tasklist-master-pane">
+    <div className="tasklist-master-pane" data-testid="tasklist-master-pane">
       <TasklistControlPane />
       {!showEditor && <TasklistViewer />}
       {showEditor && <TaskEditor />}

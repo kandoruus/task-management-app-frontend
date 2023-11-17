@@ -26,7 +26,7 @@ export const TasklistControlPane: React.FC = () => {
   };
 
   return (
-    <div className="tasklist-control-pane">
+    <div className="tasklist-control-pane" data-testid="tasklist-control-pane">
       {tasklistCtrlBtns.map((button) => (
         <button
           id={button.id}

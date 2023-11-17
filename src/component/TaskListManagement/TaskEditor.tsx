@@ -114,7 +114,7 @@ export const TaskEditor: React.FC = () => {
   };
 
   return (
-    <div className="task-pane task-editor">
+    <div className="task-pane task-editor" data-testid="task-editor">
       <input
         id="task-name"
         type="text"
