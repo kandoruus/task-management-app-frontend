@@ -54,3 +54,11 @@ export const tasklistCtrlBtns: {
     },
   },
 ];
+
+export const priorityOptions = ['Low', 'Medium', 'High', 'Urgent'];
+export const statusOptions = [
+  'Not Started',
+  'In Progress',
+  'Roadblocked',
+  'Completed',
+];

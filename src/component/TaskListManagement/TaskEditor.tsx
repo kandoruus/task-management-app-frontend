@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
 import { deleteTask, taskCtrlSlice } from 'app/taskCtrlSlice';
 import { taskEditorSlice } from 'app/taskEditorSlice';
+import { priorityOptions, statusOptions } from 'helper/componentConfig';
 import React from 'react';
 
 export const TaskEditor: React.FC = () => {
@@ -89,17 +90,17 @@ export const TaskEditor: React.FC = () => {
       )
     );
   };
-  const handleStatusInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStatusInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(
       taskEditorSlice.actions.updateStatus(
-        (event.target as HTMLInputElement).value
+        (event.target as HTMLSelectElement).value
       )
     );
   };
-  const handlePriorityInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePriorityInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(
       taskEditorSlice.actions.updatePriority(
-        (event.target as HTMLInputElement).value
+        (event.target as HTMLSelectElement).value
       )
     );
   };
@@ -123,22 +124,34 @@ export const TaskEditor: React.FC = () => {
         value={description}
         onChange={handleDescriptionInput}
       />
-      <input
+      <select
         id="task-status"
-        type="text"
         name="status"
-        placeholder="status"
         value={status}
         onChange={handleStatusInput}
-      />
-      <input
+      >
+        {statusOptions.map((option: string) => {
+          return (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
+      <select
         id="task-prio"
-        type="text"
         name="priority"
-        placeholder="priority"
         value={priority}
         onChange={handlePriorityInput}
-      />
+      >
+        {priorityOptions.map((option: string) => {
+          return (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
       <div className="task-editor-btns">
         <button onClick={handleCancelClick}>Cancel</button>
         <button onClick={handleDeleteClick}>Delete</button>

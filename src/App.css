@@ -5,7 +5,8 @@
 }
 
 input,
-textarea {
+textarea,
+select {
   margin: 4px 25px 0px;
 }
 
