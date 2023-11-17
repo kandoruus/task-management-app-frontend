@@ -1,6 +1,6 @@
 import { useAppSelector } from 'app/hooks';
 import { TasklistControlPane } from 'component/TaskListManagement/TasklistControlPane';
-import { TasklistEditor } from 'component/TaskListManagement/TasklistEditor';
+import { TaskEditor } from 'component/TaskListManagement/TaskEditor';
 import { TasklistViewer } from 'component/TaskListManagement/TasklistViewer';
 import React from 'react';
 
@@ -10,7 +10,7 @@ export const TasklistMasterPane: React.FC = () => {
     <div className="tasklist-master-pane">
       <TasklistControlPane />
       {!showEditor && <TasklistViewer />}
-      {showEditor && <TasklistEditor />}
+      {showEditor && <TaskEditor />}
     </div>
   );
 };

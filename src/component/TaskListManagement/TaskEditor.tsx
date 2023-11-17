@@ -4,7 +4,7 @@ import { deleteTask, taskCtrlSlice } from 'app/taskCtrlSlice';
 import { taskEditorSlice } from 'app/taskEditorSlice';
 import React from 'react';
 
-export const TasklistEditor: React.FC = () => {
+export const TaskEditor: React.FC = () => {
   const { data, indexOfFocus } = useAppSelector((state) => state.taskEditor);
   const { name, description, priority, status } = data;
 
