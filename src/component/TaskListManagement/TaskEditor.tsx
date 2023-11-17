@@ -26,7 +26,7 @@ export const TaskEditor: React.FC = () => {
       const indexToDelete = indexOfFocus as number;
       dispatch(taskCtrlSlice.actions.closeEditor());
       dispatch(taskEditorSlice.actions.clearTaskData());
-      if (indexToDelete) {
+      if (indexToDelete !== null) {
         dispatch(deleteTask(indexToDelete));
       } else {
         throw new Error('Index of task is null');
