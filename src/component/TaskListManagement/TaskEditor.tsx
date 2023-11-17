@@ -37,41 +37,49 @@ export const TaskEditor: React.FC = () => {
   };
   const handleSaveClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    try {
-      if (indexOfFocus === null) {
-        throw new Error('Index of task is null');
-      } else {
-        dispatch(
-          taskCtrlSlice.actions.updateTaskData({
-            data: { ...data },
-            indx: indexOfFocus,
-          })
-        );
+    if (name.trim() === '') {
+      window.alert('Task name cannot be blank');
+    } else {
+      try {
+        if (indexOfFocus === null) {
+          throw new Error('Index of task is null');
+        } else {
+          dispatch(
+            taskCtrlSlice.actions.updateTaskData({
+              data: { ...data },
+              indx: indexOfFocus,
+            })
+          );
+        }
+      } catch (e) {
+        console.error(e);
       }
-    } catch (e) {
-      console.error(e);
     }
   };
 
   const handleSaveExitClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    try {
-      const dataToSave = { ...data };
-      const indexToSave = indexOfFocus;
-      if (indexToSave === null) {
-        throw new Error('Index of task is null');
-      } else {
-        dispatch(taskCtrlSlice.actions.closeEditor());
-        dispatch(
-          taskCtrlSlice.actions.updateTaskData({
-            data: dataToSave,
-            indx: indexToSave,
-          })
-        );
-        dispatch(taskEditorSlice.actions.clearTaskData());
+    if (name.trim() === '') {
+      window.alert('Task name cannot be blank');
+    } else {
+      try {
+        const dataToSave = { ...data };
+        const indexToSave = indexOfFocus;
+        if (indexToSave === null) {
+          throw new Error('Index of task is null');
+        } else {
+          dispatch(taskCtrlSlice.actions.closeEditor());
+          dispatch(
+            taskCtrlSlice.actions.updateTaskData({
+              data: dataToSave,
+              indx: indexToSave,
+            })
+          );
+          dispatch(taskEditorSlice.actions.clearTaskData());
+        }
+      } catch (e) {
+        console.error(e);
       }
-    } catch (e) {
-      console.error(e);
     }
   };
   const handleNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
