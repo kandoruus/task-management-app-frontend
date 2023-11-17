@@ -171,6 +171,7 @@ export const taskCtrlSlice = createSlice({
     );
     builder.addCase(deleteTasklist.pending, (state) => {
       state.tasklist = [] as Tasklist;
+      state.page = 1;
     });
     builder.addCase(
       deleteTask.fulfilled,
@@ -181,6 +182,10 @@ export const taskCtrlSlice = createSlice({
             ...state.tasklist.slice(0, action.payload),
             ...state.tasklist.slice(action.payload + 1),
           ];
+          state.page = Math.min(
+            state.page,
+            Math.max(Math.ceil(state.tasklist.length / TASKS_PER_PAGE), 1)
+          );
         } else {
           console.error('Task deletion failed');
         }

@@ -47,7 +47,7 @@ export const TasklistViewer: React.FC = () => {
     }
   };
 
-  const handleFirstPageClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleFirstPageClick = () => {
     try {
       dispatch(taskCtrlSlice.actions.firstPage());
     } catch (e) {
@@ -55,7 +55,7 @@ export const TasklistViewer: React.FC = () => {
     }
   };
 
-  const handleLastPageClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLastPageClick = () => {
     try {
       dispatch(taskCtrlSlice.actions.lastPage());
     } catch (e) {
@@ -63,7 +63,7 @@ export const TasklistViewer: React.FC = () => {
     }
   };
 
-  const handleNextPageClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleNextPageClick = () => {
     try {
       dispatch(taskCtrlSlice.actions.nextPage());
     } catch (e) {
@@ -71,7 +71,7 @@ export const TasklistViewer: React.FC = () => {
     }
   };
 
-  const handlePrevPageClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePrevPageClick = () => {
     try {
       dispatch(taskCtrlSlice.actions.prevPage());
     } catch (e) {
