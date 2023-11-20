@@ -37,7 +37,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     event.preventDefault();
     try {
       const indx = +(event.target as HTMLButtonElement).id;
-      dispatch(deleteTask(indx));
+      dispatch(deleteTask({ index: indx, taskId: task._id }));
     } catch (e) {
       console.error(e);
     }

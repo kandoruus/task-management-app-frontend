@@ -57,7 +57,7 @@ export const TasklistViewer: React.FC = () => {
   };
 
   return (
-    <div className="task-pane task-viewer" data-testid="task-viewer">
+    <div className="task-pane task-viewer" data-testid="tasklist-viewer">
       {listLength !== 0 && <div>{getTaskCards()}</div>}
       <div className={'task-bottom-row'}>
         <button onClick={handleFirstPageClick}>First</button>

@@ -8,7 +8,9 @@ import React from 'react';
 export const TaskEditor: React.FC = () => {
   const { data, indexOfFocus } = useAppSelector((state) => state.taskEditor);
   const { name, description, priority, status } = data;
-
+  const taskId = useAppSelector(
+    (state) => state.taskCtrl.tasklist[indexOfFocus as number]?._id
+  );
   const dispatch: AppDispatch = useAppDispatch();
 
   const handleCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,7 +29,7 @@ export const TaskEditor: React.FC = () => {
       dispatch(taskCtrlSlice.actions.closeEditor());
       dispatch(taskEditorSlice.actions.clearTaskData());
       if (indexToDelete !== null) {
-        dispatch(deleteTask(indexToDelete));
+        dispatch(deleteTask({ index: indexToDelete, taskId: taskId }));
       } else {
         throw new Error('Index of task is null');
       }

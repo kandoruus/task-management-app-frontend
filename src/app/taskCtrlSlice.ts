@@ -1,11 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { store, type RootState, AppDispatch } from 'app/store';
+import { RootState, AppDispatch } from 'app/store';
 import { Task, Tasklist, TaskDataWIdx } from 'app/types';
 import axios from 'axios';
 import {
   GET_ALL_TASKS_API,
   DELETE_ALL_TASKS_API,
-  SAVE_ALL_TASKS_API,
   SAVE_TASK_HEADERS,
   SAVE_NEW_TASKS_API,
   NEW_TASK_DATA,
@@ -27,26 +26,6 @@ export const deleteTasklist = createAsyncThunk(
   sliceName + '/deleteTasklist',
   async () => {
     await axios.get(DELETE_ALL_TASKS_API);
-  }
-);
-
-export const saveTasklist = createAsyncThunk(
-  sliceName + '/saveTasklist',
-  async () => {
-    try {
-      const response = await axios.post(
-        SAVE_ALL_TASKS_API,
-        {
-          tasklist: JSON.stringify(store.getState().taskCtrl.tasklist),
-        },
-        SAVE_TASK_HEADERS
-      );
-      if (response.data.message) {
-        throw new Error(response.data.message);
-      }
-    } catch (e) {
-      console.error(e);
-    }
   }
 );
 
@@ -99,18 +78,13 @@ export const saveOneTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
   sliceName + 'deleteTask',
-  async (index: number) => {
-    const taskToDelete = store.getState().taskCtrl.tasklist[index];
+  async (params: { index: number; taskId: string }) => {
     try {
-      if (taskToDelete !== undefined) {
-        await axios.get(DELETE_TASK_API + taskToDelete._id);
-        return index;
-      } else {
-        throw new Error('Index: ' + index + ' has no valid task');
-      }
+      await axios.get(DELETE_TASK_API + params.taskId);
+      return params.index;
     } catch (e) {
       console.error(e);
-      return index;
+      return params.index;
     }
   }
 );
