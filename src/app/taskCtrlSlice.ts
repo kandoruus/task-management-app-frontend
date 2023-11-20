@@ -95,7 +95,7 @@ interface TaskCtrlState {
   page: number;
 }
 
-const initialState = {
+export const initialTaskCtrlState = {
   tasklist: [],
   showEditor: false,
   page: 1,
@@ -103,7 +103,7 @@ const initialState = {
 
 export const taskCtrlSlice = createSlice({
   name: sliceName,
-  initialState: initialState,
+  initialState: initialTaskCtrlState,
   reducers: {
     openEditor: (state) => {
       state.showEditor = true;

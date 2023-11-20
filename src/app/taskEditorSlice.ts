@@ -10,14 +10,14 @@ interface TaskEditorState {
   indexOfFocus: number | null;
 }
 
-const initialState = {
+export const initialTaskEditorState = {
   data: { ...NEW_TASK_DATA },
   indexOfFocus: null,
 } as TaskEditorState;
 
 export const taskEditorSlice = createSlice({
   name: sliceName,
-  initialState: initialState,
+  initialState: initialTaskEditorState,
   reducers: {
     updateName: (state, action: PayloadAction<string>) => {
       state.data.name = action.payload;

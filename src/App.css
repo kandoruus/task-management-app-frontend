@@ -85,7 +85,7 @@ button > * {
   padding-left: 10px;
 }
 
-.task-row {
+.task-card {
   height: 20px;
   display: flex;
   flex-direction: row;

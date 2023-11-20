@@ -53,7 +53,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
   };
 
   return (
-    <div className={'task-row'} key={props.idx}>
+    <div className={'task-card'} key={props.idx}>
       <button
         className="task-button"
         id={props.idx.toString()}
