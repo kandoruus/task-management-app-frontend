@@ -26,3 +26,20 @@ export function renderWithProviders(
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
+
+export const getMockTasklist = (tasklistLength: number) => {
+  const mockTasklist = [];
+  for (let i = 0; i < tasklistLength; i++) {
+    mockTasklist.push({
+      _id: 'mock _id ' + i,
+      data: {
+        name: 'mock name ' + i,
+        description: 'mock description ' + i,
+        status: 'mock status ' + i,
+        priority: 'mock priority ' + i,
+      },
+      __v: 0,
+    });
+  }
+  return mockTasklist;
+};
