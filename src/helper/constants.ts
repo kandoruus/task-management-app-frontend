@@ -19,7 +19,7 @@ export const SAVE_TASK_HEADERS = {
 export const NEW_TASK_DATA: TaskData = {
   name: 'New Task',
   description: '',
-  status: '',
-  priority: '',
+  status: 'Not Started',
+  priority: 'Low',
 };
 export const TASKS_PER_PAGE = 25;
