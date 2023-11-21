@@ -6,6 +6,8 @@ import { initialTaskCtrlState } from 'app/taskCtrlSlice';
 import { initialTaskEditorState } from 'app/taskEditorSlice';
 import { TASKS_PER_PAGE } from 'helper/constants';
 
+//notes from mike: the test for the nav buttons can be broken up by using a nested describe statement
+
 describe('TasklistViewer', () => {
   it('renders TasklistViewer with no TaskCards', () => {
     renderWithProviders(<TasklistViewer />);
@@ -32,6 +34,7 @@ describe('TasklistViewer', () => {
     for (let i = 0; i < mockTasklistLength; i++) {
       expect(screen.getByText('mock name ' + i)).toBeInTheDocument();
     }
+    expect(screen.queryByText('mock name ' + mockTasklistLength)).toBeNull();
   });
   it('displays 25 TaskCards and has additional pages if tasklist is greater than 25', () => {
     const mockTasklistLength = 26;

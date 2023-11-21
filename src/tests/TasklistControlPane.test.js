@@ -10,6 +10,8 @@ import { NEW_TASK_DATA } from 'helper/constants';
 
 jest.mock('axios');
 
+//notes from mike: these are not strictly unit tests, mock the calls to the database before the actions are triggered to test that the correct functions are being trigger on events
+
 const TasklistControlPaneWithState = () => {
   const listLength = useAppSelector((state) => state.taskCtrl.tasklist.length);
   const showEditor = useAppSelector((state) => state.taskCtrl.showEditor);
