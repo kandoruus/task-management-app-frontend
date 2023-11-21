@@ -35,8 +35,8 @@ export const getMockTasklist = (tasklistLength: number) => {
       data: {
         name: 'mock name ' + i,
         description: 'mock description ' + i,
-        status: 'mock status ' + i,
-        priority: 'mock priority ' + i,
+        status: 'Not Started',
+        priority: 'Low',
       },
       __v: 0,
     });
