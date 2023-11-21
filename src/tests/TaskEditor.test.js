@@ -1,6 +1,5 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import * as reactRedux from 'react-redux';
 import { screen, fireEvent } from '@testing-library/react';
 import {
   initialTaskCtrlState,
@@ -9,13 +8,8 @@ import {
 } from 'app/taskCtrlSlice';
 import { initialTaskEditorState, taskEditorSlice } from 'app/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
-import axios from 'axios';
-import * as hooks from 'app/hooks';
-import { NEW_TASK_DATA } from 'helper/constants';
 import { TaskEditor } from 'component/TaskListManagement/TaskEditor';
 import { setupStore } from 'app/store';
-
-jest.mock('axios');
 
 //setup fuction copied from https://claritydev.net/blog/testing-select-components-react-testing-library
 function setup(jsx, store) {
