@@ -57,6 +57,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
       <button
         className="task-button"
         id={props.idx.toString()}
+        name={'task-button-' + props.idx}
         onClick={handleClick}
       >
         {task.data.name}
@@ -65,6 +66,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         className="task-save"
         onClick={handleSaveClick}
         id={props.idx.toString()}
+        name={'task-save-' + props.idx}
       >
         <FontAwesomeIcon icon={faSave} />
       </button>
@@ -72,6 +74,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         className="task-delete"
         onClick={handleDeleteClick}
         id={props.idx.toString()}
+        name={'task-delete-' + props.idx}
       >
         <FontAwesomeIcon icon={faTrash} />
       </button>
