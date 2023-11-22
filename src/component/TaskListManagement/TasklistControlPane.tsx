@@ -52,18 +52,18 @@ export const TasklistControlPane: React.FC = () => {
           console.error(e);
         }
       },
-      (event: React.MouseEvent<HTMLButtonElement>) => {
+      async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         try {
-          dispatch(createNewTask(dispatch)).then(() => {
-            dispatch(
-              loadTaskData({
-                data: { ...NEW_TASK_DATA },
-                indx: tasklist.length,
-              })
-            );
-            dispatch(openEditor());
-          });
+          const indexOfNewTask = tasklist.length;
+          dispatch(createNewTask(dispatch));
+          dispatch(
+            loadTaskData({
+              data: { ...NEW_TASK_DATA },
+              indx: indexOfNewTask,
+            })
+          );
+          dispatch(openEditor());
         } catch (e) {
           console.error(e);
         }
