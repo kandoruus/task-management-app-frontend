@@ -10,7 +10,7 @@ import React from 'react';
 const lightTheme = createTheme({
   palette: {
     primary: {
-      main: '#e3f2fd',
+      main: '#bbdffb',
     },
     secondary: {
       main: '#90cbf9',

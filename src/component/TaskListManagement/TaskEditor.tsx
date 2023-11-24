@@ -1,9 +1,27 @@
+import {
+  Button,
+  ButtonGroup,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  ThemeProvider,
+  createTheme,
+} from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
 import { deleteTask, saveOneTask, taskCtrlSlice } from 'app/taskCtrlSlice';
 import { taskEditorSlice } from 'app/taskEditorSlice';
 import { priorityOptions, statusOptions } from 'helper/componentConfig';
 import React from 'react';
+
+const buttonTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#bbdffb',
+    },
+  },
+});
 
 export const TaskEditor: React.FC = () => {
   const { data, indexOfFocus } = useAppSelector((state) => state.taskEditor);
@@ -104,24 +122,17 @@ export const TaskEditor: React.FC = () => {
       )
     );
   };
-  const handleStatusInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(
-      taskEditorSlice.actions.updateStatus(
-        (event.target as HTMLSelectElement).value
-      )
-    );
+  const handleStatusInput = (event: SelectChangeEvent<string>) => {
+    dispatch(taskEditorSlice.actions.updateStatus(event.target.value));
   };
-  const handlePriorityInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(
-      taskEditorSlice.actions.updatePriority(
-        (event.target as HTMLSelectElement).value
-      )
-    );
+  const handlePriorityInput = (event: SelectChangeEvent<string>) => {
+    dispatch(taskEditorSlice.actions.updatePriority(event.target.value));
   };
 
   return (
     <div className="task-pane task-editor" data-testid="task-editor">
-      <input
+      <TextField
+        className="task-editor-input"
         id="task-name"
         type="text"
         name="name"
@@ -130,48 +141,54 @@ export const TaskEditor: React.FC = () => {
         value={name}
         onChange={handleNameInput}
       />
-      <textarea
-        className="task-desc"
+      <TextField
+        className="task-editor-input"
         id="task-desc"
         name="description"
         placeholder="description"
         value={description}
         onChange={handleDescriptionInput}
+        multiline
+        rows={8}
       />
-      <select
+      <Select
+        className="task-editor-input"
         id="task-status"
-        name="status"
         value={status}
         onChange={handleStatusInput}
       >
         {statusOptions.map((option: string) => {
           return (
-            <option key={option} value={option}>
+            <MenuItem key={option} value={option}>
               {option}
-            </option>
+            </MenuItem>
           );
         })}
-      </select>
-      <select
+      </Select>
+      <Select
+        className="task-editor-input"
         id="task-prio"
-        name="priority"
         value={priority}
         onChange={handlePriorityInput}
       >
         {priorityOptions.map((option: string) => {
           return (
-            <option key={option} value={option}>
+            <MenuItem key={option} value={option}>
               {option}
-            </option>
+            </MenuItem>
           );
         })}
-      </select>
-      <div className="task-editor-btns">
-        <button onClick={handleCancelClick}>Cancel</button>
-        <button onClick={handleDeleteClick}>Delete</button>
-        <button onClick={handleSaveClick}>Save</button>
-        <button onClick={handleSaveExitClick}>Save and Exit</button>
-      </div>
+      </Select>
+      <ThemeProvider theme={buttonTheme}>
+        <div className="task-editor-btns">
+          <ButtonGroup variant="contained">
+            <Button onClick={handleCancelClick}>Cancel</Button>
+            <Button onClick={handleDeleteClick}>Delete</Button>
+            <Button onClick={handleSaveClick}>Save</Button>
+            <Button onClick={handleSaveExitClick}>Save and Exit</Button>
+          </ButtonGroup>
+        </div>
+      </ThemeProvider>
     </div>
   );
 };

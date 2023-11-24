@@ -4,12 +4,6 @@
   margin: 0;
 }
 
-input,
-textarea,
-select {
-  margin: 4px 25px 0px;
-}
-
 button > * {
   pointer-events: none;
 }
@@ -64,7 +58,7 @@ button > * {
 }
 
 .task-viewer {
-  background-color: lightgrey;
+  background-color: #e3f2fd;
   height: 520px;
   border: 1px solid grey;
   border-top: none;
@@ -127,9 +121,8 @@ button > * {
   gap: 4px;
 }
 
-.task-desc {
-  resize: none;
-  height: 150px;
+.task-editor-input {
+  margin: 4px 25px 0px !important;
 }
 
 .page-ref {

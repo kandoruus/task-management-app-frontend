@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import {
@@ -11,14 +10,6 @@ import { initialTaskEditorState, taskEditorSlice } from 'app/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
 import { TaskEditor } from 'component/TaskListManagement/TaskEditor';
 import { setupStore } from 'app/store';
-
-//setup fuction copied from https://claritydev.net/blog/testing-select-components-react-testing-library
-function setup(jsx, store) {
-  return {
-    user: userEvent.setup(),
-    ...renderWithProviders(jsx, store),
-  };
-}
 
 describe('TaskEditor', () => {
   it('has a name field, a description field, a status field, a priority field, a cancel button, a delete button, a save button, and a save and exit button.', () => {
@@ -33,10 +24,10 @@ describe('TaskEditor', () => {
     //has a status field and a priority field
     const comboboxes = screen
       .getAllByRole('combobox')
-      .map((combobox) => combobox.name);
+      .map((combobox) => combobox.id);
     expect(comboboxes.length).toEqual(2);
-    expect(comboboxes.indexOf('status')).not.toEqual(-1);
-    expect(comboboxes.indexOf('priority')).not.toEqual(-1);
+    expect(comboboxes.indexOf('task-status')).not.toEqual(-1);
+    expect(comboboxes.indexOf('task-prio')).not.toEqual(-1);
     // has a cancel button, a delete button, a save button, and a save and exit button.
     expect(screen.getByText('Cancel')).toBeInTheDocument();
     expect(screen.getByText('Delete')).toBeInTheDocument();
@@ -62,11 +53,8 @@ describe('TaskEditor', () => {
     expect(textboxes.indexOf(expectedData.name)).not.toEqual(-1);
     expect(textboxes.indexOf(expectedData.description)).not.toEqual(-1);
     // test that the comboboxes display the proper values for name and description
-    const comboboxes = screen
-      .getAllByRole('combobox')
-      .map((combobox) => combobox.value);
-    expect(comboboxes.indexOf(expectedData.status)).not.toEqual(-1);
-    expect(comboboxes.indexOf(expectedData.priority)).not.toEqual(-1);
+    expect(screen.getByText(expectedData.status)).toBeInTheDocument();
+    expect(screen.getByText(expectedData.priority)).toBeInTheDocument();
   });
   it('dispatches the closeEditor and the clearTaskData actions when the Cancel button is clicked', () => {
     const store = { ...setupStore(), dispatch: jest.fn() };
@@ -181,30 +169,30 @@ describe('TaskEditor', () => {
       taskEditorSlice.actions.updateDescription('New description')
     );
   });
-  it('dispatches the updateStatus action on change to the status field', async () => {
+  it('dispatches the updateStatus action on change to the status field', () => {
     const store = { ...setupStore(), dispatch: jest.fn() };
-    const { user } = setup(<TaskEditor />, { store });
-    await user.selectOptions(
+    renderWithProviders(<TaskEditor />, { store });
+    fireEvent.mouseDown(
       screen
         .getAllByRole('combobox')
-        .find((combobox) => combobox.name === 'status'),
-      'In Progress'
-    ),
-      expect(store.dispatch).toHaveBeenCalledWith(
-        taskEditorSlice.actions.updateStatus('In Progress')
-      );
+        .find((combobox) => combobox.id === 'task-status')
+    );
+    fireEvent.click(screen.getByText('In Progress'));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      taskEditorSlice.actions.updateStatus('In Progress')
+    );
   });
-  it('dispatches the updatePriority action on change to the priority field', async () => {
+  it('dispatches the updatePriority action on change to the priority field', () => {
     const store = { ...setupStore(), dispatch: jest.fn() };
-    const { user } = setup(<TaskEditor />, { store });
-    await user.selectOptions(
+    renderWithProviders(<TaskEditor />, { store });
+    fireEvent.mouseDown(
       screen
         .getAllByRole('combobox')
-        .find((combobox) => combobox.name === 'priority'),
-      'Medium'
-    ),
-      expect(store.dispatch).toHaveBeenCalledWith(
-        taskEditorSlice.actions.updatePriority('Medium')
-      );
+        .find((combobox) => combobox.id === 'task-prio')
+    );
+    fireEvent.click(screen.getByText('Medium'));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      taskEditorSlice.actions.updatePriority('Medium')
+    );
   });
 });
