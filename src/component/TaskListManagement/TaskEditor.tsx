@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
-import { deleteTask, taskCtrlSlice } from 'app/taskCtrlSlice';
+import { deleteTask, saveOneTask, taskCtrlSlice } from 'app/taskCtrlSlice';
 import { taskEditorSlice } from 'app/taskEditorSlice';
 import { priorityOptions, statusOptions } from 'helper/componentConfig';
 import React from 'react';
@@ -8,8 +8,8 @@ import React from 'react';
 export const TaskEditor: React.FC = () => {
   const { data, indexOfFocus } = useAppSelector((state) => state.taskEditor);
   const { name, description, priority, status } = data;
-  const taskId = useAppSelector(
-    (state) => state.taskCtrl.tasklist[indexOfFocus as number]?._id
+  const task = useAppSelector(
+    (state) => state.taskCtrl.tasklist[indexOfFocus as number]
   );
   const dispatch: AppDispatch = useAppDispatch();
 
@@ -29,7 +29,7 @@ export const TaskEditor: React.FC = () => {
       dispatch(taskCtrlSlice.actions.closeEditor());
       dispatch(taskEditorSlice.actions.clearTaskData());
       if (indexToDelete !== null) {
-        dispatch(deleteTask({ index: indexToDelete, taskId: taskId }));
+        dispatch(deleteTask({ index: indexToDelete, taskId: task._id }));
       } else {
         throw new Error('Index of task is null');
       }
@@ -46,12 +46,14 @@ export const TaskEditor: React.FC = () => {
         if (indexOfFocus === null) {
           throw new Error('Index of task is null');
         } else {
+          const taskToSave = { ...task, data: { ...data } };
           dispatch(
             taskCtrlSlice.actions.updateTaskData({
               data: { ...data },
               indx: indexOfFocus,
             })
           );
+          dispatch(saveOneTask(taskToSave));
         }
       } catch (e) {
         console.error(e);
@@ -70,6 +72,7 @@ export const TaskEditor: React.FC = () => {
         if (indexToSave === null) {
           throw new Error('Index of task is null');
         } else {
+          const taskToSave = { ...task, data: { ...data } };
           dispatch(taskCtrlSlice.actions.closeEditor());
           dispatch(
             taskCtrlSlice.actions.updateTaskData({
@@ -77,6 +80,7 @@ export const TaskEditor: React.FC = () => {
               indx: indexToSave,
             })
           );
+          dispatch(saveOneTask(taskToSave));
           dispatch(taskEditorSlice.actions.clearTaskData());
         }
       } catch (e) {

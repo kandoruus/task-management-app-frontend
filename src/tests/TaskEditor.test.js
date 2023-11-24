@@ -5,6 +5,7 @@ import {
   initialTaskCtrlState,
   taskCtrlSlice,
   deleteTask,
+  saveOneTask,
 } from 'app/taskCtrlSlice';
 import { initialTaskEditorState, taskEditorSlice } from 'app/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
@@ -81,7 +82,7 @@ describe('TaskEditor', () => {
   it('dispatches the closeEditor, clearTaskData, and deleteTask actions when the Delete button is clicked', () => {
     const store = {
       ...setupStore({
-        taskCtrl: initialTaskCtrlState,
+        taskCtrl: { ...initialTaskCtrlState, tasklist: getMockTasklist(1) },
         taskEditor: { ...initialTaskEditorState, indexOfFocus: 0 },
       }),
       dispatch: jest.fn(),
@@ -98,10 +99,11 @@ describe('TaskEditor', () => {
       deleteTask().toString()
     );
   });
-  it('dispatches the updateTaskData action when the Save button is clicked', () => {
+  it('dispatches the updateTaskData and saveOneTask actions when the Save button is clicked', () => {
+    const mockedTaskList = getMockTasklist(1);
     const store = {
       ...setupStore({
-        taskCtrl: initialTaskCtrlState,
+        taskCtrl: { ...initialTaskCtrlState, tasklist: mockedTaskList },
         taskEditor: { ...initialTaskEditorState, indexOfFocus: 0 },
       }),
       dispatch: jest.fn(),
@@ -114,11 +116,18 @@ describe('TaskEditor', () => {
         indx: 0,
       })
     );
+    expect(store.dispatch.mock.calls[1][0].toString()).toEqual(
+      saveOneTask({
+        ...mockedTaskList[0],
+        data: { ...initialTaskEditorState.data },
+      }).toString()
+    );
   });
   it('dispatches the closeEditor, updateTaskData, and clearTaskData actions when the Save and Exit button is clicked', () => {
+    const mockedTaskList = getMockTasklist(1);
     const store = {
       ...setupStore({
-        taskCtrl: initialTaskCtrlState,
+        taskCtrl: { ...initialTaskCtrlState, tasklist: mockedTaskList },
         taskEditor: { ...initialTaskEditorState, indexOfFocus: 0 },
       }),
       dispatch: jest.fn(),
@@ -133,6 +142,12 @@ describe('TaskEditor', () => {
         data: { ...initialTaskEditorState.data },
         indx: 0,
       })
+    );
+    expect(store.dispatch.mock.calls[2][0].toString()).toEqual(
+      saveOneTask({
+        ...mockedTaskList[0],
+        data: { ...initialTaskEditorState.data },
+      }).toString()
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       taskEditorSlice.actions.clearTaskData()

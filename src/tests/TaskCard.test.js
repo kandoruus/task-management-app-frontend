@@ -4,7 +4,6 @@ import {
   initialTaskCtrlState,
   taskCtrlSlice,
   deleteTask,
-  saveOneTask,
 } from 'app/taskCtrlSlice';
 import { initialTaskEditorState, taskEditorSlice } from 'app/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
@@ -20,12 +19,9 @@ describe('TaskCard', () => {
       },
     });
     const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(3);
+    expect(buttons).toHaveLength(2);
     expect(
       buttons.find((button) => button.name === 'task-button-0')
-    ).not.toBeUndefined();
-    expect(
-      buttons.find((button) => button.name === 'task-save-0')
     ).not.toBeUndefined();
     expect(
       buttons.find((button) => button.name === 'task-delete-0')
@@ -62,25 +58,6 @@ describe('TaskCard', () => {
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       taskEditorSlice.actions.loadTaskData({ data: expectedData, indx: 0 })
-    );
-  });
-  it('dispatches the saveOneTask action when the task-save button is clicked', () => {
-    const mockedList = getMockTasklist(1);
-    const expectedTask = mockedList[0];
-    const store = {
-      ...setupStore({
-        taskCtrl: { ...initialTaskCtrlState, tasklist: mockedList },
-        taskEditor: initialTaskEditorState,
-      }),
-      dispatch: jest.fn(),
-    };
-    renderWithProviders(<TaskCard idx={0} />, { store });
-    const taskSave = screen
-      .getAllByRole('button')
-      .find((button) => button.name === 'task-save-0');
-    fireEvent.click(taskSave);
-    expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
-      saveOneTask(expectedTask).toString()
     );
   });
   it('dispatches the deleteTask action when the task-delete button is clicked', () => {

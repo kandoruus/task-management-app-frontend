@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import { TasklistMasterPane } from 'component/TaskListManagement/TasklistMasterPane';
+import { MasterContainer } from 'component/MasterContainer/MasterContainer';
 
 export function App(): JSX.Element {
   return (
     <div className="App-wrapper">
-      <TasklistMasterPane />
+      <MasterContainer />
     </div>
   );
 }

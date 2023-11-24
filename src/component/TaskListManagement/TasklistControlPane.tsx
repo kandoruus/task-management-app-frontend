@@ -16,6 +16,7 @@ import {
   SAVE_TASK_HEADERS,
 } from 'helper/constants';
 import axios from 'axios';
+import { Button, ButtonGroup } from '@mui/material';
 
 export const TasklistControlPane: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -72,17 +73,19 @@ export const TasklistControlPane: React.FC = () => {
 
   return (
     <div className="tasklist-control-pane" data-testid="tasklist-control-pane">
-      {tasklistCtrlBtns.map((button) => (
-        <button
-          id={button.id}
-          className={button.className && ' ctrl-btn'}
-          onClick={handleClick[button.handleClickIdx]}
-          value={button.value}
-          key={button.id}
-        >
-          {button.value}
-        </button>
-      ))}
+      <ButtonGroup variant="contained" color="primary" fullWidth={true}>
+        {tasklistCtrlBtns.map((button) => (
+          <Button
+            id={button.id}
+            onClick={handleClick[button.handleClickIdx]}
+            value={button.value}
+            key={button.id}
+            style={{ padding: 2, maxHeight: '30px', whiteSpace: 'nowrap' }}
+          >
+            {button.value}
+          </Button>
+        ))}
+      </ButtonGroup>
     </div>
   );
 };

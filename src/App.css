@@ -15,10 +15,14 @@ button > * {
 }
 
 .App-wrapper {
+  background-color: black;
+}
+
+.master-container {
+  background-color: white;
   margin: auto;
   height: max(100vh, 600px);
   width: 100vw;
-  background-color: cadetblue;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,7 +30,7 @@ button > * {
 
 .tasklist-master-pane {
   background-color: white;
-  margin: 50px auto 0px;
+  margin: 84px auto 0;
   width: 80%;
   height: fit-content;
 }
@@ -43,12 +47,7 @@ button > * {
 }
 
 .ctrl-btn {
-  margin: auto;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(141, 207, 209);
-  border: none;
-  border-right: 1px solid grey;
+  font-size: 34px;
 }
 
 .ctrl-btn:last-of-type {
@@ -91,7 +90,7 @@ button > * {
   flex-direction: row;
   align-content: flex-start;
   margin: auto;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid rgb(158, 169, 177);
   z-index: 1;
 }
 
@@ -103,15 +102,9 @@ button > * {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: rgb(141, 207, 209);
+  background-color: #63b7f7;
   width: 100%;
   border-top: 1px solid grey;
-}
-
-.task-bottom-row button {
-  border: none;
-  width: 26px;
-  background-color: rgb(141, 207, 209);
 }
 .task-bottom-row div {
   text-align: center;
@@ -120,7 +113,7 @@ button > * {
 }
 
 .task-editor {
-  background-color: rgb(169, 188, 189);
+  background-color: #e3f2fd;
   padding: 25px 0px 25px;
   border: 1px solid grey;
   border-top: none;
@@ -137,4 +130,15 @@ button > * {
 .task-desc {
   resize: none;
   height: 150px;
+}
+
+.page-ref {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+@media (max-width: 600px) and (min-width: 0px) {
+  .tasklist-master-pane {
+    margin: 68px auto 0;
+  }
 }

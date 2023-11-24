@@ -4,6 +4,15 @@ import { taskCtrlSlice } from 'app/taskCtrlSlice';
 import React from 'react';
 import { TASKS_PER_PAGE } from 'helper/constants';
 import { TaskCard } from 'component/TaskListManagement/TaskCard';
+import { Button, ButtonGroup, createTheme, ThemeProvider } from '@mui/material';
+
+const footerTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#63b7f7',
+    },
+  },
+});
 
 export const TasklistViewer: React.FC = () => {
   const listLength: number = useAppSelector(
@@ -60,13 +69,59 @@ export const TasklistViewer: React.FC = () => {
     <div className="task-pane task-viewer" data-testid="tasklist-viewer">
       {listLength !== 0 && <div>{getTaskCards()}</div>}
       <div className={'task-bottom-row'}>
-        <button onClick={handleFirstPageClick}>First</button>
-        <button onClick={handlePrevPageClick}>{'<'}</button>
-        <div>
-          {page + ' of ' + Math.max(Math.ceil(listLength / TASKS_PER_PAGE), 1)}
-        </div>
-        <button onClick={handleNextPageClick}>{'>'}</button>
-        <button onClick={handleLastPageClick}>Last</button>
+        <ThemeProvider theme={footerTheme}>
+          <ButtonGroup variant="contained" disableElevation={true}>
+            <Button
+              onClick={handleFirstPageClick}
+              style={{
+                fontSize: '.9em',
+                textTransform: 'none',
+                width: 'fit-content',
+                border: 'none',
+              }}
+            >
+              First
+            </Button>
+            <Button
+              onClick={handlePrevPageClick}
+              style={{
+                fontSize: '.9em',
+                padding: 0,
+                maxWidth: '10px',
+                border: 'none',
+              }}
+            >
+              {'<'}
+            </Button>
+            <div className="page-ref">
+              {page +
+                ' of ' +
+                Math.max(Math.ceil(listLength / TASKS_PER_PAGE), 1)}
+            </div>
+            <Button
+              onClick={handleNextPageClick}
+              style={{
+                fontSize: '.9em',
+                padding: 0,
+                maxWidth: '10px',
+                border: 'none',
+              }}
+            >
+              {'>'}
+            </Button>
+            <Button
+              onClick={handleLastPageClick}
+              style={{
+                fontSize: '.9em',
+                textTransform: 'none',
+                width: 'fit-content',
+                border: 'none',
+              }}
+            >
+              Last
+            </Button>
+          </ButtonGroup>
+        </ThemeProvider>
       </div>
     </div>
   );
