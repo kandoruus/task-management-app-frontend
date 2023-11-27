@@ -3,20 +3,20 @@ import React from 'react';
 
 interface Props {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  closeDialog: () => void;
   question: string;
   response: (res: boolean) => void;
 }
 
 export const YesNoDialog: React.FC<Props> = (props: Props) => {
-  const { open, setOpen, question, response } = props;
+  const { open, closeDialog, question, response } = props;
   const handleYes = () => {
     response(true);
-    setOpen(false);
+    closeDialog();
   };
   const handleNo = () => {
     response(false);
-    setOpen(false);
+    closeDialog();
   };
   return (
     <Dialog open={open}>

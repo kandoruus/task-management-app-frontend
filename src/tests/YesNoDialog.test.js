@@ -3,7 +3,7 @@ import { fireEvent, screen, render } from '@testing-library/react';
 import { YesNoDialog } from 'component/HelperComponents/YesNoDialog';
 
 const question = 'Test question?';
-const setOpen = jest.fn();
+const closeDialog = jest.fn();
 const response = jest.fn();
 
 describe('YesNoDialog', () => {
@@ -11,14 +11,14 @@ describe('YesNoDialog', () => {
     render(
       <YesNoDialog
         open={true}
-        setOpen={setOpen}
+        closeDialog={closeDialog}
         question={question}
         response={response}
       />
     );
   });
   afterEach(() => {
-    setOpen.mockClear();
+    closeDialog.mockClear();
     response.mockClear();
   });
   it('renders a "Yes" button, a "No" button, and displays an inputed question', () => {
@@ -33,11 +33,11 @@ describe('YesNoDialog', () => {
   it('calls the response function with "true", and calls the setOpen function with "false" when the "Yes" button is clicked', () => {
     fireEvent.click(screen.getByText('Yes'));
     expect(response).toHaveBeenCalledWith(true);
-    expect(setOpen).toHaveBeenCalledWith(false);
+    expect(closeDialog).toHaveBeenCalled();
   });
   it('calls the response function with "false", and calls the setOpen function with "false" when the "No" button is clicked', () => {
     fireEvent.click(screen.getByText('No'));
     expect(response).toHaveBeenCalledWith(false);
-    expect(setOpen).toHaveBeenCalledWith(false);
+    expect(closeDialog).toHaveBeenCalled();
   });
 });
