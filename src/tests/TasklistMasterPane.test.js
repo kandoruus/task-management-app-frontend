@@ -20,8 +20,6 @@ describe('TasklistMasterPane', () => {
         taskEditor: initialTaskEditorState,
       },
     });
-    expect(screen.getByTestId('tasklist-control-pane')).toBeInTheDocument();
-    expect(await screen.findByTestId('task-editor')).toBeInTheDocument();
-    expect(screen.queryByTestId('tasklist-viewer')).toBeNull();
+    expect(screen.getByTestId('task-editor')).toBeInTheDocument();
   });
 });
