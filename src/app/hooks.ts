@@ -3,7 +3,7 @@ import type { RootState, AppDispatch } from './store';
 import { useState } from 'react';
 
 //useModal hook base on this article: https://upmostly.com/tutorials/modal-components-react-custom-hooks
-export const useModal: () => [boolean, () => void] = () => {
+export const useModal = (): [boolean, () => void] => {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggle() {

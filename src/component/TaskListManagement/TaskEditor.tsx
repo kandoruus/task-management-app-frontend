@@ -2,6 +2,9 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   MenuItem,
   Modal,
   Select,
@@ -14,11 +17,12 @@ import { deleteTask, saveOneTask, taskCtrlSlice } from 'app/taskCtrlSlice';
 import { taskEditorSlice } from 'app/taskEditorSlice';
 import { YesNoDialog } from 'component/HelperComponents/YesNoDialog';
 import { priorityOptions, statusOptions } from 'helper/componentConfig';
-import { POP_MSG_QUERY_SAVE } from 'helper/constants';
+import { ERR_MSG_BLANK_NAME, POP_MSG_QUERY_SAVE } from 'helper/constants';
 import React from 'react';
 
 export const TaskEditor: React.FC = () => {
-  const [exitPopupIsOpen, toggleExitPopup] = useModal();
+  const [alertIsOpen, toggleAlert] = useModal();
+  const [queryIsOpen, toggleQuery] = useModal();
   const showEditor = useAppSelector((state) => state.taskCtrl.showEditor);
   const { data, indexOfFocus } = useAppSelector((state) => state.taskEditor);
   const { name, description, priority, status } = data;
@@ -27,34 +31,29 @@ export const TaskEditor: React.FC = () => {
   );
   const dispatch: AppDispatch = useAppDispatch();
 
-  const saveTask = () => {
-    try {
-      const indexToSave = indexOfFocus;
-      const taskToSave = { ...task, data: { ...data } };
-      if (indexToSave === null) {
-        throw new Error('Index of task is null');
-      } else if (name.trim() === '') {
-        window.alert('Task name cannot be blank');
-      } else {
-        dispatch(
-          taskCtrlSlice.actions.updateTaskData({
-            data: { ...taskToSave.data },
-            indx: indexToSave,
-          })
-        );
-        dispatch(saveOneTask(taskToSave));
-      }
-    } catch (e) {
-      console.error(e);
+  const saveTask = (): boolean => {
+    const indexToSave = indexOfFocus as number;
+    const taskToSave = { ...task, data: { ...data } };
+    const nameIsBlank = name.trim() === '';
+    if (nameIsBlank) {
+      toggleAlert();
+    } else {
+      dispatch(
+        taskCtrlSlice.actions.updateTaskData({
+          data: { ...taskToSave.data },
+          indx: indexToSave,
+        })
+      );
+      dispatch(saveOneTask(taskToSave));
     }
+    return !nameIsBlank;
   };
   const exitEditor = () => {
-    try {
-      dispatch(taskCtrlSlice.actions.closeEditor());
-      dispatch(taskEditorSlice.actions.clearTaskData());
-    } catch (e) {
-      console.error(e);
-    }
+    dispatch(taskCtrlSlice.actions.closeEditor());
+    dispatch(taskEditorSlice.actions.clearTaskData());
+  };
+  const saveAndExit = () => {
+    if (saveTask()) exitEditor();
   };
   const handleCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -62,16 +61,8 @@ export const TaskEditor: React.FC = () => {
   };
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    try {
-      const indexToDelete = indexOfFocus as number;
-      if (indexToDelete !== null) {
-        dispatch(deleteTask({ index: indexToDelete, taskId: task._id }));
-      } else {
-        throw new Error('Index of task is null');
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    const indexToDelete = indexOfFocus as number;
+    dispatch(deleteTask({ index: indexToDelete, taskId: task._id }));
     exitEditor();
   };
   const handleSaveClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -80,12 +71,14 @@ export const TaskEditor: React.FC = () => {
   };
   const handleSaveExitClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    saveTask();
-    exitEditor();
+    saveAndExit();
   };
   const handleExitPopUpResponse = (saveBeforeExit: boolean) => {
-    if (saveBeforeExit) saveTask();
-    exitEditor();
+    if (saveBeforeExit) {
+      saveAndExit();
+    } else {
+      exitEditor();
+    }
   };
   const handleNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -111,11 +104,7 @@ export const TaskEditor: React.FC = () => {
   };
 
   return (
-    <Modal
-      open={showEditor}
-      onClose={toggleExitPopup}
-      data-testid="task-editor"
-    >
+    <Modal open={showEditor} onClose={toggleQuery} data-testid="task-editor">
       <Box className="task-pane task-editor">
         <TextField
           className="task-editor-input"
@@ -172,11 +161,17 @@ export const TaskEditor: React.FC = () => {
           <Button onClick={handleSaveExitClick}>Save and Exit</Button>
         </ButtonGroup>
         <YesNoDialog
-          open={exitPopupIsOpen}
-          closeDialog={toggleExitPopup}
+          open={queryIsOpen}
+          closeDialog={toggleQuery}
           question={POP_MSG_QUERY_SAVE}
           response={handleExitPopUpResponse}
         />
+        <Dialog open={alertIsOpen}>
+          <DialogTitle>{ERR_MSG_BLANK_NAME}</DialogTitle>
+          <DialogActions>
+            <Button onClick={toggleAlert}>Okay</Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Modal>
   );

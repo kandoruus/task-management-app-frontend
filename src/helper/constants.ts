@@ -1,6 +1,7 @@
 import { TaskData } from 'app/types';
 
 //Error messages
+export const ERR_MSG_BLANK_NAME = 'Task name cannot be blank';
 
 //Popup messages
 export const POP_MSG_QUERY_SAVE = 'Do you want to save your changes?';
