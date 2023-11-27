@@ -12,10 +12,9 @@ import { TaskEditor } from 'component/TaskListManagement/TaskEditor';
 import { setupStore } from 'app/store';
 import { POP_MSG_QUERY_SAVE, ERR_MSG_BLANK_NAME } from 'helper/constants';
 
-const mockedList = getMockTasklist(1);
-const expectedData = mockedList[0].data;
-
 describe('TaskEditor', () => {
+  const mockedList = getMockTasklist(1);
+  const expectedData = mockedList[0].data;
   describe('With valid task data', () => {
     const store = {
       ...setupStore({
