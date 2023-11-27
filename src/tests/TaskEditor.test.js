@@ -11,9 +11,32 @@ import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
 import { TaskEditor } from 'component/TaskListManagement/TaskEditor';
 import { setupStore } from 'app/store';
 
+const mockedList = getMockTasklist(1);
+const expectedData = mockedList[0].data;
+const store = {
+  ...setupStore({
+    taskCtrl: {
+      ...initialTaskCtrlState,
+      showEditor: true,
+      tasklist: mockedList,
+    },
+    taskEditor: {
+      ...initialTaskEditorState,
+      data: { ...expectedData },
+      indexOfFocus: 0,
+    },
+  }),
+  dispatch: jest.fn(),
+};
+
 describe('TaskEditor', () => {
+  beforeEach(() => {
+    renderWithProviders(<TaskEditor />, { store });
+  });
+  afterEach(() => {
+    store.dispatch.mockClear();
+  });
   it('has a name field, a description field, a status field, a priority field, a cancel button, a delete button, a save button, and a save and exit button.', () => {
-    renderWithProviders(<TaskEditor />);
     //has a name and a description field
     const textboxes = screen
       .getAllByRole('textbox')
@@ -27,7 +50,7 @@ describe('TaskEditor', () => {
       .map((combobox) => combobox.id);
     expect(comboboxes.length).toEqual(2);
     expect(comboboxes.indexOf('task-status')).not.toEqual(-1);
-    expect(comboboxes.indexOf('task-prio')).not.toEqual(-1);
+    expect(comboboxes.indexOf('task-priority')).not.toEqual(-1);
     // has a cancel button, a delete button, a save button, and a save and exit button.
     expect(screen.getByText('Cancel')).toBeInTheDocument();
     expect(screen.getByText('Delete')).toBeInTheDocument();
@@ -35,17 +58,6 @@ describe('TaskEditor', () => {
     expect(screen.getByText('Save and Exit')).toBeInTheDocument();
   });
   it('displays the expect data in each field', () => {
-    const mockedList = getMockTasklist(1);
-    const expectedData = mockedList[0].data;
-    renderWithProviders(<TaskEditor />, {
-      preloadedState: {
-        taskCtrl: initialTaskCtrlState,
-        taskEditor: {
-          data: expectedData,
-          indexOfFocus: 0,
-        },
-      },
-    });
     // test that the textboxes display the proper values for name and description
     const textboxes = screen
       .getAllByRole('textbox')
@@ -57,8 +69,6 @@ describe('TaskEditor', () => {
     expect(screen.getByText(expectedData.priority)).toBeInTheDocument();
   });
   it('dispatches the closeEditor and the clearTaskData actions when the Cancel button is clicked', () => {
-    const store = { ...setupStore(), dispatch: jest.fn() };
-    renderWithProviders(<TaskEditor />, { store });
     fireEvent.click(screen.getByText('Cancel'));
     expect(store.dispatch).toHaveBeenCalledWith(
       taskCtrlSlice.actions.closeEditor()
@@ -68,14 +78,6 @@ describe('TaskEditor', () => {
     );
   });
   it('dispatches the closeEditor, clearTaskData, and deleteTask actions when the Delete button is clicked', () => {
-    const store = {
-      ...setupStore({
-        taskCtrl: { ...initialTaskCtrlState, tasklist: getMockTasklist(1) },
-        taskEditor: { ...initialTaskEditorState, indexOfFocus: 0 },
-      }),
-      dispatch: jest.fn(),
-    };
-    renderWithProviders(<TaskEditor />, { store });
     fireEvent.click(screen.getByText('Delete'));
     expect(store.dispatch).toHaveBeenCalledWith(
       taskCtrlSlice.actions.closeEditor()
@@ -88,62 +90,36 @@ describe('TaskEditor', () => {
     );
   });
   it('dispatches the updateTaskData and saveOneTask actions when the Save button is clicked', () => {
-    const mockedTaskList = getMockTasklist(1);
-    const store = {
-      ...setupStore({
-        taskCtrl: { ...initialTaskCtrlState, tasklist: mockedTaskList },
-        taskEditor: { ...initialTaskEditorState, indexOfFocus: 0 },
-      }),
-      dispatch: jest.fn(),
-    };
-    renderWithProviders(<TaskEditor />, { store });
     fireEvent.click(screen.getByText('Save'));
     expect(store.dispatch).toHaveBeenCalledWith(
       taskCtrlSlice.actions.updateTaskData({
-        data: { ...initialTaskEditorState.data },
+        data: { ...expectedData },
         indx: 0,
       })
     );
     expect(store.dispatch.mock.calls[1][0].toString()).toEqual(
-      saveOneTask({
-        ...mockedTaskList[0],
-        data: { ...initialTaskEditorState.data },
-      }).toString()
+      saveOneTask(mockedList[0]).toString()
     );
   });
   it('dispatches the closeEditor, updateTaskData, and clearTaskData actions when the Save and Exit button is clicked', () => {
-    const mockedTaskList = getMockTasklist(1);
-    const store = {
-      ...setupStore({
-        taskCtrl: { ...initialTaskCtrlState, tasklist: mockedTaskList },
-        taskEditor: { ...initialTaskEditorState, indexOfFocus: 0 },
-      }),
-      dispatch: jest.fn(),
-    };
-    renderWithProviders(<TaskEditor />, { store });
     fireEvent.click(screen.getByText('Save and Exit'));
     expect(store.dispatch).toHaveBeenCalledWith(
       taskCtrlSlice.actions.closeEditor()
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       taskCtrlSlice.actions.updateTaskData({
-        data: { ...initialTaskEditorState.data },
+        data: { ...expectedData },
         indx: 0,
       })
     );
-    expect(store.dispatch.mock.calls[2][0].toString()).toEqual(
-      saveOneTask({
-        ...mockedTaskList[0],
-        data: { ...initialTaskEditorState.data },
-      }).toString()
+    expect(store.dispatch.mock.calls[1][0].toString()).toEqual(
+      saveOneTask(mockedList[0]).toString()
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       taskEditorSlice.actions.clearTaskData()
     );
   });
   it('dispatches the updateName action on change to the name input field', () => {
-    const store = { ...setupStore(), dispatch: jest.fn() };
-    renderWithProviders(<TaskEditor />, { store });
     fireEvent.change(
       screen.getAllByRole('textbox').find((textbox) => textbox.name === 'name'),
       {
@@ -155,8 +131,6 @@ describe('TaskEditor', () => {
     );
   });
   it('dispatches the updateDescription action on change to the name description input field', () => {
-    const store = { ...setupStore(), dispatch: jest.fn() };
-    renderWithProviders(<TaskEditor />, { store });
     fireEvent.change(
       screen
         .getAllByRole('textbox')
@@ -170,8 +144,6 @@ describe('TaskEditor', () => {
     );
   });
   it('dispatches the updateStatus action on change to the status field', () => {
-    const store = { ...setupStore(), dispatch: jest.fn() };
-    renderWithProviders(<TaskEditor />, { store });
     fireEvent.mouseDown(
       screen
         .getAllByRole('combobox')
@@ -183,12 +155,10 @@ describe('TaskEditor', () => {
     );
   });
   it('dispatches the updatePriority action on change to the priority field', () => {
-    const store = { ...setupStore(), dispatch: jest.fn() };
-    renderWithProviders(<TaskEditor />, { store });
     fireEvent.mouseDown(
       screen
         .getAllByRole('combobox')
-        .find((combobox) => combobox.id === 'task-prio')
+        .find((combobox) => combobox.id === 'task-priority')
     );
     fireEvent.click(screen.getByText('Medium'));
     expect(store.dispatch).toHaveBeenCalledWith(
