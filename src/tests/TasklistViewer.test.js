@@ -6,8 +6,6 @@ import { initialTaskCtrlState } from 'app/taskCtrlSlice';
 import { initialTaskEditorState } from 'app/taskEditorSlice';
 import { TASKS_PER_PAGE } from 'helper/constants';
 
-//notes from mike: the test for the nav buttons can be broken up by using a nested describe statement
-
 describe('TasklistViewer', () => {
   it('renders TasklistViewer with no TaskCards', () => {
     renderWithProviders(<TasklistViewer />);
