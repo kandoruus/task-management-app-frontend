@@ -10,6 +10,7 @@ import { initialTaskEditorState, taskEditorSlice } from 'app/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
 import { TaskEditor } from 'component/TaskListManagement/TaskEditor';
 import { setupStore } from 'app/store';
+import { POP_MSG_QUERY_SAVE } from 'helper/constants';
 
 const mockedList = getMockTasklist(1);
 const expectedData = mockedList[0].data;
@@ -85,7 +86,7 @@ describe('TaskEditor', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       taskEditorSlice.actions.clearTaskData()
     );
-    expect(store.dispatch.mock.calls[2][0].toString()).toEqual(
+    expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
       deleteTask().toString()
     );
   });
@@ -164,5 +165,43 @@ describe('TaskEditor', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       taskEditorSlice.actions.updatePriority('Medium')
     );
+  });
+  describe('onClose', () => {
+    beforeEach(() => {
+      fireEvent.keyDown(screen.getByTestId('task-editor'), {
+        key: 'Escape',
+        code: 'Escape',
+      });
+    });
+    it('displays the correct question', async () => {
+      expect(await screen.findByText(POP_MSG_QUERY_SAVE)).toBeInTheDocument();
+    });
+    it('dispatches the closeEditor, updateTaskData, and clearTaskData actions when the Yes button is clicked', () => {
+      fireEvent.click(screen.getByText('Yes'));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        taskCtrlSlice.actions.closeEditor()
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        taskCtrlSlice.actions.updateTaskData({
+          data: { ...expectedData },
+          indx: 0,
+        })
+      );
+      expect(store.dispatch.mock.calls[1][0].toString()).toEqual(
+        saveOneTask(mockedList[0]).toString()
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        taskEditorSlice.actions.clearTaskData()
+      );
+    });
+    it('dispatches the closeEditor and the clearTaskData actions when the No button is clicked', () => {
+      fireEvent.click(screen.getByText('No'));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        taskCtrlSlice.actions.closeEditor()
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        taskEditorSlice.actions.clearTaskData()
+      );
+    });
   });
 });

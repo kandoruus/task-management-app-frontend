@@ -2,18 +2,15 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from './store';
 import { useState } from 'react';
 
-//useModal hook found here: https://upmostly.com/tutorials/modal-components-react-custom-hooks
-export const useModal = () => {
-  const [isShowing, setIsShowing] = useState(false);
+//useModal hook base on this article: https://upmostly.com/tutorials/modal-components-react-custom-hooks
+export const useModal: () => [boolean, () => void] = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
   function toggle() {
-    setIsShowing(!isShowing);
+    setIsOpen(!isOpen);
   }
 
-  return {
-    isShowing,
-    toggle,
-  };
+  return [isOpen, toggle];
 };
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`

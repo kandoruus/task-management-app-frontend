@@ -2,6 +2,9 @@ import { TaskData } from 'app/types';
 
 //Error messages
 
+//Popup messages
+export const POP_MSG_QUERY_SAVE = 'Do you want to save your changes?';
+
 //API addresses
 export const GET_ALL_TASKS_API = 'http://localhost:3001/api/tasklist';
 export const DELETE_ALL_TASKS_API = 'http://localhost:3001/api/cleartasks';
