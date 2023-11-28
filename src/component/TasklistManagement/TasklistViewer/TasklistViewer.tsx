@@ -9,6 +9,9 @@ import {
   Button,
   ButtonGroup,
   createTheme,
+  Table,
+  TableBody,
+  TableRow,
   ThemeProvider,
 } from '@mui/material';
 
@@ -61,41 +64,30 @@ export const TasklistViewer: React.FC = () => {
 
   const getTaskCards = () => {
     const taskCards = [];
-    for (
-      let i = (page - 1) * TASKS_PER_PAGE;
-      i < Math.min(page * TASKS_PER_PAGE, listLength);
-      i++
-    ) {
-      taskCards.push(<TaskCard key={i} idx={i} />);
+    for (let i = (page - 1) * TASKS_PER_PAGE; i < page * TASKS_PER_PAGE; i++) {
+      if (i < listLength) {
+        taskCards.push(<TaskCard key={i} idx={i} />);
+      } else {
+        <TableRow />;
+      }
     }
     return taskCards;
   };
 
   return (
     <Box className="task-pane task-viewer" data-testid="tasklist-viewer">
-      {listLength !== 0 && <Box>{getTaskCards()}</Box>}
+      <Table className="tasklist-viewer" padding="none" size="small">
+        <TableBody>{getTaskCards()}</TableBody>
+      </Table>
       <Box className={'task-bottom-row'}>
         <ThemeProvider theme={footerTheme}>
           <ButtonGroup variant="contained" disableElevation={true}>
-            <Button
-              onClick={handleFirstPageClick}
-              style={{
-                fontSize: '.9em',
-                textTransform: 'none',
-                width: 'fit-content',
-                border: 'none',
-              }}
-            >
+            <Button onClick={handleFirstPageClick} className="footer-btn">
               First
             </Button>
             <Button
               onClick={handlePrevPageClick}
-              style={{
-                fontSize: '.9em',
-                padding: 0,
-                maxWidth: '10px',
-                border: 'none',
-              }}
+              className="footer-btn arrow-btn"
             >
               {'<'}
             </Button>
@@ -106,24 +98,11 @@ export const TasklistViewer: React.FC = () => {
             </Box>
             <Button
               onClick={handleNextPageClick}
-              style={{
-                fontSize: '.9em',
-                padding: 0,
-                maxWidth: '10px',
-                border: 'none',
-              }}
+              className="footer-btn arrow-btn"
             >
               {'>'}
             </Button>
-            <Button
-              onClick={handleLastPageClick}
-              style={{
-                fontSize: '.9em',
-                textTransform: 'none',
-                width: 'fit-content',
-                border: 'none',
-              }}
-            >
+            <Button onClick={handleLastPageClick} className="footer-btn">
               Last
             </Button>
           </ButtonGroup>

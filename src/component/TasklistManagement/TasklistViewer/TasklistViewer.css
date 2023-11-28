@@ -1,12 +1,31 @@
+.task-pane {
+  position: relative;
+  height: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  margin: auto;
+}
+.task-viewer {
+  /*background-color: #e3f2fd;*/
+  background-color: white;
+  height: 645px;
+  border: 1px solid grey;
+  border-top: none;
+}
+.tasklist-viewer {
+  width: 100%;
+}
 .task-bottom-row {
   position: absolute;
-  top: 499px;
+  top: 624px;
   left: 0;
   height: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: #63b7f7;
+  /*background-color: #63b7f7;*/
+  background-color: white;
   width: 100%;
   border-top: 1px solid grey;
 }
@@ -18,4 +37,14 @@
 .page-ref {
   margin-left: 10px;
   margin-right: 10px;
+}
+.footer-btn {
+  font-size: 0.9em !important;
+  border: none !important;
+  text-transform: none !important;
+  min-width: 20px !important;
+  max-width: 40px !important;
+}
+.arrow-btn {
+  padding: 0 !important;
 }

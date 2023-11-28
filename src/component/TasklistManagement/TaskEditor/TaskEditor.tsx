@@ -108,7 +108,6 @@ export const TaskEditor: React.FC = () => {
       <Box className="task-editor">
         <Box className="input-wrapper">
           <TextField
-            className="task-editor-input"
             id="task-name"
             type="text"
             name="name"
@@ -118,7 +117,7 @@ export const TaskEditor: React.FC = () => {
             onChange={handleNameInput}
           />
           <TextField
-            className="task-editor-input"
+            className="task-editor-desc"
             id="task-desc"
             name="description"
             placeholder="description"
@@ -127,12 +126,7 @@ export const TaskEditor: React.FC = () => {
             multiline
             rows={8}
           />
-          <Select
-            className="task-editor-input"
-            id="task-status"
-            value={status}
-            onChange={handleStatusInput}
-          >
+          <Select id="task-status" value={status} onChange={handleStatusInput}>
             {statusOptions.map((option: string) => {
               return (
                 <MenuItem key={option} value={option}>
@@ -142,7 +136,6 @@ export const TaskEditor: React.FC = () => {
             })}
           </Select>
           <Select
-            className="task-editor-input"
             id="task-priority"
             value={priority}
             onChange={handlePriorityInput}

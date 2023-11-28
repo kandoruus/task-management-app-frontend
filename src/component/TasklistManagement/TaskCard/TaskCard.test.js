@@ -22,7 +22,14 @@ describe('TaskCard', () => {
     dispatch: jest.fn(),
   };
   beforeEach(() => {
-    renderWithProviders(<TaskCard idx={0} />, { store });
+    renderWithProviders(
+      <table>
+        <tbody>
+          <TaskCard idx={0} />
+        </tbody>
+      </table>,
+      { store }
+    );
   });
   afterEach(() => {
     store.dispatch.mockClear();

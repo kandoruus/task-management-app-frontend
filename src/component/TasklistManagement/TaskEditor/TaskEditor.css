@@ -11,6 +11,9 @@ button {
   padding: calc(min(3%, 25px));
   width: 80%;
   height: fit-content;
+  max-height: 80%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .task-editor-btns {
@@ -19,6 +22,7 @@ button {
   flex-direction: row;
   justify-content: center;
   width: fit-content;
+  max-width: 94%;
 }
 
 .input-wrapper {
