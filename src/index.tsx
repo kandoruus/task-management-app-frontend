@@ -1,8 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { App } from './App';
-import './index.css';
+import { App } from './component/App';
 import { setupStore } from 'app/store';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

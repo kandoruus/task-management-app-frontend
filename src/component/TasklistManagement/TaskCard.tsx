@@ -1,5 +1,11 @@
 import { DeleteTwoTone } from '@mui/icons-material';
-import { Button, ButtonGroup, ThemeProvider, createTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  ThemeProvider,
+  createTheme,
+} from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
 import { deleteTask, taskCtrlSlice } from 'app/taskCtrlSlice';
@@ -8,7 +14,7 @@ import { Task } from 'app/types';
 import React from 'react';
 
 const lightTheme = createTheme({
-  palette: {
+  /*palette: {
     primary: {
       main: '#bbdffb',
     },
@@ -18,7 +24,7 @@ const lightTheme = createTheme({
     error: {
       main: '#ef9a9a',
     },
-  },
+  },*/
 });
 
 interface TaskCardProps {
@@ -58,7 +64,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
   };
 
   return (
-    <div className={'task-card'} key={props.idx}>
+    <Box className={'task-card'} key={props.idx}>
       <ThemeProvider theme={lightTheme}>
         <ButtonGroup
           variant="contained"
@@ -91,6 +97,6 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
           </Button>
         </ButtonGroup>
       </ThemeProvider>
-    </div>
+    </Box>
   );
 };

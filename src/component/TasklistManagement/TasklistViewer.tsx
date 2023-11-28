@@ -3,15 +3,21 @@ import { AppDispatch } from 'app/store';
 import { taskCtrlSlice } from 'app/taskCtrlSlice';
 import React from 'react';
 import { TASKS_PER_PAGE } from 'helper/constants';
-import { TaskCard } from 'component/TaskListManagement/TaskCard';
-import { Button, ButtonGroup, createTheme, ThemeProvider } from '@mui/material';
+import { TaskCard } from './TaskCard';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  createTheme,
+  ThemeProvider,
+} from '@mui/material';
 
 const footerTheme = createTheme({
-  palette: {
+  /*palette: {
     primary: {
       main: '#63b7f7',
     },
-  },
+  },*/
 });
 
 export const TasklistViewer: React.FC = () => {
@@ -66,9 +72,9 @@ export const TasklistViewer: React.FC = () => {
   };
 
   return (
-    <div className="task-pane task-viewer" data-testid="tasklist-viewer">
-      {listLength !== 0 && <div>{getTaskCards()}</div>}
-      <div className={'task-bottom-row'}>
+    <Box className="task-pane task-viewer" data-testid="tasklist-viewer">
+      {listLength !== 0 && <Box>{getTaskCards()}</Box>}
+      <Box className={'task-bottom-row'}>
         <ThemeProvider theme={footerTheme}>
           <ButtonGroup variant="contained" disableElevation={true}>
             <Button
@@ -93,11 +99,11 @@ export const TasklistViewer: React.FC = () => {
             >
               {'<'}
             </Button>
-            <div className="page-ref">
+            <Box className="page-ref">
               {page +
                 ' of ' +
                 Math.max(Math.ceil(listLength / TASKS_PER_PAGE), 1)}
-            </div>
+            </Box>
             <Button
               onClick={handleNextPageClick}
               style={{
@@ -122,7 +128,7 @@ export const TasklistViewer: React.FC = () => {
             </Button>
           </ButtonGroup>
         </ThemeProvider>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };

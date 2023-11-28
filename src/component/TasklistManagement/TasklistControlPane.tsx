@@ -16,7 +16,7 @@ import {
   SAVE_TASK_HEADERS,
 } from 'helper/constants';
 import axios from 'axios';
-import { Button, ButtonGroup } from '@mui/material';
+import { Box, Button, ButtonGroup } from '@mui/material';
 
 export const TasklistControlPane: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -72,7 +72,7 @@ export const TasklistControlPane: React.FC = () => {
     ];
 
   return (
-    <div className="tasklist-control-pane" data-testid="tasklist-control-pane">
+    <Box className="tasklist-control-pane" data-testid="tasklist-control-pane">
       <ButtonGroup variant="contained" color="primary" fullWidth={true}>
         {tasklistCtrlBtns.map((button) => (
           <Button
@@ -86,6 +86,6 @@ export const TasklistControlPane: React.FC = () => {
           </Button>
         ))}
       </ButtonGroup>
-    </div>
+    </Box>
   );
 };

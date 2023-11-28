@@ -1,11 +1,12 @@
 import React from 'react';
-import './App.css';
+import '../styles/App.css';
 import { MasterContainer } from 'component/MasterContainer/MasterContainer';
+import { Box } from '@mui/material';
 
 export function App(): JSX.Element {
   return (
-    <div className="App-wrapper">
+    <Box className="App-wrapper">
       <MasterContainer />
-    </div>
+    </Box>
   );
 }

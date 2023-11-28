@@ -1,0 +1,23 @@
+.task-delete,
+.task-save {
+  width: 20px;
+  border: none;
+  border-left: 1px solid grey;
+}
+
+.task-button {
+  width: 100%;
+  border: none;
+  text-align: start;
+  padding-left: 10px;
+}
+
+.task-card {
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  margin: auto;
+  border-bottom: 1px solid rgb(158, 169, 177);
+  z-index: 1;
+}

@@ -1,0 +1,21 @@
+.task-bottom-row {
+  position: absolute;
+  top: 499px;
+  left: 0;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #63b7f7;
+  width: 100%;
+  border-top: 1px solid grey;
+}
+.task-bottom-row div {
+  text-align: center;
+  line-height: 18px;
+  font-size: 0.9em;
+}
+.page-ref {
+  margin-left: 10px;
+  margin-right: 10px;
+}

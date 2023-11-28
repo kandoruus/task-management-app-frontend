@@ -1,0 +1,27 @@
+.tasklist-master-pane {
+  background-color: white;
+  margin: 84px auto 0;
+  width: 80%;
+  height: fit-content;
+}
+
+.task-pane {
+  position: relative;
+  height: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  margin: auto;
+}
+
+.task-viewer {
+  background-color: #e3f2fd;
+  height: 520px;
+  border: 1px solid grey;
+  border-top: none;
+}
+@media (max-width: 600px) and (min-width: 0px) {
+  .tasklist-master-pane {
+    margin: 68px auto 0;
+  }
+}

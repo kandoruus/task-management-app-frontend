@@ -1,0 +1,18 @@
+.tasklist-control-pane {
+  background-color: lightgrey;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border: 1px solid grey;
+}
+
+.ctrl-btn {
+  font-size: 34px;
+}
+
+.ctrl-btn:last-of-type {
+  border-right: none;
+}

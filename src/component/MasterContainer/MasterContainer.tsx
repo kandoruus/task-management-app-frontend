@@ -1,11 +1,11 @@
-import { TasklistMasterPane } from 'component/TaskListManagement/TasklistMasterPane';
+import { TasklistMasterPane } from '../TasklistManagement/TasklistMasterPane';
 import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Typography, Box } from '@mui/material';
 import { Dehaze } from '@mui/icons-material';
 
 export const MasterContainer: React.FC = () => {
   return (
-    <div className="master-container" data-testid="master-container">
+    <Box className="master-container" data-testid="master-container">
       <AppBar>
         <Toolbar>
           <IconButton>
@@ -17,6 +17,6 @@ export const MasterContainer: React.FC = () => {
         </Toolbar>
       </AppBar>
       <TasklistMasterPane />
-    </div>
+    </Box>
   );
 };
