@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { screen } from '@testing-library/react';
-import { TasklistMasterPane } from 'component/TaskListManagement/TasklistMasterPane';
+import { TasklistMasterPane } from './TasklistMasterPane';
 import { initialTaskCtrlState } from 'app/taskCtrlSlice';
 import { initialTaskEditorState } from 'app/taskEditorSlice';
-import { renderWithProviders } from 'tests/testUtils';
+import { renderWithProviders } from 'helper/testUtils';
 
 describe('TasklistMasterPane', () => {
   it('should be rendered and contain the tasklist-control-pane and task-viewer when the app first loads. It should not contain the task-editor', () => {

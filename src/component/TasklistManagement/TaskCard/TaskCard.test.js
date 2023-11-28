@@ -6,9 +6,9 @@ import {
   deleteTask,
 } from 'app/taskCtrlSlice';
 import { initialTaskEditorState, taskEditorSlice } from 'app/taskEditorSlice';
-import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
+import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
 import { setupStore } from 'app/store';
-import { TaskCard } from 'component/TaskListManagement/TaskCard';
+import { TaskCard } from './TaskCard';
 
 describe('TaskCard', () => {
   const mockedList = getMockTasklist(1);

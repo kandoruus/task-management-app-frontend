@@ -1,4 +1,4 @@
-import { TasklistMasterPane } from '../TasklistManagement/TasklistMasterPane';
+import { TasklistMasterPane } from '../TasklistManagement/TasklistMasterPane/TasklistMasterPane';
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Box } from '@mui/material';
 import { Dehaze } from '@mui/icons-material';

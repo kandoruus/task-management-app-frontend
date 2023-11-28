@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { fireEvent, screen, render } from '@testing-library/react';
-import { YesNoDialog } from 'component/HelperComponents/YesNoDialog';
+import { YesNoDialog } from './YesNoDialog';
 
 const question = 'Test question?';
 const closeDialog = jest.fn();

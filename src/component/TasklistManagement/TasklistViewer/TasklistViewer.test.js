@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
-import { TasklistViewer } from 'component/TaskListManagement/TasklistViewer';
-import { renderWithProviders, getMockTasklist } from 'tests/testUtils';
+import { TasklistViewer } from './TasklistViewer';
+import { renderWithProviders, getMockTasklist } from 'helper/testUtils';
 import { initialTaskCtrlState } from 'app/taskCtrlSlice';
 import { initialTaskEditorState } from 'app/taskEditorSlice';
 import { TASKS_PER_PAGE } from 'helper/constants';

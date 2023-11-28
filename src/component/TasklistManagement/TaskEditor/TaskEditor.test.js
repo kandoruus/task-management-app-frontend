@@ -7,8 +7,8 @@ import {
   saveOneTask,
 } from 'app/taskCtrlSlice';
 import { initialTaskEditorState, taskEditorSlice } from 'app/taskEditorSlice';
-import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
-import { TaskEditor } from 'component/TaskListManagement/TaskEditor';
+import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
+import { TaskEditor } from './TaskEditor';
 import { setupStore } from 'app/store';
 import { POP_MSG_QUERY_SAVE, ERR_MSG_BLANK_NAME } from 'helper/constants';
 

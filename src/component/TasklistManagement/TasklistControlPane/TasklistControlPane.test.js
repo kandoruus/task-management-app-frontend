@@ -8,8 +8,8 @@ import {
   taskCtrlSlice,
 } from 'app/taskCtrlSlice';
 import { taskEditorSlice, initialTaskEditorState } from 'app/taskEditorSlice';
-import { getMockTasklist, renderWithProviders } from 'tests/testUtils';
-import { TasklistControlPane } from 'component/TaskListManagement/TasklistControlPane';
+import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
+import { TasklistControlPane } from './TasklistControlPane';
 import axios from 'axios';
 import { useAppSelector } from 'app/hooks';
 import { NEW_TASK_DATA, SAVE_ALL_TASKS_API } from 'helper/constants';

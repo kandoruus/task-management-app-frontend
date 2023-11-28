@@ -1,0 +1,29 @@
+@import url("component/MasterContainer/MasterContainer.css");
+@import url("component/HelperComponents/YesNoDialog/YesNoDialog.css");
+@import url("component/TasklistManagement/TaskCard/TaskCard.css");
+@import url("component/TasklistManagement/TaskEditor/TaskEditor.css");
+@import url("component/TasklistManagement/TasklistControlPane/TasklistControlPane.css");
+@import url("component/TasklistManagement/TasklistMasterPane/TasklistMasterPane.css");
+@import url("component/TasklistManagement/TasklistViewer/TasklistViewer.css");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button > * {
+  pointer-events: none;
+}
+
+.App-wrapper {
+  background-color: black;
+}

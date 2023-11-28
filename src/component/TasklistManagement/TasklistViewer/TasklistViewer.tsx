@@ -3,7 +3,7 @@ import { AppDispatch } from 'app/store';
 import { taskCtrlSlice } from 'app/taskCtrlSlice';
 import React from 'react';
 import { TASKS_PER_PAGE } from 'helper/constants';
-import { TaskCard } from './TaskCard';
+import { TaskCard } from '../TaskCard/TaskCard';
 import {
   Box,
   Button,
