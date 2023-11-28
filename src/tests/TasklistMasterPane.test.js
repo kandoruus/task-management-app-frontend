@@ -13,7 +13,7 @@ describe('TasklistMasterPane', () => {
     expect(screen.getByTestId('tasklist-viewer')).toBeInTheDocument();
     expect(screen.queryByTestId('task-editor')).toBeNull();
   });
-  it('shows the task-editor when the showEditor flag is true', async () => {
+  it('shows the task-editor when the showEditor flag is true', () => {
     renderWithProviders(<TasklistMasterPane />, {
       preloadedState: {
         taskCtrl: { ...initialTaskCtrlState, showEditor: true },
