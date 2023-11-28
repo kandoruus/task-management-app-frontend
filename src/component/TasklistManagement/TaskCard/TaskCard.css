@@ -1,15 +1,15 @@
-.task-delete,
-.task-save {
-  width: 20px;
+.task-delete {
+  width: 5%;
   border: none;
   border-left: 1px solid grey;
 }
 
 .task-button {
-  width: 100%;
+  width: 95%;
   border: none;
-  text-align: start;
-  padding-left: 10px;
+  padding-left: 15px;
+  justify-content: flex-start !important;
+  text-transform: none !important;
 }
 
 .task-card {
@@ -20,4 +20,12 @@
   margin: auto;
   border-bottom: 1px solid rgb(158, 169, 177);
   z-index: 1;
+}
+
+.task-card-btn-grp {
+  width: 100%;
+}
+
+.delete-icon {
+  font-size: 1.3rem !important;
 }

@@ -105,58 +105,62 @@ export const TaskEditor: React.FC = () => {
 
   return (
     <Modal open={showEditor} onClose={toggleQuery} data-testid="task-editor">
-      <Box className="task-pane task-editor">
-        <TextField
-          className="task-editor-input"
-          id="task-name"
-          type="text"
-          name="name"
-          placeholder="name"
-          required
-          value={name}
-          onChange={handleNameInput}
-        />
-        <TextField
-          className="task-editor-input"
-          id="task-desc"
-          name="description"
-          placeholder="description"
-          value={description}
-          onChange={handleDescriptionInput}
-          multiline
-          rows={8}
-        />
-        <Select
-          className="task-editor-input"
-          id="task-status"
-          value={status}
-          onChange={handleStatusInput}
-        >
-          {statusOptions.map((option: string) => {
-            return (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        <Select
-          className="task-editor-input"
-          id="task-priority"
-          value={priority}
-          onChange={handlePriorityInput}
-        >
-          {priorityOptions.map((option: string) => {
-            return (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        <ButtonGroup variant="contained">
+      <Box className="task-editor">
+        <Box className="input-wrapper">
+          <TextField
+            className="task-editor-input"
+            id="task-name"
+            type="text"
+            name="name"
+            placeholder="name"
+            required
+            value={name}
+            onChange={handleNameInput}
+          />
+          <TextField
+            className="task-editor-input"
+            id="task-desc"
+            name="description"
+            placeholder="description"
+            value={description}
+            onChange={handleDescriptionInput}
+            multiline
+            rows={8}
+          />
+          <Select
+            className="task-editor-input"
+            id="task-status"
+            value={status}
+            onChange={handleStatusInput}
+          >
+            {statusOptions.map((option: string) => {
+              return (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <Select
+            className="task-editor-input"
+            id="task-priority"
+            value={priority}
+            onChange={handlePriorityInput}
+          >
+            {priorityOptions.map((option: string) => {
+              return (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </Box>
+        <ButtonGroup variant="contained" className="task-editor-btns">
           <Button onClick={handleCancelClick}>Cancel</Button>
-          <Button onClick={handleDeleteClick}>Delete</Button>
+          <Button onClick={handleDeleteClick} color="error">
+            Delete
+          </Button>
           <Button onClick={handleSaveClick}>Save</Button>
           <Button onClick={handleSaveExitClick}>Save and Exit</Button>
         </ButtonGroup>

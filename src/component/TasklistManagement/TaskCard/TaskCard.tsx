@@ -69,19 +69,13 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         <ButtonGroup
           variant="contained"
           disableElevation={true}
-          style={{ width: '100%' }}
+          className="task-card-btn-grp"
         >
           <Button
             className="task-button"
             id={props.idx.toString()}
             name={'task-button-' + props.idx}
             onClick={handleClick}
-            style={{
-              width: '95%',
-              paddingLeft: '15px',
-              justifyContent: 'flex-start',
-              textTransform: 'none',
-            }}
           >
             {task.data.name}
           </Button>
@@ -90,10 +84,9 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             onClick={handleDeleteClick}
             id={props.idx.toString()}
             name={'task-delete-' + props.idx}
-            style={{ width: '5%' }}
             color="error"
           >
-            <DeleteTwoTone style={{ fontSize: '1.3rem' }} />
+            <DeleteTwoTone className="delete-icon" />
           </Button>
         </ButtonGroup>
       </ThemeProvider>

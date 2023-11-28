@@ -1,18 +1,31 @@
+button {
+  white-space: nowrap;
+}
+
 .task-editor {
-  background-color: #e3f2fd;
-  padding: 25px 0px 25px;
-  border: 1px solid grey;
-  border-top: none;
+  display: flex;
+  flex-direction: column;
+  margin: calc(min(84px, 10%)) auto auto;
+  /*background-color: #e3f2fd;*/
+  background-color: white;
+  padding: calc(min(3%, 25px));
+  width: 80%;
+  height: fit-content;
 }
 
 .task-editor-btns {
-  margin: 9px 25px 0px;
+  margin: 9px auto 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 4px;
+  width: fit-content;
 }
 
-.task-editor-input {
-  margin: 4px 25px 0px !important;
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper > *:not(:first-child) {
+  margin-top: calc(min(1%, 4px)) !important;
 }

@@ -77,10 +77,10 @@ export const TasklistControlPane: React.FC = () => {
         {tasklistCtrlBtns.map((button) => (
           <Button
             id={button.id}
+            className={button.className}
             onClick={handleClick[button.handleClickIdx]}
             value={button.value}
             key={button.id}
-            style={{ padding: 2, maxHeight: '30px', whiteSpace: 'nowrap' }}
           >
             {button.value}
           </Button>

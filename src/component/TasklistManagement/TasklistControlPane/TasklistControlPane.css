@@ -9,10 +9,8 @@
   border: 1px solid grey;
 }
 
-.ctrl-btn {
-  font-size: 34px;
-}
-
-.ctrl-btn:last-of-type {
-  border-right: none;
+.tl-control-btn {
+  padding: 2px !important;
+  max-height: 30px;
+  white-space: nowrap;
 }
