@@ -19,8 +19,24 @@ jest.mock('axios');
 
 //new unit tests
 describe('TasklistControlPane', () => {
+  const mockedList = getMockTasklist(2);
+  const store = {
+    ...setupStore({
+      taskCtrl: {
+        ...initialTaskCtrlState,
+        tasklist: mockedList,
+      },
+      taskEditor: initialTaskEditorState,
+    }),
+    dispatch: jest.fn(),
+  };
+  beforeEach(() => {
+    renderWithProviders(<TasklistControlPane />, { store });
+  });
+  afterEach(() => {
+    store.dispatch.mockClear();
+  });
   it('renders four buttons: Load Tasks, Delete Tasks, Save Tasks, and Create Task', () => {
-    renderWithProviders(<TasklistControlPane />);
     expect(screen.getByTestId('tasklist-control-pane')).toBeInTheDocument();
     expect(screen.getAllByRole('button').length).toEqual(4);
     expect(screen.getByText('Load Tasks')).toBeInTheDocument();
@@ -29,37 +45,23 @@ describe('TasklistControlPane', () => {
     expect(screen.getByText('Create Task')).toBeInTheDocument();
   });
   it('dispatches the fetchTasklist action when Load Tasks is clicked', () => {
-    const store = { ...setupStore(), dispatch: jest.fn() };
-    renderWithProviders(<TasklistControlPane />, { store });
     fireEvent.click(screen.getByText('Load Tasks'));
     expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
       fetchTasklist().toString()
     );
   });
   it('dispatches the deleteTasklist action when Delete Tasks is clicked', () => {
-    const store = { ...setupStore(), dispatch: jest.fn() };
-    renderWithProviders(<TasklistControlPane />, { store });
     fireEvent.click(screen.getByText('Load Tasks'));
     expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
       deleteTasklist().toString()
     );
   });
   it('posts the tasklist to axios when the Save Tasks button is clicked', () => {
-    const mockedList = getMockTasklist(2);
     let mockedApiCall = { url: '', tasklist: '' };
     axios.post.mockImplementation((url, data) => {
       mockedApiCall.url = url;
       mockedApiCall.tasklist = data.tasklist;
       return Promise.resolve();
-    });
-    renderWithProviders(<TasklistControlPane />, {
-      preloadedState: {
-        taskCtrl: {
-          ...initialTaskCtrlState,
-          tasklist: mockedList,
-        },
-        taskEditor: initialTaskEditorState,
-      },
     });
     expect(mockedApiCall.url).toEqual('');
     expect(mockedApiCall.tasklist).toEqual('');
@@ -67,9 +69,7 @@ describe('TasklistControlPane', () => {
     expect(mockedApiCall.url).toEqual(SAVE_ALL_TASKS_API);
     expect(mockedApiCall.tasklist).toEqual(JSON.stringify(mockedList));
   });
-  it('dispatches the createNewTask, loadTaskData, and openEditor actions when the Create Task button is clicked.', async () => {
-    const store = { ...setupStore(), dispatch: jest.fn() };
-    renderWithProviders(<TasklistControlPane />, { store });
+  it('dispatches the createNewTask, loadTaskData, and openEditor actions when the Create Task button is clicked.', () => {
     fireEvent.click(screen.getByText('Create Task'));
     expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
       createNewTask(store.dispatch).toString()
@@ -77,7 +77,7 @@ describe('TasklistControlPane', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       taskEditorSlice.actions.loadTaskData({
         data: { ...NEW_TASK_DATA },
-        indx: 0,
+        indx: 2,
       })
     );
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -148,7 +148,7 @@ describe('TasklistControlPane', () => {
         taskEditor: initialTaskEditorState,
       },
     });
-    expect(taskIsSaved).toBeFalsy();
+    expect(taskIsSaved).toBe(false);
     expect(
       screen.getByText('There are 2 tasks in the list')
     ).toBeInTheDocument();
@@ -158,6 +158,6 @@ describe('TasklistControlPane', () => {
       await screen.findByText('There are 3 tasks in the list')
     ).toBeInTheDocument();
     expect(screen.getByText('The Editor is Open')).toBeInTheDocument();
-    expect(taskIsSaved).toBeTruthy();
+    expect(taskIsSaved).toBe(true);
   });
 });
