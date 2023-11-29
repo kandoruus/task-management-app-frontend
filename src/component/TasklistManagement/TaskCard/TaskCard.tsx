@@ -1,5 +1,5 @@
 import { DeleteTwoTone } from '@mui/icons-material';
-import { Button, TableCell, TableRow } from '@mui/material';
+import { Button, IconButton, TableCell, TableRow } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
 import { deleteTask, taskCtrlSlice } from 'app/taskCtrlSlice';
@@ -44,11 +44,9 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
   };
 
   return (
-    <TableRow className="task-card" key={props.idx}>
+    <TableRow className="task-card">
       <TableCell className="info-cell">
         <Button
-          disableElevation={true}
-          variant="contained"
           className="task-button"
           id={props.idx.toString()}
           name={'task-button-' + props.idx}
@@ -58,9 +56,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         </Button>
       </TableCell>
       <TableCell className="delete-cell">
-        <Button
-          disableElevation={true}
-          variant="contained"
+        <IconButton
           className="task-delete"
           onClick={handleDeleteClick}
           id={props.idx.toString()}
@@ -68,7 +64,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
           color="error"
         >
           <DeleteTwoTone className="delete-icon" />
-        </Button>
+        </IconButton>
       </TableCell>
     </TableRow>
   );

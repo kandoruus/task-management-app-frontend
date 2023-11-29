@@ -1,5 +1,5 @@
 .tasklist-control-pane {
-  background-color: lightgrey;
+  background-color: white;
   margin: auto;
   display: flex;
   flex-direction: row;
@@ -13,4 +13,5 @@
   padding: 2px !important;
   max-height: 30px;
   white-space: nowrap;
+  overflow: hidden;
 }

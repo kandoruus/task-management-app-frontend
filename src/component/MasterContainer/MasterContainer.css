@@ -1,19 +1,24 @@
 .master-container {
-  background-color: white;
-  margin: auto;
-  height: 100vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
 }
-
 .menu-icon {
   margin-right: 1rem !important;
 }
 
 .master-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: lightblue;
+  height: calc(100% - 64px);
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
+}
+@media (max-width: 600px) {
+  .master-wrapper {
+    height: calc(100% - 48px);
+  }
 }

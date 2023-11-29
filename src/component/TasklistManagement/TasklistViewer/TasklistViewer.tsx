@@ -66,40 +66,36 @@ export const TasklistViewer: React.FC = () => {
     const taskCards = [];
     for (let i = (page - 1) * TASKS_PER_PAGE; i < page * TASKS_PER_PAGE; i++) {
       if (i < listLength) {
-        taskCards.push(<TaskCard key={i} idx={i} />);
+        taskCards.push(<TaskCard idx={i} key={i} />);
       } else {
-        <TableRow />;
+        taskCards.push(<TableRow key={i} />);
       }
     }
     return taskCards;
   };
 
   return (
-    <Box className="task-pane task-viewer" data-testid="tasklist-viewer">
-      <Table className="tasklist-viewer" padding="none" size="small">
-        <TableBody>{getTaskCards()}</TableBody>
-      </Table>
-      <Box className={'task-bottom-row'}>
+    <Box className="task-viewer" data-testid="tasklist-viewer">
+      <Box className="tasklist-viewer">
+        <Table className="taskcard-table" padding="none" size="small">
+          <TableBody>{getTaskCards()}</TableBody>
+        </Table>
+      </Box>
+      <Box className={'tasklist-footer'}>
         <ThemeProvider theme={footerTheme}>
-          <ButtonGroup variant="contained" disableElevation={true}>
+          <ButtonGroup>
             <Button onClick={handleFirstPageClick} className="footer-btn">
               First
             </Button>
-            <Button
-              onClick={handlePrevPageClick}
-              className="footer-btn arrow-btn"
-            >
+            <Button onClick={handlePrevPageClick} className="footer-btn">
               {'<'}
             </Button>
-            <Box className="page-ref">
+            <Button className="page-ref footer-btn" disableRipple>
               {page +
                 ' of ' +
                 Math.max(Math.ceil(listLength / TASKS_PER_PAGE), 1)}
-            </Box>
-            <Button
-              onClick={handleNextPageClick}
-              className="footer-btn arrow-btn"
-            >
+            </Button>
+            <Button onClick={handleNextPageClick} className="footer-btn">
               {'>'}
             </Button>
             <Button onClick={handleLastPageClick} className="footer-btn">

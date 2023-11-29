@@ -1,16 +1,16 @@
 .task-card {
-  z-index: 1;
+  height: 4%;
 }
 .info-cell {
-  width: 96%;
+  width: calc(100% - 30px);
 }
 .delete-cell {
-  width: 4%;
+  width: 30px;
   min-width: 0 !important;
 }
 .delete-cell > button,
 .info-cell > button {
-  height: 24px;
+  height: 30px;
   width: 100%;
   min-width: 0 !important;
 }

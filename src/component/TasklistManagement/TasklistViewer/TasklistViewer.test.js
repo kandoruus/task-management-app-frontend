@@ -12,7 +12,7 @@ describe('TasklistViewer', () => {
   it('renders TasklistViewer with no TaskCards', () => {
     renderWithProviders(<TasklistViewer />);
     expect(screen.getByTestId('tasklist-viewer')).toBeInTheDocument();
-    expect(screen.getAllByRole('button').length).toEqual(4);
+    expect(screen.getAllByRole('button').length).toEqual(5);
     expect(screen.getByText('First')).toBeInTheDocument();
     expect(screen.getByText('<')).toBeInTheDocument();
     expect(screen.getByText('1 of 1')).toBeInTheDocument();
