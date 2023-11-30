@@ -22,6 +22,11 @@ import {
 } from 'helper/constants';
 import { AppDispatch } from 'app/store';
 import { appCtrlSlice } from 'app/appCtrlSlice';
+import { HomeMasterPane } from 'component/home/HomeMasterPane/HomeMasterPane';
+import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane/TimesheetMasterPane';
+import { AccountMasterPane } from 'component/account/AccountMasterPane/AccountMasterPane';
+import { AdminMasterPane } from 'component/administration/AdminMasterPane/AdminMasterPane';
+import { SettingsMasterPane } from 'component/settings/SettingsMasterPane/SettingsMasterPane';
 
 export const MasterContainer: React.FC = () => {
   const focus: AppFocusT = useAppSelector((state) => state.appCtrl.appFocus);
@@ -63,6 +68,7 @@ export const MasterContainer: React.FC = () => {
       <AppBar>
         <Toolbar variant="dense">
           <IconButton
+            data-testid="main-menu-btn"
             size="large"
             edge="start"
             color="inherit"
@@ -86,12 +92,12 @@ export const MasterContainer: React.FC = () => {
       </AppBar>
       <Toolbar variant="dense" />
       <Box className="master-wrapper">
-        {focus === HOME_PAGE && <Box>HOME</Box>}
+        {focus === HOME_PAGE && <HomeMasterPane />}
         {focus === TASKS_PAGE && <TasklistMasterPane />}
-        {focus === TIMESHEET_PAGE && <Box>TIMESHEET</Box>}
-        {focus === ACCOUNT_PAGE && <Box>ACCOUNT</Box>}
-        {focus === ADMIN_PAGE && <Box>ADMIN</Box>}
-        {focus === SETTINGS_PAGE && <Box>SETTINGS</Box>}
+        {focus === TIMESHEET_PAGE && <TimesheetMasterPane />}
+        {focus === ACCOUNT_PAGE && <AccountMasterPane />}
+        {focus === ADMIN_PAGE && <AdminMasterPane />}
+        {focus === SETTINGS_PAGE && <SettingsMasterPane />}
       </Box>
     </Box>
   );
