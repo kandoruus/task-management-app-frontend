@@ -1,11 +1,3 @@
-@import url("component/master/MasterContainer/MasterContainer.css");
-@import url("component/helper-components/YesNoDialog/YesNoDialog.css");
-@import url("component/tasks/TaskCard/TaskCard.css");
-@import url("component/tasks/TaskEditor/TaskEditor.css");
-@import url("component/tasks/TasklistControlPane/TasklistControlPane.css");
-@import url("component/tasks/TasklistMasterPane/TasklistMasterPane.css");
-@import url("component/tasks/TasklistViewer/TasklistViewer.css");
-
 * {
   box-sizing: border-box;
   padding: 0;

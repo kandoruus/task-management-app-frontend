@@ -12,6 +12,7 @@ import {
   TableBody,
   TableRow,
 } from '@mui/material';
+import './TasklistViewer.css';
 
 export const TasklistViewer: React.FC = () => {
   const listLength: number = useAppSelector(

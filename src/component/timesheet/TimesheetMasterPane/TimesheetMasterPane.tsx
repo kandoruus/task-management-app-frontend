@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import './TimesheetMasterPane.css';
 
 export const TimesheetMasterPane: React.FC = () => {
   return (

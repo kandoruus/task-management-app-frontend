@@ -1,5 +1,5 @@
-import { TasklistMasterPane } from '../../tasks/TasklistMasterPane/TasklistMasterPane';
 import React, { useState } from 'react';
+import './MasterContainer.css';
 import {
   AppBar,
   Toolbar,
@@ -27,6 +27,7 @@ import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane/Tim
 import { AccountMasterPane } from 'component/account/AccountMasterPane/AccountMasterPane';
 import { AdminMasterPane } from 'component/administration/AdminMasterPane/AdminMasterPane';
 import { SettingsMasterPane } from 'component/settings/SettingsMasterPane/SettingsMasterPane';
+import { TasklistMasterPane } from 'component/tasks/TasklistMasterPane/TasklistMasterPane';
 
 export const MasterContainer: React.FC = () => {
   const focus: AppFocusT = useAppSelector((state) => state.appCtrl.appFocus);

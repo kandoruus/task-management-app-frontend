@@ -25,6 +25,7 @@ import {
   Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import './TasklistControlPane.css';
 
 export const TasklistControlPane: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();

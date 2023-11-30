@@ -6,6 +6,7 @@ import { deleteTask, taskCtrlSlice } from 'app/taskCtrlSlice';
 import { loadTaskData } from 'app/taskEditorSlice';
 import { Task } from 'app/types';
 import React from 'react';
+import './TaskCard.css';
 
 interface TaskCardProps {
   idx: number;

@@ -19,6 +19,7 @@ import { YesNoDialog } from '../../helper-components/YesNoDialog/YesNoDialog';
 import { priorityOptions, statusOptions } from 'helper/componentConfig';
 import { ERR_MSG_BLANK_NAME, POP_MSG_QUERY_SAVE } from 'helper/constants';
 import React from 'react';
+import './TaskEditor.css';
 
 export const TaskEditor: React.FC = () => {
   const [alertIsOpen, toggleAlert] = useModal();

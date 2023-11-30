@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import './HomeMasterPane.css';
 
 export const HomeMasterPane: React.FC = () => {
   return (
