@@ -22,12 +22,12 @@ import {
 } from 'helper/constants';
 import { AppDispatch } from 'app/store';
 import { appCtrlSlice } from 'app/appCtrlSlice';
-import { HomeMasterPane } from 'component/home/HomeMasterPane/HomeMasterPane';
-import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane/TimesheetMasterPane';
-import { AccountMasterPane } from 'component/account/AccountMasterPane/AccountMasterPane';
-import { AdminMasterPane } from 'component/administration/AdminMasterPane/AdminMasterPane';
-import { SettingsMasterPane } from 'component/settings/SettingsMasterPane/SettingsMasterPane';
-import { TasklistMasterPane } from 'component/tasks/TasklistMasterPane/TasklistMasterPane';
+import { HomeMasterPane } from 'component/master/MasterContainer/home/HomeMasterPane/HomeMasterPane';
+import { TimesheetMasterPane } from 'component/master/MasterContainer/TimesheetMasterPane/TimesheetMasterPane';
+import { AccountMasterPane } from 'component/master/MasterContainer/account/AccountMasterPane/AccountMasterPane';
+import { AdminMasterPane } from 'component/master/MasterContainer/administration/AdminMasterPane/AdminMasterPane';
+import { SettingsMasterPane } from 'component/master/MasterContainer/settings/SettingsMasterPane/SettingsMasterPane';
+import { TasklistMasterPane } from 'component/master/MasterContainer/tasks/TasklistMasterPane/TasklistMasterPane';
 
 export const MasterContainer: React.FC = () => {
   const focus: AppFocusT = useAppSelector((state) => state.appCtrl.appFocus);
