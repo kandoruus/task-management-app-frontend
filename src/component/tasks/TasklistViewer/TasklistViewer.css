@@ -33,6 +33,7 @@
   cursor: auto;
 }
 .footer-btn {
+  color: black !important;
   border: none !important;
   text-transform: none !important;
   min-width: 20px !important;

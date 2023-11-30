@@ -8,20 +8,10 @@ import {
   Box,
   Button,
   ButtonGroup,
-  createTheme,
   Table,
   TableBody,
   TableRow,
-  ThemeProvider,
 } from '@mui/material';
-
-const footerTheme = createTheme({
-  /*palette: {
-    primary: {
-      main: '#63b7f7',
-    },
-  },*/
-});
 
 export const TasklistViewer: React.FC = () => {
   const listLength: number = useAppSelector(
@@ -82,27 +72,25 @@ export const TasklistViewer: React.FC = () => {
         </Table>
       </Box>
       <Box className={'tasklist-footer'}>
-        <ThemeProvider theme={footerTheme}>
-          <ButtonGroup>
-            <Button onClick={handleFirstPageClick} className="footer-btn">
-              First
-            </Button>
-            <Button onClick={handlePrevPageClick} className="footer-btn">
-              {'<'}
-            </Button>
-            <Button className="page-ref footer-btn" disableRipple>
-              {page +
-                ' of ' +
-                Math.max(Math.ceil(listLength / TASKS_PER_PAGE), 1)}
-            </Button>
-            <Button onClick={handleNextPageClick} className="footer-btn">
-              {'>'}
-            </Button>
-            <Button onClick={handleLastPageClick} className="footer-btn">
-              Last
-            </Button>
-          </ButtonGroup>
-        </ThemeProvider>
+        <ButtonGroup>
+          <Button onClick={handleFirstPageClick} className="footer-btn">
+            First
+          </Button>
+          <Button onClick={handlePrevPageClick} className="footer-btn">
+            {'<'}
+          </Button>
+          <Button className="page-ref footer-btn" disableRipple>
+            {page +
+              ' of ' +
+              Math.max(Math.ceil(listLength / TASKS_PER_PAGE), 1)}
+          </Button>
+          <Button onClick={handleNextPageClick} className="footer-btn">
+            {'>'}
+          </Button>
+          <Button onClick={handleLastPageClick} className="footer-btn">
+            Last
+          </Button>
+        </ButtonGroup>
       </Box>
     </Box>
   );

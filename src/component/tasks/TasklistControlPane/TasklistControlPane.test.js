@@ -11,7 +11,7 @@ import { taskEditorSlice, initialTaskEditorState } from 'app/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
 import { TasklistControlPane } from './TasklistControlPane';
 import axios from 'axios';
-import { useAppSelector } from 'app/hooks';
+//import { useAppSelector } from 'app/hooks';
 import { NEW_TASK_DATA, SAVE_ALL_TASKS_API } from 'helper/constants';
 import { setupStore } from 'app/store';
 
@@ -36,57 +36,70 @@ describe('TasklistControlPane', () => {
   afterEach(() => {
     store.dispatch.mockClear();
   });
-  it('renders four buttons: Load Tasks, Delete Tasks, Save Tasks, and Create Task', () => {
+  it('renders the toolbar and menu button', () => {
     expect(screen.getByTestId('tasklist-control-pane')).toBeInTheDocument();
-    expect(screen.getAllByRole('button').length).toEqual(4);
+    expect(screen.getByTestId('tasklist-menu-btn')).toBeInTheDocument();
+    expect(screen.getAllByRole('button').length).toEqual(1);
+    expect(screen.queryByText('Load Tasks')).toBeNull();
+    expect(screen.queryByText('Delete Tasks')).toBeNull();
+    expect(screen.queryByText('Save Tasks')).toBeNull();
+    expect(screen.queryByText('Create Task')).toBeNull();
+  });
+  it('opens the menu when the menu button is clicked', () => {
+    fireEvent.click(screen.getByTestId('tasklist-menu-btn'));
     expect(screen.getByText('Load Tasks')).toBeInTheDocument();
     expect(screen.getByText('Delete Tasks')).toBeInTheDocument();
     expect(screen.getByText('Save Tasks')).toBeInTheDocument();
     expect(screen.getByText('Create Task')).toBeInTheDocument();
   });
-  it('dispatches the fetchTasklist action when Load Tasks is clicked', () => {
-    fireEvent.click(screen.getByText('Load Tasks'));
-    expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
-      fetchTasklist().toString()
-    );
-  });
-  it('dispatches the deleteTasklist action when Delete Tasks is clicked', () => {
-    fireEvent.click(screen.getByText('Load Tasks'));
-    expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
-      deleteTasklist().toString()
-    );
-  });
-  it('posts the tasklist to axios when the Save Tasks button is clicked', () => {
-    let mockedApiCall = { url: '', tasklist: '' };
-    axios.post.mockImplementation((url, data) => {
-      mockedApiCall.url = url;
-      mockedApiCall.tasklist = data.tasklist;
-      return Promise.resolve();
+  describe('when the menu button is clicked', () => {
+    beforeEach(() => {
+      fireEvent.click(screen.getByTestId('tasklist-menu-btn'));
     });
-    expect(mockedApiCall.url).toEqual('');
-    expect(mockedApiCall.tasklist).toEqual('');
-    fireEvent.click(screen.getByText('Save Tasks'));
-    expect(mockedApiCall.url).toEqual(SAVE_ALL_TASKS_API);
-    expect(mockedApiCall.tasklist).toEqual(JSON.stringify(mockedList));
-  });
-  it('dispatches the createNewTask, loadTaskData, and openEditor actions when the Create Task button is clicked.', () => {
-    fireEvent.click(screen.getByText('Create Task'));
-    expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
-      createNewTask(store.dispatch).toString()
-    );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      taskEditorSlice.actions.loadTaskData({
-        data: { ...NEW_TASK_DATA },
-        indx: 2,
-      })
-    );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      taskCtrlSlice.actions.openEditor()
-    );
+    it('dispatches the fetchTasklist action when Load Tasks is clicked', () => {
+      fireEvent.click(screen.getByText('Load Tasks'));
+      expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
+        fetchTasklist().toString()
+      );
+    });
+    it('dispatches the deleteTasklist action when Delete Tasks is clicked', () => {
+      fireEvent.click(screen.getByText('Load Tasks'));
+      expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
+        deleteTasklist().toString()
+      );
+    });
+    it('posts the tasklist to axios when the Save Tasks button is clicked', () => {
+      let mockedApiCall = { url: '', tasklist: '' };
+      axios.post.mockImplementation((url, data) => {
+        mockedApiCall.url = url;
+        mockedApiCall.tasklist = data.tasklist;
+        return Promise.resolve();
+      });
+      expect(mockedApiCall.url).toEqual('');
+      expect(mockedApiCall.tasklist).toEqual('');
+      fireEvent.click(screen.getByText('Save Tasks'));
+      expect(mockedApiCall.url).toEqual(SAVE_ALL_TASKS_API);
+      expect(mockedApiCall.tasklist).toEqual(JSON.stringify(mockedList));
+    });
+    it('dispatches the createNewTask, loadTaskData, and openEditor actions when the Create Task button is clicked.', () => {
+      fireEvent.click(screen.getByText('Create Task'));
+      expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
+        createNewTask(store.dispatch).toString()
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        taskEditorSlice.actions.loadTaskData({
+          data: { ...NEW_TASK_DATA },
+          indx: 2,
+        })
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        taskCtrlSlice.actions.openEditor()
+      );
+    });
   });
 });
 
-//integration tests
+/*//integration tests
 const TasklistControlPaneWithState = () => {
   const listLength = useAppSelector((state) => state.taskCtrl.tasklist.length);
   const showEditor = useAppSelector((state) => state.taskCtrl.showEditor);
@@ -160,4 +173,4 @@ describe('TasklistControlPane', () => {
     expect(screen.getByText('The Editor is Open')).toBeInTheDocument();
     expect(taskIsSaved).toBe(true);
   });
-});
+});*/

@@ -14,11 +14,6 @@
   flex-direction: column;
   align-items: center;
   background-color: lightblue;
-  height: calc(100% - 64px);
+  height: calc(100% - 48px);
   width: 100%;
-}
-@media (max-width: 600px) {
-  .master-wrapper {
-    height: calc(100% - 48px);
-  }
 }

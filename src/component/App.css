@@ -1,10 +1,10 @@
-@import url("component/MasterContainer/MasterContainer.css");
-@import url("component/HelperComponents/YesNoDialog/YesNoDialog.css");
-@import url("component/TasklistManagement/TaskCard/TaskCard.css");
-@import url("component/TasklistManagement/TaskEditor/TaskEditor.css");
-@import url("component/TasklistManagement/TasklistControlPane/TasklistControlPane.css");
-@import url("component/TasklistManagement/TasklistMasterPane/TasklistMasterPane.css");
-@import url("component/TasklistManagement/TasklistViewer/TasklistViewer.css");
+@import url("component/master/MasterContainer/MasterContainer.css");
+@import url("component/helper-components/YesNoDialog/YesNoDialog.css");
+@import url("component/tasks/TaskCard/TaskCard.css");
+@import url("component/tasks/TaskEditor/TaskEditor.css");
+@import url("component/tasks/TasklistControlPane/TasklistControlPane.css");
+@import url("component/tasks/TasklistMasterPane/TasklistMasterPane.css");
+@import url("component/tasks/TasklistViewer/TasklistViewer.css");
 
 * {
   box-sizing: border-box;
@@ -18,7 +18,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: green;
   overflow: hidden;
 }
 

@@ -51,6 +51,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
           id={props.idx.toString()}
           name={'task-button-' + props.idx}
           onClick={handleClick}
+          sx={{ color: 'common.black' }}
         >
           {task.data.name}
         </Button>

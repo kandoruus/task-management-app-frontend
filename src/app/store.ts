@@ -1,3 +1,4 @@
+import { appCtrlSlice } from './appCtrlSlice';
 import {
   Action,
   configureStore,
@@ -9,6 +10,7 @@ import { taskCtrlSlice } from 'app/taskCtrlSlice';
 import { taskEditorSlice } from 'app/taskEditorSlice';
 
 const rootReducer = combineReducers({
+  appCtrl: appCtrlSlice.reducer,
   taskCtrl: taskCtrlSlice.reducer,
   taskEditor: taskEditorSlice.reducer,
 });

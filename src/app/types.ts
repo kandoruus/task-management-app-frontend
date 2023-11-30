@@ -17,3 +17,11 @@ export type Task = {
 };
 
 export type Tasklist = Task[];
+
+export type AppFocusT =
+  | 'TASKS_PAGE'
+  | 'TIMESHEET_PAGE'
+  | 'ACCOUNT_PAGE'
+  | 'ADMIN_PAGE'
+  | 'SETTINGS_PAGE'
+  | 'HOME_PAGE';

@@ -27,3 +27,11 @@ export const NEW_TASK_DATA: TaskData = {
   priority: 'Low',
 };
 export const TASKS_PER_PAGE = 25;
+
+//app focuses
+export const HOME_PAGE = 'HOME_PAGE';
+export const TASKS_PAGE = 'TASKS_PAGE';
+export const TIMESHEET_PAGE = 'TIMESHEET_PAGE';
+export const ACCOUNT_PAGE = 'ACCOUNT_PAGE';
+export const ADMIN_PAGE = 'ADMIN_PAGE';
+export const SETTINGS_PAGE = 'SETTINGS_PAGE';
