@@ -23,7 +23,7 @@ import {
 import { AppDispatch } from 'app/store';
 import { appCtrlSlice } from 'app/appCtrlSlice';
 import { HomeMasterPane } from 'component/master/MasterContainer/home/HomeMasterPane/HomeMasterPane';
-import { TimesheetMasterPane } from 'component/master/MasterContainer/TimesheetMasterPane/TimesheetMasterPane';
+import { TimesheetMasterPane } from 'component/master/MasterContainer/timesheet/TimesheetMasterPane/TimesheetMasterPane';
 import { AccountMasterPane } from 'component/master/MasterContainer/account/AccountMasterPane/AccountMasterPane';
 import { AdminMasterPane } from 'component/master/MasterContainer/administration/AdminMasterPane/AdminMasterPane';
 import { SettingsMasterPane } from 'component/master/MasterContainer/settings/SettingsMasterPane/SettingsMasterPane';
@@ -41,8 +41,10 @@ export const MasterContainer: React.FC = () => {
     setMenuAnchor(null);
   };
   const handleHomeClick = () => {
-    dispatch(appCtrlSlice.actions.focusHome());
-    handleMenuClose();
+    if (focus !== HOME_PAGE) {
+      dispatch(appCtrlSlice.actions.focusHome());
+      handleMenuClose();
+    }
   };
   const handleTasksClick = () => {
     dispatch(appCtrlSlice.actions.focusTasks());
@@ -78,15 +80,37 @@ export const MasterContainer: React.FC = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Menu anchorEl={menuAnchor} open={menuOpen} onClose={handleMenuClose}>
-            <MenuItem onClick={handleHomeClick}>Home</MenuItem>
-            <MenuItem onClick={handleTasksClick}>Tasks</MenuItem>
-            <MenuItem onClick={handleTimesheetClick}>Timesheet</MenuItem>
-            <MenuItem onClick={handleAccountClick}>Account</MenuItem>
-            <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-            <MenuItem onClick={handleAdminClick}>Administration</MenuItem>
+          <Menu
+            data-testid="main-menu"
+            anchorEl={menuAnchor}
+            open={menuOpen}
+            onClose={handleMenuClose}
+          >
+            {focus !== HOME_PAGE && (
+              <MenuItem onClick={handleHomeClick}>Home</MenuItem>
+            )}
+            {focus !== TASKS_PAGE && (
+              <MenuItem onClick={handleTasksClick}>Tasks</MenuItem>
+            )}
+            {focus !== TIMESHEET_PAGE && (
+              <MenuItem onClick={handleTimesheetClick}>Timesheet</MenuItem>
+            )}
+            {focus !== ACCOUNT_PAGE && (
+              <MenuItem onClick={handleAccountClick}>Account</MenuItem>
+            )}
+            {focus !== SETTINGS_PAGE && (
+              <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
+            )}
+            {focus !== ADMIN_PAGE && (
+              <MenuItem onClick={handleAdminClick}>Administration</MenuItem>
+            )}
           </Menu>
-          <Typography noWrap variant="h6">
+          <Typography
+            className={focus !== HOME_PAGE ? 'main-menu-header' : ''}
+            onClick={handleHomeClick}
+            noWrap
+            variant="h6"
+          >
             Task Management App
           </Typography>
         </Toolbar>
