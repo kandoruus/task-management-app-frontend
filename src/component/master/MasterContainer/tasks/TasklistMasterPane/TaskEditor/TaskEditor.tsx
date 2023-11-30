@@ -10,6 +10,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  Typography,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector, useModal } from 'app/hooks';
 import { AppDispatch } from 'app/store';
@@ -18,12 +19,13 @@ import { taskEditorSlice } from 'app/taskEditorSlice';
 import { YesNoDialog } from '../../../../../helper-components/YesNoDialog/YesNoDialog';
 import { priorityOptions, statusOptions } from 'helper/componentConfig';
 import { ERR_MSG_BLANK_NAME, POP_MSG_QUERY_SAVE } from 'helper/constants';
-import React from 'react';
+import React, { useState } from 'react';
 import './TaskEditor.css';
 
 export const TaskEditor: React.FC = () => {
   const [alertIsOpen, toggleAlert] = useModal();
   const [queryIsOpen, toggleQuery] = useModal();
+  const [nameInputIsOpen, setNameInputIsOpen] = useState(false);
   const showEditor = useAppSelector((state) => state.taskCtrl.showEditor);
   const { data, indexOfFocus } = useAppSelector((state) => state.taskEditor);
   const { name, description, priority, status } = data;
@@ -108,15 +110,27 @@ export const TaskEditor: React.FC = () => {
     <Modal open={showEditor} onClose={toggleQuery} data-testid="task-editor">
       <Box className="task-editor">
         <Box className="input-wrapper">
-          <TextField
-            id="task-name"
-            type="text"
-            name="name"
-            placeholder="name"
-            required
-            value={name}
-            onChange={handleNameInput}
-          />
+          {nameInputIsOpen ? (
+            <TextField
+              id="task-name"
+              type="text"
+              name="name"
+              placeholder="name"
+              required
+              value={name}
+              onChange={handleNameInput}
+              onBlur={() => setNameInputIsOpen(false)}
+              onKeyDown={(e) =>
+                e.key === 'Enter' && (e.target as HTMLDivElement).blur()
+              }
+              autoFocus
+            />
+          ) : (
+            <Typography variant="h4" onClick={() => setNameInputIsOpen(true)}>
+              {name}
+            </Typography>
+          )}
+
           <TextField
             className="task-editor-desc"
             id="task-desc"

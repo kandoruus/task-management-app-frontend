@@ -38,12 +38,13 @@ describe('TaskEditor', () => {
       store.dispatch.mockClear();
     });
     it('has a name field, a description field, a status field, a priority field, a cancel button, a delete button, a save button, and a save and exit button.', () => {
-      //has a name and a description field
+      //Has a Name
+      expect(screen.getByText(expectedData.name)).toBeInTheDocument();
+      //has a description field
       const textboxes = screen
         .getAllByRole('textbox')
         .map((textbox) => textbox.name);
-      expect(textboxes.length).toEqual(2);
-      expect(textboxes.indexOf('name')).not.toEqual(-1);
+      expect(textboxes.length).toEqual(1);
       expect(textboxes.indexOf('description')).not.toEqual(-1);
       //has a status field and a priority field
       const comboboxes = screen
@@ -59,13 +60,12 @@ describe('TaskEditor', () => {
       expect(screen.getByText('Save and Exit')).toBeInTheDocument();
     });
     it('displays the expect data in each field', () => {
-      // test that the textboxes display the proper values for name and description
+      // test that the textbox display the proper values for description
       const textboxes = screen
         .getAllByRole('textbox')
         .map((textbox) => textbox.value);
-      expect(textboxes.indexOf(expectedData.name)).not.toEqual(-1);
       expect(textboxes.indexOf(expectedData.description)).not.toEqual(-1);
-      // test that the comboboxes display the proper values for name and description
+      // test that the comboboxes display the proper values for status and priority
       expect(screen.getByText(expectedData.status)).toBeInTheDocument();
       expect(screen.getByText(expectedData.priority)).toBeInTheDocument();
     });
@@ -120,19 +120,6 @@ describe('TaskEditor', () => {
         taskEditorSlice.actions.clearTaskData()
       );
     });
-    it('dispatches the updateName action on change to the name input field', () => {
-      fireEvent.change(
-        screen
-          .getAllByRole('textbox')
-          .find((textbox) => textbox.name === 'name'),
-        {
-          target: { value: 'New Name' },
-        }
-      );
-      expect(store.dispatch).toHaveBeenCalledWith(
-        taskEditorSlice.actions.updateName('New Name')
-      );
-    });
     it('dispatches the updateDescription action on change to the name description input field', () => {
       fireEvent.change(
         screen
@@ -167,6 +154,31 @@ describe('TaskEditor', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         taskEditorSlice.actions.updatePriority('Medium')
       );
+    });
+    describe('when the name is clicked', () => {
+      beforeEach(() => {
+        fireEvent.click(screen.getByText(expectedData.name));
+      });
+      it('changes to a textbox', () => {
+        const textboxes = screen
+          .getAllByRole('textbox')
+          .map((textbox) => textbox.name);
+        expect(textboxes.length).toEqual(2);
+        expect(textboxes.indexOf('name')).not.toEqual(-1);
+      });
+      it('dispatches the updateName action on change to the name input field', () => {
+        fireEvent.change(
+          screen
+            .getAllByRole('textbox')
+            .find((textbox) => textbox.name === 'name'),
+          {
+            target: { value: 'New Name' },
+          }
+        );
+        expect(store.dispatch).toHaveBeenCalledWith(
+          taskEditorSlice.actions.updateName('New Name')
+        );
+      });
     });
     describe('onClose', () => {
       beforeEach(() => {

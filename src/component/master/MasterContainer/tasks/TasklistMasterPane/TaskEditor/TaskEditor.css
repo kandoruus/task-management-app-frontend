@@ -1,5 +1,6 @@
 button {
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .task-editor {
@@ -8,16 +9,17 @@ button {
   margin: calc(min(84px, 10%)) auto auto;
   /*background-color: #e3f2fd;*/
   background-color: white;
-  padding: calc(min(3%, 25px));
+  padding: calc(min(4.5%, 34px)) calc(min(8%, 60px)) calc(min(6%, 45px));
   width: 80%;
   height: fit-content;
   max-height: 80%;
   overflow-y: auto;
   overflow-x: hidden;
+  border-radius: 10px;
 }
 
 .task-editor-btns {
-  margin: 9px auto 0px;
+  margin: 5% auto 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -28,8 +30,19 @@ button {
 .input-wrapper {
   display: flex;
   flex-direction: column;
+  & h4 {
+    text-align: center;
+    line-height: 56px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+  }
 }
 
 .input-wrapper > *:not(:first-child) {
-  margin-top: calc(min(1%, 4px)) !important;
+  margin-top: calc(min(6%, 24px)) !important;
+}
+
+.input-wrapper > *:first-child {
+  height: 56px;
 }
