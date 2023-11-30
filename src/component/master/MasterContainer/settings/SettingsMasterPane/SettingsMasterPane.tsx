@@ -4,7 +4,7 @@ import './SettingsMasterPane.css';
 
 export const SettingsMasterPane: React.FC = () => {
   return (
-    <Box className="settings-master-pane" data-testid="settings-master-pane">
+    <Box className="master-pane" data-testid="settings-master-pane">
       SETTINGS
     </Box>
   );

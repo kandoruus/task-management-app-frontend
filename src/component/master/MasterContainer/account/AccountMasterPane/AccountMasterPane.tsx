@@ -4,7 +4,7 @@ import './AccountMasterPane.css';
 
 export const AccountMasterPane: React.FC = () => {
   return (
-    <Box className="account-master-pane" data-testid="account-master-pane">
+    <Box className="master-pane" data-testid="account-master-pane">
       ACCOUNT
     </Box>
   );

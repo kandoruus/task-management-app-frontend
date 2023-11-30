@@ -7,7 +7,7 @@ import './TasklistMasterPane.css';
 
 export const TasklistMasterPane: React.FC = () => {
   return (
-    <Box className="tasklist-master-pane" data-testid="tasklist-master-pane">
+    <Box className="master-pane" data-testid="tasklist-master-pane">
       <TasklistControlPane />
       <TasklistViewer />
       <TaskEditor />
