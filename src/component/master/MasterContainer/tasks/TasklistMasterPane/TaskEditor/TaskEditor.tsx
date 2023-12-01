@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  Grid,
   MenuItem,
   Modal,
   Select,
@@ -164,34 +163,20 @@ export const TaskEditor: React.FC = () => {
             })}
           </Select>
         </Box>
-
-        <Grid container className="task-editor-btns">
-          <Grid item>
-            <Button variant="contained" onClick={handleCancelClick}>
-              Cancel
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              onClick={handleDeleteClick}
-              color="error"
-            >
-              Delete
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant="contained" onClick={handleSaveClick}>
-              Save
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant="contained" onClick={handleSaveExitClick}>
-              Save and Exit
-            </Button>
-          </Grid>
-        </Grid>
-
+        <Box className="task-editor-btns">
+          <Button variant="contained" onClick={handleCancelClick}>
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={handleDeleteClick} color="error">
+            Delete
+          </Button>
+          <Button variant="contained" onClick={handleSaveClick}>
+            Save
+          </Button>
+          <Button variant="contained" onClick={handleSaveExitClick}>
+            Save and Exit
+          </Button>
+        </Box>
         <YesNoDialog
           open={queryIsOpen}
           closeDialog={toggleQuery}

@@ -14,22 +14,16 @@
 }
 
 .task-editor-btns {
+  width: 100%;
   margin: 5% auto 10px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  width: 80%;
-  & .MuiGrid-item {
-    margin: auto;
+  justify-content: space-between;
+  & button {
+    white-space: nowrap;
+    overflow: hidden;
     max-width: 25%;
     min-width: 20%;
-    overflow: hidden;
-    & button {
-      white-space: nowrap;
-      overflow: hidden;
-      width: 100%;
-      min-width: 0;
-    }
   }
 }
 
