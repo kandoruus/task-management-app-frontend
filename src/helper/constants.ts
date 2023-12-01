@@ -7,12 +7,13 @@ export const ERR_MSG_BLANK_NAME = 'Task name cannot be blank';
 export const POP_MSG_QUERY_SAVE = 'Do you want to save your changes?';
 
 //API addresses
-export const GET_ALL_TASKS_API = 'http://localhost:3001/api/tasklist';
-export const DELETE_ALL_TASKS_API = 'http://localhost:3001/api/cleartasks';
-export const SAVE_ALL_TASKS_API = 'http://localhost:3001/api/updatemanytasks';
-export const SAVE_NEW_TASKS_API = 'http://localhost:3001/api/task';
-export const DELETE_TASK_API = 'http://localhost:3001/api/removetask/';
-export const SAVE_ONE_TASK_API = 'http://localhost:3001/api/updatetask';
+export const GET_ALL_TASKS_API = 'http://localhost:3001/task-api/tasklist';
+export const DELETE_ALL_TASKS_API = 'http://localhost:3001/task-api/cleartasks';
+export const SAVE_ALL_TASKS_API =
+  'http://localhost:3001/task-api/updatemanytasks';
+export const SAVE_NEW_TASKS_API = 'http://localhost:3001/task-api/task';
+export const DELETE_TASK_API = 'http://localhost:3001/task-api/removetask/';
+export const SAVE_ONE_TASK_API = 'http://localhost:3001/task-api/updatetask';
 
 //axios headers
 export const SAVE_TASK_HEADERS = {
