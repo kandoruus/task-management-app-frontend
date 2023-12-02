@@ -3,7 +3,6 @@ import { AppDispatch } from 'app/store';
 import { taskCtrlSlice } from 'app/taskCtrlSlice';
 import React from 'react';
 import { TASKS_PER_PAGE } from 'helper/constants';
-import { TaskCard } from './TaskCard/TaskCard';
 import {
   Box,
   Button,
@@ -13,6 +12,7 @@ import {
   TableRow,
 } from '@mui/material';
 import './TasklistViewer.css';
+import { TaskCard } from 'component/tasks/TaskCard/TaskCard';
 
 export const TasklistViewer: React.FC = () => {
   const listLength: number = useAppSelector(
