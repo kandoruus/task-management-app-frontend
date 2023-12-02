@@ -14,9 +14,15 @@ export const SAVE_ALL_TASKS_API =
 export const SAVE_NEW_TASKS_API = 'http://localhost:3001/task-api/task';
 export const DELETE_TASK_API = 'http://localhost:3001/task-api/removetask/';
 export const SAVE_ONE_TASK_API = 'http://localhost:3001/task-api/updatetask';
+export const SIGNUP_USER_API = 'http://localhost:3001/user-api/signup';
+export const LOGIN_USER_API = 'http://localhost:3001/user-api/login';
+export const CHANGE_PASSWORD_USER_API =
+  'http://localhost:3001/user-api/change-password';
+export const DELETE_ACCOUNT_USER_API =
+  'http://localhost:3001/user-api/delete-account';
 
 //axios headers
-export const SAVE_TASK_HEADERS = {
+export const AXIOS_HEADERS = {
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 };
 

@@ -13,7 +13,7 @@ import { loadTaskData } from 'app/taskEditorSlice';
 import {
   NEW_TASK_DATA,
   SAVE_ALL_TASKS_API,
-  SAVE_TASK_HEADERS,
+  AXIOS_HEADERS,
 } from 'helper/constants';
 import axios from 'axios';
 import {
@@ -57,7 +57,7 @@ export const TasklistControlPane: React.FC = () => {
           {
             tasklist: JSON.stringify(tasklist),
           },
-          SAVE_TASK_HEADERS
+          AXIOS_HEADERS
         );
       } catch (e) {
         console.error(e);

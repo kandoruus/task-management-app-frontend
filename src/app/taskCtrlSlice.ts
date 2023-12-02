@@ -5,7 +5,7 @@ import axios from 'axios';
 import {
   GET_ALL_TASKS_API,
   DELETE_ALL_TASKS_API,
-  SAVE_TASK_HEADERS,
+  AXIOS_HEADERS,
   SAVE_NEW_TASKS_API,
   NEW_TASK_DATA,
   DELETE_TASK_API,
@@ -36,7 +36,7 @@ export const createNewTask = createAsyncThunk(
       const response = await axios.post(
         SAVE_NEW_TASKS_API,
         { data: JSON.stringify(NEW_TASK_DATA) },
-        SAVE_TASK_HEADERS
+        AXIOS_HEADERS
       );
       if (response.data.id) {
         dispatch(
@@ -65,7 +65,7 @@ export const saveOneTask = createAsyncThunk(
           _id: task._id,
           data: JSON.stringify(task.data),
         },
-        SAVE_TASK_HEADERS
+        AXIOS_HEADERS
       );
       if (response.data.error) {
         throw new Error(response.data.error);
