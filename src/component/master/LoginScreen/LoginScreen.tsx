@@ -3,6 +3,9 @@ import './LoginScreen.css';
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   FormControl,
   IconButton,
   InputAdornment,
@@ -17,10 +20,19 @@ import {
   AXIOS_HEADERS,
   SIGNUP_USER_API,
 } from 'helper/constants';
+import { useAppDispatch, useModal } from 'app/hooks';
+import { appCtrlSlice } from 'app/appCtrlSlice';
 
 export const LoginScreen: React.FC = () => {
   const [paneDisplayed, setPaneDisplayed] = useState('Query');
+  const [alertIsOpen, toggleAlert] = useModal();
+  const [alertMessage, setAlertMessage] = useState('');
+  const dispatch = useAppDispatch();
 
+  const sendAlert = (message: string) => {
+    setAlertMessage(message);
+    toggleAlert();
+  };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -56,7 +68,7 @@ export const LoginScreen: React.FC = () => {
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleLogin = async () => {
       try {
-        const res = (
+        const resData = (
           await axios.post(
             LOGIN_USER_API,
             {
@@ -66,9 +78,18 @@ export const LoginScreen: React.FC = () => {
             AXIOS_HEADERS
           )
         ).data;
-        console.log(res);
+        dispatch(
+          appCtrlSlice.actions.login({
+            username: resData.username,
+            sessionCode: resData.message,
+          })
+        );
       } catch (e) {
-        console.error(e);
+        if (axios.isAxiosError(e) && e.response) {
+          sendAlert(e.response.data.message);
+        } else {
+          console.error(e);
+        }
       }
     };
     return (
@@ -148,7 +169,7 @@ export const LoginScreen: React.FC = () => {
       setShowPasswordConfirm((show) => !show);
     const handleSignup = async () => {
       try {
-        const res = (
+        const resData = (
           await axios.post(
             SIGNUP_USER_API,
             {
@@ -158,9 +179,14 @@ export const LoginScreen: React.FC = () => {
             AXIOS_HEADERS
           )
         ).data;
-        console.log(res);
+        sendAlert(resData.message);
+        setPaneDisplayed('Login');
       } catch (e) {
-        console.error(e);
+        if (axios.isAxiosError(e) && e.response) {
+          sendAlert(e.response.data.message);
+        } else {
+          console.error(e);
+        }
       }
     };
     return (
@@ -261,7 +287,7 @@ export const LoginScreen: React.FC = () => {
   };
 
   return (
-    <Box className="background-wallpaper">
+    <Box className="auth-page-wrapper" data-testid="auth-page-wrapper">
       <Box className="login-container">
         <Typography
           sx={{ bgcolor: 'primary.main', textAlign: 'center', padding: '8px' }}
@@ -274,6 +300,12 @@ export const LoginScreen: React.FC = () => {
         {paneDisplayed === 'Login' && <LoginPane />}
         {paneDisplayed === 'Signup' && <SignupPane />}
       </Box>
+      <Dialog open={alertIsOpen}>
+        <DialogTitle>{alertMessage}</DialogTitle>
+        <DialogActions>
+          <Button onClick={toggleAlert}>Okay</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

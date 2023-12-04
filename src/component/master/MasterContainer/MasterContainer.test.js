@@ -6,16 +6,19 @@ import { setupStore } from 'app/store';
 import { appCtrlSlice } from 'app/appCtrlSlice';
 import {
   ACCOUNT_PAGE,
-  ADMIN_PAGE,
-  SETTINGS_PAGE,
+  HOME_PAGE,
   TASKS_PAGE,
   TIMESHEET_PAGE,
 } from 'helper/constants';
 
 describe('MasterContainer', () => {
-  describe('when the store is loaded with default values', () => {
+  describe('when the store is loaded with the appFocus on Home', () => {
     const store = {
-      ...setupStore(),
+      ...setupStore({
+        appCtrl: {
+          appFocus: HOME_PAGE,
+        },
+      }),
       dispatch: jest.fn(),
     };
     beforeEach(() => {
@@ -47,12 +50,14 @@ describe('MasterContainer', () => {
         expect(
           await screen.findByRole('menuitem', { name: /Account/i })
         ).toBeInTheDocument();
+        /* pushed to v3
         expect(
           await screen.findByRole('menuitem', { name: /Settings/i })
         ).toBeInTheDocument();
         expect(
           await screen.findByRole('menuitem', { name: /Administration/i })
         ).toBeInTheDocument();
+        */
         expect(screen.queryByRole('menuitem', { name: /Home/i })).toBeNull();
       });
       it('dispatches the focusTasks action when the Tasks option is clicked', async () => {
@@ -79,6 +84,7 @@ describe('MasterContainer', () => {
           appCtrlSlice.actions.focusAccount()
         );
       });
+      /* pushed to v3
       it('dispatches the focusSettings action when the Settings option is clicked', async () => {
         fireEvent.click(
           await screen.findByRole('menuitem', { name: /Settings/i })
@@ -94,7 +100,7 @@ describe('MasterContainer', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           appCtrlSlice.actions.focusAdmin()
         );
-      });
+      });*/
     });
   });
   describe('when the store is loaded with the appFocus on Tasks', () => {
@@ -132,12 +138,13 @@ describe('MasterContainer', () => {
         expect(
           await screen.findByRole('menuitem', { name: /Account/i })
         ).toBeInTheDocument();
+        /* pushed to v3
         expect(
           await screen.findByRole('menuitem', { name: /Settings/i })
         ).toBeInTheDocument();
         expect(
           await screen.findByRole('menuitem', { name: /Administration/i })
-        ).toBeInTheDocument();
+        ).toBeInTheDocument();*/
         expect(screen.queryByRole('menuitem', { name: /Tasks/i })).toBeNull();
       });
       it('dispatches the focusHome action when the Home option is clicked', async () => {
@@ -174,12 +181,13 @@ describe('MasterContainer', () => {
       expect(
         await screen.findByRole('menuitem', { name: /Account/i })
       ).toBeInTheDocument();
-      expect(
-        await screen.findByRole('menuitem', { name: /Settings/i })
-      ).toBeInTheDocument();
-      expect(
-        await screen.findByRole('menuitem', { name: /Administration/i })
-      ).toBeInTheDocument();
+      /* pushed to v3
+        expect(
+          await screen.findByRole('menuitem', { name: /Settings/i })
+        ).toBeInTheDocument();
+        expect(
+          await screen.findByRole('menuitem', { name: /Administration/i })
+        ).toBeInTheDocument();*/
       expect(screen.queryByRole('menuitem', { name: /Timesheet/i })).toBeNull();
     });
   });
@@ -209,15 +217,17 @@ describe('MasterContainer', () => {
       expect(
         await screen.findByRole('menuitem', { name: /Timesheet/i })
       ).toBeInTheDocument();
-      expect(
-        await screen.findByRole('menuitem', { name: /Settings/i })
-      ).toBeInTheDocument();
-      expect(
-        await screen.findByRole('menuitem', { name: /Administration/i })
-      ).toBeInTheDocument();
+      /* pushed to v3
+        expect(
+          await screen.findByRole('menuitem', { name: /Settings/i })
+        ).toBeInTheDocument();
+        expect(
+          await screen.findByRole('menuitem', { name: /Administration/i })
+        ).toBeInTheDocument();*/
       expect(screen.queryByRole('menuitem', { name: /Account/i })).toBeNull();
     });
   });
+  /* pushed to v3
   describe('when the store is loaded with the appFocus on Settings', () => {
     const store = {
       ...setupStore({
@@ -289,5 +299,5 @@ describe('MasterContainer', () => {
         screen.queryByRole('menuitem', { name: /Administration/i })
       ).toBeNull();
     });
-  });
+  });*/
 });

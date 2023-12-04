@@ -14,9 +14,7 @@ import { AppFocusT } from 'app/types';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import {
   ACCOUNT_PAGE,
-  ADMIN_PAGE,
   HOME_PAGE,
-  SETTINGS_PAGE,
   TASKS_PAGE,
   TIMESHEET_PAGE,
 } from 'helper/constants';
@@ -25,8 +23,6 @@ import { appCtrlSlice } from 'app/appCtrlSlice';
 import { HomeMasterPane } from 'component/home/HomeMasterPane/HomeMasterPane';
 import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane/TimesheetMasterPane';
 import { AccountMasterPane } from 'component/account/AccountMasterPane/AccountMasterPane';
-import { AdminMasterPane } from 'component/administration/AdminMasterPane/AdminMasterPane';
-import { SettingsMasterPane } from 'component/settings/SettingsMasterPane/SettingsMasterPane';
 import { TasklistMasterPane } from 'component/tasks/TasklistMasterPane/TasklistMasterPane';
 
 export const MasterContainer: React.FC = () => {
@@ -59,6 +55,7 @@ export const MasterContainer: React.FC = () => {
     dispatch(appCtrlSlice.actions.focusAccount());
     handleMenuClose();
   };
+  /* Pushed to v3
   const handleSettingsClick = () => {
     dispatch(appCtrlSlice.actions.focusSettings());
     handleMenuClose();
@@ -66,7 +63,7 @@ export const MasterContainer: React.FC = () => {
   const handleAdminClick = () => {
     dispatch(appCtrlSlice.actions.focusAdmin());
     handleMenuClose();
-  };
+  }*/
   return (
     <Box className="master-container" data-testid="master-container">
       <AppBar>
@@ -99,12 +96,13 @@ export const MasterContainer: React.FC = () => {
             {focus !== ACCOUNT_PAGE && (
               <MenuItem onClick={handleAccountClick}>Account</MenuItem>
             )}
+            {/* Pushed to v3
             {focus !== SETTINGS_PAGE && (
               <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
             )}
             {focus !== ADMIN_PAGE && (
               <MenuItem onClick={handleAdminClick}>Administration</MenuItem>
-            )}
+            )}*/}
           </Menu>
           <Typography
             className={focus !== HOME_PAGE ? 'main-menu-header' : ''}
@@ -122,8 +120,9 @@ export const MasterContainer: React.FC = () => {
         {focus === TASKS_PAGE && <TasklistMasterPane />}
         {focus === TIMESHEET_PAGE && <TimesheetMasterPane />}
         {focus === ACCOUNT_PAGE && <AccountMasterPane />}
+        {/* Pushed to v3 
         {focus === ADMIN_PAGE && <AdminMasterPane />}
-        {focus === SETTINGS_PAGE && <SettingsMasterPane />}
+        {focus === SETTINGS_PAGE && <SettingsMasterPane />}*/}
       </Box>
     </Box>
   );

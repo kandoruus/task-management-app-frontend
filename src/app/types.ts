@@ -18,7 +18,10 @@ export type Task = {
 
 export type Tasklist = Task[];
 
+export type SessionData = { username: string; sessionCode: string };
+
 export type AppFocusT =
+  | 'AUTH_PAGE'
   | 'TASKS_PAGE'
   | 'TIMESHEET_PAGE'
   | 'ACCOUNT_PAGE'

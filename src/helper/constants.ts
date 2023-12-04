@@ -1,4 +1,4 @@
-import { TaskData } from 'app/types';
+import { SessionData, TaskData } from 'app/types';
 
 //Error messages
 export const ERR_MSG_BLANK_NAME = 'Task name cannot be blank';
@@ -36,9 +36,16 @@ export const NEW_TASK_DATA: TaskData = {
 export const TASKS_PER_PAGE = 25;
 
 //app focuses
+export const AUTH_PAGE = 'AUTH_PAGE';
 export const HOME_PAGE = 'HOME_PAGE';
 export const TASKS_PAGE = 'TASKS_PAGE';
 export const TIMESHEET_PAGE = 'TIMESHEET_PAGE';
 export const ACCOUNT_PAGE = 'ACCOUNT_PAGE';
 export const ADMIN_PAGE = 'ADMIN_PAGE';
 export const SETTINGS_PAGE = 'SETTINGS_PAGE';
+
+//Empty Session Data
+export const SESSION_LOGGED_OUT: SessionData = {
+  username: '',
+  sessionCode: '',
+};

@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
-import { AppFocusT } from 'app/types';
+import { AppFocusT, SessionData } from 'app/types';
 import {
   ACCOUNT_PAGE,
   ADMIN_PAGE,
@@ -8,22 +8,29 @@ import {
   TASKS_PAGE,
   TIMESHEET_PAGE,
   HOME_PAGE,
+  AUTH_PAGE,
+  SESSION_LOGGED_OUT,
 } from 'helper/constants';
 
 const sliceName = 'appCtrl';
 
 interface AppCtrlState {
   appFocus: AppFocusT;
+  sessionData: SessionData;
 }
 
 export const initialAppCtrlState = {
-  appFocus: HOME_PAGE,
+  appFocus: AUTH_PAGE,
+  sessionData: SESSION_LOGGED_OUT,
 } as AppCtrlState;
 
 export const appCtrlSlice = createSlice({
   name: sliceName,
   initialState: initialAppCtrlState,
   reducers: {
+    focusAuth: (state) => {
+      state.appFocus = AUTH_PAGE;
+    },
     focusHome: (state) => {
       state.appFocus = HOME_PAGE;
     },
@@ -41,6 +48,14 @@ export const appCtrlSlice = createSlice({
     },
     focusSettings: (state) => {
       state.appFocus = SETTINGS_PAGE;
+    },
+    login: (state, action: PayloadAction<SessionData>) => {
+      state.sessionData = action.payload;
+      state.appFocus = HOME_PAGE;
+    },
+    logout: (state) => {
+      state.sessionData = SESSION_LOGGED_OUT;
+      state.appFocus = AUTH_PAGE;
     },
   },
 });
