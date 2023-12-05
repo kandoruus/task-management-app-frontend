@@ -5,6 +5,7 @@ import {
   deleteTasklist,
   fetchTasklist,
   initialTaskCtrlState,
+  saveTasklist,
   taskCtrlSlice,
 } from 'app/slices/taskCtrlSlice';
 import {
@@ -13,12 +14,9 @@ import {
 } from 'app/slices/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
 import { TasklistControlPane } from './TasklistControlPane';
-import axios from 'axios';
 //import { useAppSelector } from 'app/hooks';
-import { NEW_TASK_DATA, SAVE_ALL_TASKS_API } from 'helper/constants';
+import { NEW_TASK_DATA } from 'helper/constants';
 import { setupStore } from 'app/store';
-
-jest.mock('axios');
 
 //new unit tests
 describe('TasklistControlPane', () => {
@@ -71,18 +69,11 @@ describe('TasklistControlPane', () => {
         deleteTasklist().toString()
       );
     });
-    it('posts the tasklist to axios when the Save Tasks button is clicked', () => {
-      let mockedApiCall = { url: '', tasklist: '' };
-      axios.post.mockImplementation((url, data) => {
-        mockedApiCall.url = url;
-        mockedApiCall.tasklist = data.tasklist;
-        return Promise.resolve();
-      });
-      expect(mockedApiCall.url).toEqual('');
-      expect(mockedApiCall.tasklist).toEqual('');
+    it('dispatches the saveTasklist action when the Save Tasks button is clicked', () => {
       fireEvent.click(screen.getByText('Save Tasks'));
-      expect(mockedApiCall.url).toEqual(SAVE_ALL_TASKS_API);
-      expect(mockedApiCall.tasklist).toEqual(JSON.stringify(mockedList));
+      expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
+        saveTasklist().toString()
+      );
     });
     it('dispatches the createNewTask, loadTaskData, and openEditor actions when the Create Task button is clicked.', () => {
       fireEvent.click(screen.getByText('Create Task'));

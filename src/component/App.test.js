@@ -3,11 +3,16 @@ import { screen } from '@testing-library/react';
 import { renderWithProviders } from 'helper/testUtils';
 import { App } from './App';
 import { HOME_PAGE } from 'helper/constants';
+import { initialAppCtrlState } from 'app/slices/appCtrlSlice';
 
 describe('app', () => {
   describe('when the store is loaded with defaults', () => {
     it('renders the auth page when the store is loaded with defaults', () => {
-      renderWithProviders(<App />);
+      renderWithProviders(<App />, {
+        preloadedState: {
+          appCtrl: initialAppCtrlState,
+        },
+      });
       expect(screen.getByTestId('auth-page-wrapper')).toBeInTheDocument();
       expect(screen.queryByTestId('master-container')).toBeNull();
     });
