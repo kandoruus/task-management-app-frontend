@@ -19,6 +19,14 @@ interface AppCtrlState {
   sessionData: SessionData;
 }
 
+export const testTasksState = {
+  appFocus: TASKS_PAGE,
+  sessionData: {
+    username: 'kandoruus',
+    sessionCode: 'e79b2fe736f0c79803809cdfe65a755f',
+  },
+} as AppCtrlState;
+
 export const initialAppCtrlState = {
   appFocus: AUTH_PAGE,
   sessionData: SESSION_LOGGED_OUT,
@@ -26,7 +34,7 @@ export const initialAppCtrlState = {
 
 export const appCtrlSlice = createSlice({
   name: sliceName,
-  initialState: initialAppCtrlState,
+  initialState: testTasksState,
   reducers: {
     focusAuth: (state) => {
       state.appFocus = AUTH_PAGE;
@@ -54,6 +62,7 @@ export const appCtrlSlice = createSlice({
       state.appFocus = HOME_PAGE;
     },
     logout: (state) => {
+      //TODO, axios post loggout thunk
       state.sessionData = SESSION_LOGGED_OUT;
       state.appFocus = AUTH_PAGE;
     },

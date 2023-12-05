@@ -21,7 +21,7 @@ import {
   SIGNUP_USER_API,
 } from 'helper/constants';
 import { useAppDispatch, useModal } from 'app/hooks';
-import { appCtrlSlice } from 'app/appCtrlSlice';
+import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 
 export const LoginScreen: React.FC = () => {
   const [paneDisplayed, setPaneDisplayed] = useState('Query');
@@ -81,7 +81,7 @@ export const LoginScreen: React.FC = () => {
         dispatch(
           appCtrlSlice.actions.login({
             username: resData.username,
-            sessionCode: resData.message,
+            sessionCode: resData.sessionCode,
           })
         );
       } catch (e) {

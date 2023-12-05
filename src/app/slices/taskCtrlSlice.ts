@@ -1,5 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState, AppDispatch } from 'app/store';
+import { selectAppCtrl } from 'app/slices/appCtrlSlice';
+import { RootState } from 'app/store';
 import { Task, Tasklist, TaskDataWIdx } from 'app/types';
 import axios from 'axios';
 import {
@@ -11,76 +12,103 @@ import {
   DELETE_TASK_API,
   SAVE_ONE_TASK_API,
   TASKS_PER_PAGE,
+  SAVE_ALL_TASKS_API,
 } from 'helper/constants';
 
 const sliceName = 'taskCtrl';
 
 export const fetchTasklist = createAsyncThunk(
   sliceName + '/fetchTasklist',
-  async () => {
-    return (await axios.get(GET_ALL_TASKS_API)).data;
+  async (_, thunkAPI) => {
+    return (
+      await axios.post(
+        GET_ALL_TASKS_API,
+        { ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData },
+        AXIOS_HEADERS
+      )
+    ).data;
   }
 );
 
 export const deleteTasklist = createAsyncThunk(
   sliceName + '/deleteTasklist',
-  async () => {
-    await axios.get(DELETE_ALL_TASKS_API);
+  async (_, thunkAPI) => {
+    await axios.post(
+      DELETE_ALL_TASKS_API,
+      { ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData },
+      AXIOS_HEADERS
+    );
+  }
+);
+
+export const saveTasklist = createAsyncThunk(
+  sliceName + '/saveTasklist',
+  async (_, thunkAPI) => {
+    await axios.post(
+      SAVE_ALL_TASKS_API,
+      {
+        tasklist: JSON.stringify(
+          selectTaskCtrl(thunkAPI.getState() as RootState).tasklist
+        ),
+        ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData,
+      },
+      AXIOS_HEADERS
+    );
   }
 );
 
 export const createNewTask = createAsyncThunk(
   sliceName + '/createNewTask',
-  async (dispatch: AppDispatch) => {
-    try {
-      const response = await axios.post(
-        SAVE_NEW_TASKS_API,
-        { data: JSON.stringify(NEW_TASK_DATA) },
-        AXIOS_HEADERS
+  async (_, thunkAPI) => {
+    const response = await axios.post(
+      SAVE_NEW_TASKS_API,
+      {
+        data: JSON.stringify(NEW_TASK_DATA),
+        ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData,
+      },
+      AXIOS_HEADERS
+    );
+    if (response.data.id) {
+      thunkAPI.dispatch(
+        addTaskToList({
+          _id: response.data.id,
+          data: { ...NEW_TASK_DATA },
+          __v: 0,
+        })
       );
-      if (response.data.id) {
-        dispatch(
-          addTaskToList({
-            _id: response.data.id,
-            data: { ...NEW_TASK_DATA },
-            __v: 0,
-          })
-        );
-      } else {
-        throw new Error('No id returned from Database');
-      }
-    } catch (e) {
-      console.error(e);
+    } else {
+      throw new Error('No id returned from Database');
     }
   }
 );
 
 export const saveOneTask = createAsyncThunk(
   sliceName + '/saveOneTask',
-  async (task: Task) => {
-    try {
-      const response = await axios.post(
-        SAVE_ONE_TASK_API,
-        {
-          _id: task._id,
-          data: JSON.stringify(task.data),
-        },
-        AXIOS_HEADERS
-      );
-      if (response.data.error) {
-        throw new Error(response.data.error);
-      }
-    } catch (e) {
-      console.error(e);
+  async (task: Task, thunkAPI) => {
+    const response = await axios.post(
+      SAVE_ONE_TASK_API,
+      {
+        _id: task._id,
+        data: JSON.stringify(task.data),
+        ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData,
+      },
+      AXIOS_HEADERS
+    );
+    if (response.data.error) {
+      throw new Error(response.data.error);
     }
   }
 );
 
 export const deleteTask = createAsyncThunk(
   sliceName + 'deleteTask',
-  async (params: { index: number; taskId: string }) => {
+  async (params: { index: number; taskId: string }, thunkAPI) => {
     try {
-      await axios.get(DELETE_TASK_API + params.taskId);
+      await axios.post(
+        DELETE_TASK_API + params.taskId,
+        { ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData },
+        AXIOS_HEADERS
+      );
       return params.index;
     } catch (e) {
       console.error(e);

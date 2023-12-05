@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
-import { taskCtrlSlice } from 'app/taskCtrlSlice';
+import { taskCtrlSlice } from 'app/slices/taskCtrlSlice';
 import React from 'react';
 import { TASKS_PER_PAGE } from 'helper/constants';
 import {

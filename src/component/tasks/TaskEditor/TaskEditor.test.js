@@ -5,8 +5,11 @@ import {
   taskCtrlSlice,
   deleteTask,
   saveOneTask,
-} from 'app/taskCtrlSlice';
-import { initialTaskEditorState, taskEditorSlice } from 'app/taskEditorSlice';
+} from 'app/slices/taskCtrlSlice';
+import {
+  initialTaskEditorState,
+  taskEditorSlice,
+} from 'app/slices/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
 import { TaskEditor } from './TaskEditor';
 import { setupStore } from 'app/store';

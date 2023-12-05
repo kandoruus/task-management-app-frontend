@@ -6,8 +6,11 @@ import {
   fetchTasklist,
   initialTaskCtrlState,
   taskCtrlSlice,
-} from 'app/taskCtrlSlice';
-import { taskEditorSlice, initialTaskEditorState } from 'app/taskEditorSlice';
+} from 'app/slices/taskCtrlSlice';
+import {
+  taskEditorSlice,
+  initialTaskEditorState,
+} from 'app/slices/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
 import { TasklistControlPane } from './TasklistControlPane';
 import axios from 'axios';

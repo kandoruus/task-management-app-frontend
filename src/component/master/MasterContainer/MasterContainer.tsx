@@ -19,7 +19,7 @@ import {
   TIMESHEET_PAGE,
 } from 'helper/constants';
 import { AppDispatch } from 'app/store';
-import { appCtrlSlice } from 'app/appCtrlSlice';
+import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 import { HomeMasterPane } from 'component/home/HomeMasterPane/HomeMasterPane';
 import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane/TimesheetMasterPane';
 import { AccountMasterPane } from 'component/account/AccountMasterPane/AccountMasterPane';

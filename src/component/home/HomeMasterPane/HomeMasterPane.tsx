@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Grid, Button, Typography } from '@mui/material';
 import './HomeMasterPane.css';
-import { appCtrlSlice } from 'app/appCtrlSlice';
+import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 import { useAppDispatch } from 'app/hooks';
 import { AppDispatch } from 'app/store';
 

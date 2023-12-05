@@ -8,14 +8,11 @@ import {
   deleteTasklist,
   fetchTasklist,
   openEditor,
-} from 'app/taskCtrlSlice';
-import { loadTaskData } from 'app/taskEditorSlice';
-import {
-  NEW_TASK_DATA,
-  SAVE_ALL_TASKS_API,
-  AXIOS_HEADERS,
-} from 'helper/constants';
-import axios from 'axios';
+  saveTasklist,
+} from 'app/slices/taskCtrlSlice';
+import { loadTaskData } from 'app/slices/taskEditorSlice';
+import { NEW_TASK_DATA } from 'helper/constants';
+
 import {
   Box,
   IconButton,
@@ -52,13 +49,7 @@ export const TasklistControlPane: React.FC = () => {
     async () => {
       handleMenuClose();
       try {
-        await axios.post(
-          SAVE_ALL_TASKS_API,
-          {
-            tasklist: JSON.stringify(tasklist),
-          },
-          AXIOS_HEADERS
-        );
+        dispatch(saveTasklist());
       } catch (e) {
         console.error(e);
       }
@@ -67,7 +58,7 @@ export const TasklistControlPane: React.FC = () => {
       handleMenuClose();
       try {
         const indexOfNewTask = tasklist.length;
-        dispatch(createNewTask(dispatch));
+        dispatch(createNewTask());
         dispatch(
           loadTaskData({
             data: { ...NEW_TASK_DATA },

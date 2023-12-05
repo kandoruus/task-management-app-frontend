@@ -3,7 +3,7 @@ import { screen, fireEvent } from '@testing-library/react';
 import { renderWithProviders } from 'helper/testUtils';
 import { MasterContainer } from './MasterContainer';
 import { setupStore } from 'app/store';
-import { appCtrlSlice } from 'app/appCtrlSlice';
+import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 import {
   ACCOUNT_PAGE,
   HOME_PAGE,

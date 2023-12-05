@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { screen } from '@testing-library/react';
 import { TasklistMasterPane } from './TasklistMasterPane';
-import { initialTaskCtrlState } from 'app/taskCtrlSlice';
-import { initialTaskEditorState } from 'app/taskEditorSlice';
+import { initialTaskCtrlState } from 'app/slices/taskCtrlSlice';
+import { initialTaskEditorState } from 'app/slices/taskEditorSlice';
 import { renderWithProviders } from 'helper/testUtils';
 
 describe('TasklistMasterPane', () => {

@@ -1,4 +1,4 @@
-import { appCtrlSlice } from './appCtrlSlice';
+import { appCtrlSlice } from './slices/appCtrlSlice';
 import {
   Action,
   configureStore,
@@ -6,8 +6,8 @@ import {
   PreloadedState,
   combineReducers,
 } from '@reduxjs/toolkit';
-import { taskCtrlSlice } from 'app/taskCtrlSlice';
-import { taskEditorSlice } from 'app/taskEditorSlice';
+import { taskCtrlSlice } from 'app/slices/taskCtrlSlice';
+import { taskEditorSlice } from 'app/slices/taskEditorSlice';
 
 const rootReducer = combineReducers({
   appCtrl: appCtrlSlice.reducer,

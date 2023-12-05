@@ -13,8 +13,12 @@ import {
 } from '@mui/material';
 import { useAppDispatch, useAppSelector, useModal } from 'app/hooks';
 import { AppDispatch } from 'app/store';
-import { deleteTask, saveOneTask, taskCtrlSlice } from 'app/taskCtrlSlice';
-import { taskEditorSlice } from 'app/taskEditorSlice';
+import {
+  deleteTask,
+  saveOneTask,
+  taskCtrlSlice,
+} from 'app/slices/taskCtrlSlice';
+import { taskEditorSlice } from 'app/slices/taskEditorSlice';
 import { YesNoDialog } from '../../helper-components/YesNoDialog/YesNoDialog';
 import { priorityOptions, statusOptions } from 'helper/componentConfig';
 import { ERR_MSG_BLANK_NAME, POP_MSG_QUERY_SAVE } from 'helper/constants';
