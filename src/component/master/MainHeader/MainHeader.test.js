@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import { renderWithProviders } from 'helper/testUtils';
-import { MasterContainer } from './MasterContainer';
+import { MainHeader } from './MainHeader';
 import { setupStore } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 import {
@@ -11,7 +11,7 @@ import {
   TIMESHEET_PAGE,
 } from 'helper/constants';
 
-describe('MasterContainer', () => {
+describe('MainHeader', () => {
   describe('when the store is loaded with the appFocus on Home', () => {
     const store = {
       ...setupStore({
@@ -22,15 +22,14 @@ describe('MasterContainer', () => {
       dispatch: jest.fn(),
     };
     beforeEach(() => {
-      renderWithProviders(<MasterContainer />, { store });
+      renderWithProviders(<MainHeader />, { store });
     });
     afterEach(() => {
       store.dispatch.mockClear();
     });
-    it('renders the header and the home page', () => {
+    it('renders the header', () => {
       expect(screen.getByText('Task Management App')).toBeInTheDocument();
       expect(screen.getByTestId('main-menu-btn')).toBeInTheDocument();
-      expect(screen.getByTestId('home-master-pane')).toBeInTheDocument();
     });
     it('dispatches no actions when the app header is clicked', () => {
       fireEvent.click(screen.getByText('Task Management App'));
@@ -113,10 +112,7 @@ describe('MasterContainer', () => {
       dispatch: jest.fn(),
     };
     beforeEach(() => {
-      renderWithProviders(<MasterContainer />, { store });
-    });
-    it('renders the tasks page', () => {
-      expect(screen.getByTestId('tasklist-master-pane')).toBeInTheDocument();
+      renderWithProviders(<MainHeader />, { store });
     });
     it('dispatches the focusHome action when the app header is clicked', () => {
       fireEvent.click(screen.getByText('Task Management App'));
@@ -165,10 +161,7 @@ describe('MasterContainer', () => {
       dispatch: jest.fn(),
     };
     beforeEach(() => {
-      renderWithProviders(<MasterContainer />, { store });
-    });
-    it('renders the timesheet page', () => {
-      expect(screen.getByTestId('timesheet-master-pane')).toBeInTheDocument();
+      renderWithProviders(<MainHeader />, { store });
     });
     it('opens the menu and the Timesheet option is missing when the menu button is clicked', async () => {
       fireEvent.click(screen.getByTestId('main-menu-btn'));
@@ -201,10 +194,7 @@ describe('MasterContainer', () => {
       dispatch: jest.fn(),
     };
     beforeEach(() => {
-      renderWithProviders(<MasterContainer />, { store });
-    });
-    it('renders the account page', () => {
-      expect(screen.getByTestId('account-master-pane')).toBeInTheDocument();
+      renderWithProviders(<MainHeader />, { store });
     });
     it('opens the menu and the Account option is missing when the menu button is clicked', async () => {
       fireEvent.click(screen.getByTestId('main-menu-btn'));
@@ -238,10 +228,7 @@ describe('MasterContainer', () => {
       dispatch: jest.fn(),
     };
     beforeEach(() => {
-      renderWithProviders(<MasterContainer />, { store });
-    });
-    it('renders the settings page', () => {
-      expect(screen.getByTestId('settings-master-pane')).toBeInTheDocument();
+      renderWithProviders(<MainHeader />, { store });
     });
     it('opens the menu and the Settings option is missing when the menu button is clicked', async () => {
       fireEvent.click(screen.getByTestId('main-menu-btn'));
@@ -273,10 +260,7 @@ describe('MasterContainer', () => {
       dispatch: jest.fn(),
     };
     beforeEach(() => {
-      renderWithProviders(<MasterContainer />, { store });
-    });
-    it('renders the admin page', () => {
-      expect(screen.getByTestId('admin-master-pane')).toBeInTheDocument();
+      renderWithProviders(<MainHeader />, { store });
     });
     it('opens the menu and the Administration option is missing when the menu button is clicked', async () => {
       fireEvent.click(screen.getByTestId('main-menu-btn'));

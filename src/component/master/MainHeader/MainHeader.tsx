@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './MasterContainer.css';
+import './MainHeader.css';
 import {
   AppBar,
   Toolbar,
@@ -20,12 +20,8 @@ import {
 } from 'helper/constants';
 import { AppDispatch } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
-import { HomeMasterPane } from 'component/home/HomeMasterPane/HomeMasterPane';
-import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane/TimesheetMasterPane';
-import { AccountMasterPane } from 'component/account/AccountMasterPane/AccountMasterPane';
-import { TasklistMasterPane } from 'component/tasks/TasklistMasterPane/TasklistMasterPane';
 
-export const MasterContainer: React.FC = () => {
+export const MainHeader: React.FC = () => {
   const focus: AppFocusT = useAppSelector((state) => state.appCtrl.appFocus);
   const dispatch: AppDispatch = useAppDispatch();
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
@@ -65,7 +61,7 @@ export const MasterContainer: React.FC = () => {
     handleMenuClose();
   }*/
   return (
-    <Box className="master-container" data-testid="master-container">
+    <Box className="main-header">
       <AppBar>
         <Toolbar variant="dense">
           <IconButton
@@ -105,7 +101,7 @@ export const MasterContainer: React.FC = () => {
             )}*/}
           </Menu>
           <Typography
-            className={focus !== HOME_PAGE ? 'main-menu-header' : ''}
+            className={focus !== HOME_PAGE ? 'main-menu-title' : ''}
             onClick={handleHomeClick}
             noWrap
             variant="h6"
@@ -115,15 +111,6 @@ export const MasterContainer: React.FC = () => {
         </Toolbar>
       </AppBar>
       <Toolbar variant="dense" />
-      <Box className="master-wrapper">
-        {focus === HOME_PAGE && <HomeMasterPane />}
-        {focus === TASKS_PAGE && <TasklistMasterPane />}
-        {focus === TIMESHEET_PAGE && <TimesheetMasterPane />}
-        {focus === ACCOUNT_PAGE && <AccountMasterPane />}
-        {/* Pushed to v3 
-        {focus === ADMIN_PAGE && <AdminMasterPane />}
-        {focus === SETTINGS_PAGE && <SettingsMasterPane />}*/}
-      </Box>
     </Box>
   );
 };

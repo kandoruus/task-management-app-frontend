@@ -1,4 +1,5 @@
 import React from 'react';
+import { CookiesProvider } from 'react-cookie';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { App } from './component/App';
@@ -10,8 +11,10 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Provider store={setupStore()}>
-      <App />
-    </Provider>
+    <CookiesProvider>
+      <Provider store={setupStore()}>
+        <App />
+      </Provider>
+    </CookiesProvider>
   </React.StrictMode>
 );

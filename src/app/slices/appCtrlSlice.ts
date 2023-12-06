@@ -19,11 +19,16 @@ interface AppCtrlState {
   sessionData: SessionData;
 }
 
+const sessionCode = [
+  'e79b2fe736f0c79803809cdfe65a755f',
+  'f79b2fe736f0c79803809cdfe65a755e',
+];
+
 export const testTasksState = {
-  appFocus: TASKS_PAGE,
+  appFocus: ACCOUNT_PAGE,
   sessionData: {
     username: 'kandoruus',
-    sessionCode: 'e79b2fe736f0c79803809cdfe65a755f',
+    sessionCode: sessionCode[1],
   },
 } as AppCtrlState;
 

@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Grid, Button, Typography } from '@mui/material';
 import './HomeMasterPane.css';
-import { appCtrlSlice } from 'app/slices/appCtrlSlice';
-import { useAppDispatch } from 'app/hooks';
+import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
+import {
+  HOME_PAGE,
+  LOGGED_OUT_STATUS,
+  LOGIN_COOKIE,
+  WELCOME_ROUTE,
+} from 'helper/constants';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export const HomeMasterPane: React.FC = () => {
+  const [cookies] = useCookies([LOGIN_COOKIE]);
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useAppDispatch();
+  const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
   const handleTasksClick = () => {
     dispatch(appCtrlSlice.actions.focusTasks());
   };
@@ -16,12 +27,21 @@ export const HomeMasterPane: React.FC = () => {
   const handleAccountClick = () => {
     dispatch(appCtrlSlice.actions.focusAccount());
   };
+  /* pushed to v3
   const handleSettingsClick = () => {
     dispatch(appCtrlSlice.actions.focusSettings());
   };
   const handleAdminClick = () => {
     dispatch(appCtrlSlice.actions.focusAdmin());
-  };
+  };*/
+  useEffect(() => {
+    if (appFocus !== HOME_PAGE) {
+      dispatch(appCtrlSlice.actions.focusHome());
+    }
+    if (cookies[LOGIN_COOKIE] === LOGGED_OUT_STATUS) {
+      navigate(WELCOME_ROUTE);
+    }
+  });
   return (
     <Box className="master-pane" data-testid="home-master-pane">
       <Box className="home-page">
@@ -44,6 +64,7 @@ export const HomeMasterPane: React.FC = () => {
               Account
             </Button>
           </Grid>
+          {/* pushed to v3
           <Grid item>
             <Button variant="contained" onClick={handleSettingsClick}>
               Settings
@@ -54,6 +75,7 @@ export const HomeMasterPane: React.FC = () => {
               Administration
             </Button>
           </Grid>
+          */}
         </Grid>
       </Box>
     </Box>

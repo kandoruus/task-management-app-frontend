@@ -49,3 +49,21 @@ export const SESSION_LOGGED_OUT: SessionData = {
   username: '',
   sessionCode: '',
 };
+
+//cookies
+export const USERNAME_COOKIE = 'USERNAME_COOKIE';
+export const SESSIONCODE_COOKIE = 'SESSION_STATUS_COOKIE';
+export const LOGIN_COOKIE = 'LOGIN_COOKIE';
+
+//login statuses
+export const LOGGED_IN_STATUS = 'LOGGED_IN_STATUS';
+export const LOGGED_OUT_STATUS = 'LOGGED_OUT_STATUS';
+
+//routes
+export const WELCOME_ROUTE = '/task-management-app/welcome';
+export const LOGIN_ROUTE = '/task-management-app/login';
+export const SIGNUP_ROUTE = '/task-management-app/signup';
+export const HOME_ROUTE = '/task-management-app';
+export const TASKS_ROUTE = '/task-management-app/tasks';
+export const TIMESHEET_ROUTE = '/task-management-app/timesheet';
+export const ACCOUNT_ROUTE = '/task-management-app/account';

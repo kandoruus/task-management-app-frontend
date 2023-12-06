@@ -1,3 +1,5 @@
+import React from 'react';
+
 export type TaskData = {
   name: string;
   description: string;
@@ -28,3 +30,5 @@ export type AppFocusT =
   | 'ADMIN_PAGE'
   | 'SETTINGS_PAGE'
   | 'HOME_PAGE';
+
+export type WelcomePageT = React.FC<{ sendAlert: (message: string) => void }>;

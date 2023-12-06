@@ -1,15 +1,12 @@
-.master-container {
+.master-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100vh;
 }
-.menu-icon {
-  margin-right: 1rem !important;
-}
 
-.master-wrapper {
+.master-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,8 +19,4 @@
   width: 100%;
   height: 100%;
   background-color: white;
-}
-
-.main-menu-header:hover {
-  cursor: pointer;
 }
