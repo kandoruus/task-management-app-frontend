@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import { MasterWrapper } from './master/MasterWrapper/MasterWrapper';
+import { AppRouter } from 'component/master/AppRouter/AppRouter';
 
 export function App(): JSX.Element {
-  return <MasterWrapper data-testid="master-wrapper" />;
+  return <AppRouter />;
 }

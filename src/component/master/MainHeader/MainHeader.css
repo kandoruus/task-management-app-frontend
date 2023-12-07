@@ -2,6 +2,12 @@
   margin-right: 1rem !important;
 }
 
-.main-menu-title:hover {
+.clickable-typography:hover {
   cursor: pointer;
+}
+
+.logout-btn {
+  margin: auto 0 auto auto !important;
+  text-transform: none !important;
+  font-size: medium !important;
 }

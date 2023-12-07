@@ -8,20 +8,32 @@ import {
   Box,
   Menu,
   MenuItem,
+  Button,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppFocusT } from 'app/types';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import {
   ACCOUNT_PAGE,
+  ACCOUNT_ROUTE,
   HOME_PAGE,
+  HOME_ROUTE,
+  LOGGED_OUT_STATUS,
+  LOGIN_COOKIE,
   TASKS_PAGE,
+  TASKS_ROUTE,
   TIMESHEET_PAGE,
+  TIMESHEET_ROUTE,
 } from 'helper/constants';
 import { AppDispatch } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export const MainHeader: React.FC = () => {
+  const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [cookie, setCookie] = useCookies([LOGIN_COOKIE]);
   const focus: AppFocusT = useAppSelector((state) => state.appCtrl.appFocus);
   const dispatch: AppDispatch = useAppDispatch();
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
@@ -35,20 +47,24 @@ export const MainHeader: React.FC = () => {
   };
   const handleHomeClick = () => {
     if (focus !== HOME_PAGE) {
-      dispatch(appCtrlSlice.actions.focusHome());
+      navigate(HOME_ROUTE);
       handleMenuClose();
     }
   };
+  const handleLogoutClick = () => {
+    setCookie(LOGIN_COOKIE, LOGGED_OUT_STATUS, { path: '/' });
+    dispatch(appCtrlSlice.actions.logout());
+  };
   const handleTasksClick = () => {
-    dispatch(appCtrlSlice.actions.focusTasks());
+    navigate(TASKS_ROUTE);
     handleMenuClose();
   };
   const handleTimesheetClick = () => {
-    dispatch(appCtrlSlice.actions.focusTimesheet());
+    navigate(TIMESHEET_ROUTE);
     handleMenuClose();
   };
   const handleAccountClick = () => {
-    dispatch(appCtrlSlice.actions.focusAccount());
+    navigate(ACCOUNT_ROUTE);
     handleMenuClose();
   };
   /* Pushed to v3
@@ -101,13 +117,20 @@ export const MainHeader: React.FC = () => {
             )}*/}
           </Menu>
           <Typography
-            className={focus !== HOME_PAGE ? 'main-menu-title' : ''}
+            className={focus !== HOME_PAGE ? 'clickable-typography' : ''}
             onClick={handleHomeClick}
             noWrap
             variant="h6"
           >
             Task Management App
           </Typography>
+          <Button
+            color="inherit"
+            className="logout-btn"
+            onClick={handleLogoutClick}
+          >
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Toolbar variant="dense" />

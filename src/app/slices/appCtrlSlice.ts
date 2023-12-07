@@ -19,19 +19,6 @@ interface AppCtrlState {
   sessionData: SessionData;
 }
 
-const sessionCode = [
-  'e79b2fe736f0c79803809cdfe65a755f',
-  'f79b2fe736f0c79803809cdfe65a755e',
-];
-
-export const testTasksState = {
-  appFocus: ACCOUNT_PAGE,
-  sessionData: {
-    username: 'kandoruus',
-    sessionCode: sessionCode[1],
-  },
-} as AppCtrlState;
-
 export const initialAppCtrlState = {
   appFocus: AUTH_PAGE,
   sessionData: SESSION_LOGGED_OUT,
@@ -39,7 +26,7 @@ export const initialAppCtrlState = {
 
 export const appCtrlSlice = createSlice({
   name: sliceName,
-  initialState: testTasksState,
+  initialState: initialAppCtrlState,
   reducers: {
     focusAuth: (state) => {
       state.appFocus = AUTH_PAGE;

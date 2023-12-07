@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import './MasterWrapper.css';
 import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { AppRouter } from 'component/master/AppRouter/AppRouter';
 import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
 import { MainHeader } from 'component/master/MainHeader/MainHeader';
 import {
   AUTH_PAGE,
   LOGGED_IN_STATUS,
+  LOGGED_OUT_STATUS,
   LOGIN_COOKIE,
   SESSIONCODE_COOKIE,
   SESSION_LOGGED_OUT,
@@ -15,6 +15,7 @@ import {
 } from 'helper/constants';
 import { AppDispatch } from 'app/store';
 import { useCookies } from 'react-cookie';
+import { Outlet } from 'react-router-dom';
 
 /* saving to use elsewhere
 if (
@@ -49,13 +50,18 @@ export const MasterWrapper: React.FC = () => {
           sessionCode: cookies[SESSIONCODE_COOKIE],
         })
       );
+    } else if (
+      sessionData !== SESSION_LOGGED_OUT &&
+      cookies[LOGIN_COOKIE] === LOGGED_OUT_STATUS
+    ) {
+      dispatch(appCtrlSlice.actions.logout());
     }
   });
   return (
     <Box className="master-container">
       {appFocus !== AUTH_PAGE && <MainHeader data-testid="main-header" />}
       <Box className="master-wrapper" data-testid="master-wrapper">
-        <AppRouter />
+        <Outlet />
       </Box>
     </Box>
   );

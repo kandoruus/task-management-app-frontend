@@ -5,9 +5,12 @@ import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
 import {
+  ACCOUNT_ROUTE,
   HOME_PAGE,
   LOGGED_OUT_STATUS,
   LOGIN_COOKIE,
+  TASKS_ROUTE,
+  TIMESHEET_ROUTE,
   WELCOME_ROUTE,
 } from 'helper/constants';
 import { useCookies } from 'react-cookie';
@@ -19,13 +22,13 @@ export const HomeMasterPane: React.FC = () => {
   const dispatch: AppDispatch = useAppDispatch();
   const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
   const handleTasksClick = () => {
-    dispatch(appCtrlSlice.actions.focusTasks());
+    navigate(TASKS_ROUTE);
   };
   const handleTimesheetClick = () => {
-    dispatch(appCtrlSlice.actions.focusTimesheet());
+    navigate(TIMESHEET_ROUTE);
   };
   const handleAccountClick = () => {
-    dispatch(appCtrlSlice.actions.focusAccount());
+    navigate(ACCOUNT_ROUTE);
   };
   /* pushed to v3
   const handleSettingsClick = () => {

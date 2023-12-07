@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import axios from 'axios';
-import { AXIOS_HEADERS, SIGNUP_USER_API } from 'helper/constants';
+import { AXIOS_HEADERS, LOGIN_ROUTE, SIGNUP_USER_API } from 'helper/constants';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -48,7 +48,7 @@ export const SignupPage: React.FC<Props> = (props) => {
         )
       ).data;
       sendAlert(resData.message);
-      navigate('/task-management-app/login');
+      navigate(LOGIN_ROUTE);
     } catch (e) {
       if (axios.isAxiosError(e) && e.response) {
         sendAlert(e.response.data.message);
@@ -135,7 +135,7 @@ export const SignupPage: React.FC<Props> = (props) => {
         </Typography>
         <Button
           onClick={() => {
-            navigate('/task-management-app/login');
+            navigate(LOGIN_ROUTE);
           }}
           sx={{ width: 'fit-content', padding: '0', ml: 'auto' }}
         >
