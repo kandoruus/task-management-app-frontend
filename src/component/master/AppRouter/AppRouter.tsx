@@ -23,10 +23,7 @@ export const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<MasterWrapper data-testid="master-wrapper" />}
-        >
+        <Route path="/" element={<MasterWrapper />}>
           <Route path={HOME_ROUTE} element={<HomeMasterPane />} />
           <Route path={WELCOME_ROUTE} element={welcomeMasterPane} />
           <Route path={LOGIN_ROUTE} element={welcomeMasterPane} />

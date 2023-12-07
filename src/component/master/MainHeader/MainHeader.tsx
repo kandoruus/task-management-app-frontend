@@ -77,7 +77,7 @@ export const MainHeader: React.FC = () => {
     handleMenuClose();
   }*/
   return (
-    <Box className="main-header">
+    <Box className="main-header" data-testid="main-header">
       <AppBar>
         <Toolbar variant="dense">
           <IconButton

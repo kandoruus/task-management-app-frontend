@@ -58,9 +58,9 @@ export const MasterWrapper: React.FC = () => {
     }
   });
   return (
-    <Box className="master-container">
-      {appFocus !== AUTH_PAGE && <MainHeader data-testid="main-header" />}
-      <Box className="master-wrapper" data-testid="master-wrapper">
+    <Box className="master-wrapper" data-testid="master-wrapper">
+      {appFocus !== AUTH_PAGE && <MainHeader />}
+      <Box className="master-container" data-testid="master-container">
         <Outlet />
       </Box>
     </Box>

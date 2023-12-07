@@ -71,7 +71,7 @@ export const LoginPage: React.FC<Props> = (props) => {
   };
 
   return (
-    <Box className="login-inner-wrapper">
+    <Box className="login-inner-wrapper" data-testid="login-page">
       <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
         <InputLabel htmlFor="outlined-username">Username</InputLabel>
         <OutlinedInput

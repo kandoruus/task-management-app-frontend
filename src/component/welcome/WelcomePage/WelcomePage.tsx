@@ -8,7 +8,11 @@ export const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Box className="login-inner-wrapper" sx={{ width: '50%' }}>
+    <Box
+      className="login-inner-wrapper"
+      sx={{ width: '50%' }}
+      data-testid="welcome-page"
+    >
       <Button
         variant="contained"
         onClick={() => {

@@ -6,12 +6,35 @@ import { setupStore } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 import {
   ACCOUNT_PAGE,
+  ACCOUNT_ROUTE,
   HOME_PAGE,
+  HOME_ROUTE,
+  LOGGED_OUT_STATUS,
+  LOGIN_COOKIE,
   TASKS_PAGE,
+  TASKS_ROUTE,
   TIMESHEET_PAGE,
+  TIMESHEET_ROUTE,
 } from 'helper/constants';
 
+const mockedNavigator = jest.fn();
+const mockedSetCookie = jest.fn();
+const mockCookies = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedNavigator,
+}));
+
+jest.mock('react-cookie', () => ({
+  ...jest.requireActual('react-cookie'),
+  useCookies: () => [mockCookies, mockedSetCookie],
+}));
+
 describe('MainHeader', () => {
+  afterEach(() => {
+    mockedNavigator.mockClear();
+    mockedSetCookie.mockClear();
+  });
   describe('when the store is loaded with the appFocus on Home', () => {
     const store = {
       ...setupStore({
@@ -30,10 +53,22 @@ describe('MainHeader', () => {
     it('renders the header', () => {
       expect(screen.getByText('Task Management App')).toBeInTheDocument();
       expect(screen.getByTestId('main-menu-btn')).toBeInTheDocument();
+      expect(screen.getByText('Logout')).toBeInTheDocument();
     });
     it('dispatches no actions when the app header is clicked', () => {
       fireEvent.click(screen.getByText('Task Management App'));
       expect(store.dispatch).not.toHaveBeenCalled();
+    });
+    it('dispatches the logout action and updates the LOGIN_COOKIE when the Logout button is clicked', () => {
+      fireEvent.click(screen.getByText('Logout'));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        appCtrlSlice.actions.logout()
+      );
+      expect(mockedSetCookie).toHaveBeenCalledWith(
+        LOGIN_COOKIE,
+        LOGGED_OUT_STATUS,
+        { path: '/' }
+      );
     });
     describe('when the menu button is clicked', () => {
       beforeEach(() => {
@@ -59,29 +94,23 @@ describe('MainHeader', () => {
         */
         expect(screen.queryByRole('menuitem', { name: /Home/i })).toBeNull();
       });
-      it('dispatches the focusTasks action when the Tasks option is clicked', async () => {
+      it('navigates to TASK_ROUTES when the Tasks option is clicked', async () => {
         fireEvent.click(
           await screen.findByRole('menuitem', { name: /Tasks/i })
         );
-        expect(store.dispatch).toHaveBeenCalledWith(
-          appCtrlSlice.actions.focusTasks()
-        );
+        expect(mockedNavigator).toHaveBeenCalledWith(TASKS_ROUTE);
       });
-      it('dispatches the focusTimesheet action when the Timesheet option is clicked', async () => {
+      it('navigates to TIMESHEET_ROUTE action when the Timesheet option is clicked', async () => {
         fireEvent.click(
           await screen.findByRole('menuitem', { name: /Timesheet/i })
         );
-        expect(store.dispatch).toHaveBeenCalledWith(
-          appCtrlSlice.actions.focusTimesheet()
-        );
+        expect(mockedNavigator).toHaveBeenCalledWith(TIMESHEET_ROUTE);
       });
-      it('dispatches the focusAccount action when the Account option is clicked', async () => {
+      it('navigates to ACCOUNT_ROUTE action when the Account option is clicked', async () => {
         fireEvent.click(
           await screen.findByRole('menuitem', { name: /Account/i })
         );
-        expect(store.dispatch).toHaveBeenCalledWith(
-          appCtrlSlice.actions.focusAccount()
-        );
+        expect(mockedNavigator).toHaveBeenCalledWith(ACCOUNT_ROUTE);
       });
       /* pushed to v3
       it('dispatches the focusSettings action when the Settings option is clicked', async () => {
@@ -103,22 +132,18 @@ describe('MainHeader', () => {
     });
   });
   describe('when the store is loaded with the appFocus on Tasks', () => {
-    const store = {
-      ...setupStore({
-        appCtrl: {
-          appFocus: TASKS_PAGE,
-        },
-      }),
-      dispatch: jest.fn(),
-    };
     beforeEach(() => {
-      renderWithProviders(<MainHeader />, { store });
+      renderWithProviders(<MainHeader />, {
+        preloadedState: {
+          appCtrl: {
+            appFocus: TASKS_PAGE,
+          },
+        },
+      });
     });
-    it('dispatches the focusHome action when the app header is clicked', () => {
+    it('navigates to HOME_ROUTE when the app header is clicked', () => {
       fireEvent.click(screen.getByText('Task Management App'));
-      expect(store.dispatch).toHaveBeenCalledWith(
-        appCtrlSlice.actions.focusHome()
-      );
+      expect(mockedNavigator).toHaveBeenCalledWith(HOME_ROUTE);
     });
     describe('when the menu button is clicked', () => {
       beforeEach(() => {
@@ -143,27 +168,21 @@ describe('MainHeader', () => {
         ).toBeInTheDocument();*/
         expect(screen.queryByRole('menuitem', { name: /Tasks/i })).toBeNull();
       });
-      it('dispatches the focusHome action when the Home option is clicked', async () => {
+      it('navigates to HOME_ROUTE when the Home option is clicked', async () => {
         fireEvent.click(await screen.findByRole('menuitem', { name: /Home/i }));
-        expect(store.dispatch).toHaveBeenCalledWith(
-          appCtrlSlice.actions.focusHome()
-        );
+        expect(mockedNavigator).toHaveBeenCalledWith(HOME_ROUTE);
       });
     });
   });
   describe('when the store is loaded with the appFocus on Timesheet', () => {
-    const store = {
-      ...setupStore({
-        appCtrl: {
-          appFocus: TIMESHEET_PAGE,
-        },
-      }),
-      dispatch: jest.fn(),
-    };
-    beforeEach(() => {
-      renderWithProviders(<MainHeader />, { store });
-    });
     it('opens the menu and the Timesheet option is missing when the menu button is clicked', async () => {
+      renderWithProviders(<MainHeader />, {
+        preloadedState: {
+          appCtrl: {
+            appFocus: TIMESHEET_PAGE,
+          },
+        },
+      });
       fireEvent.click(screen.getByTestId('main-menu-btn'));
       expect(
         await screen.findByRole('menuitem', { name: /Home/i })
@@ -185,18 +204,14 @@ describe('MainHeader', () => {
     });
   });
   describe('when the store is loaded with the appFocus on Account', () => {
-    const store = {
-      ...setupStore({
-        appCtrl: {
-          appFocus: ACCOUNT_PAGE,
-        },
-      }),
-      dispatch: jest.fn(),
-    };
-    beforeEach(() => {
-      renderWithProviders(<MainHeader />, { store });
-    });
     it('opens the menu and the Account option is missing when the menu button is clicked', async () => {
+      renderWithProviders(<MainHeader />, {
+        preloadedState: {
+          appCtrl: {
+            appFocus: ACCOUNT_PAGE,
+          },
+        },
+      });
       fireEvent.click(screen.getByTestId('main-menu-btn'));
       expect(
         await screen.findByRole('menuitem', { name: /Home/i })
@@ -228,7 +243,7 @@ describe('MainHeader', () => {
       dispatch: jest.fn(),
     };
     beforeEach(() => {
-      renderWithProviders(<MainHeader />, { store });
+      renderWithProvidersAndRouter(<MainHeader />, { store });
     });
     it('opens the menu and the Settings option is missing when the menu button is clicked', async () => {
       fireEvent.click(screen.getByTestId('main-menu-btn'));
@@ -260,7 +275,7 @@ describe('MainHeader', () => {
       dispatch: jest.fn(),
     };
     beforeEach(() => {
-      renderWithProviders(<MainHeader />, { store });
+      renderWithProvidersAndRouter(<MainHeader />, { store });
     });
     it('opens the menu and the Administration option is missing when the menu button is clicked', async () => {
       fireEvent.click(screen.getByTestId('main-menu-btn'));

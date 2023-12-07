@@ -7,7 +7,7 @@ import { AppDispatch } from 'app/store';
 import {
   ACCOUNT_ROUTE,
   HOME_PAGE,
-  LOGGED_OUT_STATUS,
+  LOGGED_IN_STATUS,
   LOGIN_COOKIE,
   TASKS_ROUTE,
   TIMESHEET_ROUTE,
@@ -41,7 +41,7 @@ export const HomeMasterPane: React.FC = () => {
     if (appFocus !== HOME_PAGE) {
       dispatch(appCtrlSlice.actions.focusHome());
     }
-    if (cookies[LOGIN_COOKIE] === LOGGED_OUT_STATUS) {
+    if (cookies[LOGIN_COOKIE] !== LOGGED_IN_STATUS) {
       navigate(WELCOME_ROUTE);
     }
   });

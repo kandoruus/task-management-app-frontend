@@ -4,6 +4,11 @@ import { renderWithProviders } from 'helper/testUtils';
 import { MasterWrapper } from './MasterWrapper';
 import { HOME_PAGE, AUTH_PAGE } from 'helper/constants';
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => jest.fn(),
+}));
+
 describe('MasterWrapper', () => {
   it('renders the master-container but not the main-header when the store is loaded with the appFocus on AUTH_PAGE', () => {
     renderWithProviders(<MasterWrapper />, {
