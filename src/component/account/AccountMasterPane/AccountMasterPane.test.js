@@ -56,4 +56,7 @@ describe('AccountMasterPane', () => {
     });
     expect(mockedNavigator).toHaveBeenCalledWith(WELCOME_ROUTE);
   });
+  it('TODO: Test page contents', () => {
+    expect(true).toBe(false);
+  });
 });

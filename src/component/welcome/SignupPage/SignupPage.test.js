@@ -21,7 +21,7 @@ describe('LoginPage', () => {
   afterEach(() => {
     store.dispatch.mockClear();
   });
-  it('TODO', () => {
+  it('TODO:', () => {
     expect(true).toBe(false);
   });
 });
