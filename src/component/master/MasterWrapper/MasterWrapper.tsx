@@ -17,17 +17,6 @@ import { AppDispatch } from 'app/store';
 import { useCookies } from 'react-cookie';
 import { Outlet } from 'react-router-dom';
 
-/* saving to use elsewhere
-if (
-      sessionData !== SESSION_LOGGED_OUT &&
-      cookies[LOGIN_COOKIE] !== LOGGED_IN_STATUS
-    ) {
-      setCookie(USERNAME_COOKIE, sessionData.username, { path: '/' });
-      setCookie(SESSIONCODE_COOKIE, sessionData.sessionCode, { path: '/' });
-      setCookie(LOGIN_COOKIE, LOGGED_IN_STATUS, { path: '/' });
-    } else 
-*/
-
 export const MasterWrapper: React.FC = () => {
   const { sessionData, appFocus } = useAppSelector((state) =>
     selectAppCtrl(state)
