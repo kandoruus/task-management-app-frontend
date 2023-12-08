@@ -6,7 +6,7 @@ import { WelcomeMasterPane } from 'component/welcome/WelcomeMasterPane/WelcomeMa
 import { TasklistMasterPane } from 'component/tasks/TasklistMasterPane/TasklistMasterPane';
 import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane/TimesheetMasterPane';
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {
   ACCOUNT_ROUTE,
   HOME_ROUTE,
@@ -21,18 +21,16 @@ import { MasterWrapper } from 'component/master/MasterWrapper/MasterWrapper';
 export const AppRouter: React.FC = () => {
   const welcomeMasterPane = <WelcomeMasterPane />;
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MasterWrapper />}>
-          <Route path={HOME_ROUTE} element={<HomeMasterPane />} />
-          <Route path={WELCOME_ROUTE} element={welcomeMasterPane} />
-          <Route path={LOGIN_ROUTE} element={welcomeMasterPane} />
-          <Route path={SIGNUP_ROUTE} element={welcomeMasterPane} />
-          <Route path={TASKS_ROUTE} element={<TasklistMasterPane />} />
-          <Route path={TIMESHEET_ROUTE} element={<TimesheetMasterPane />} />
-          <Route path={ACCOUNT_ROUTE} element={<AccountMasterPane />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<MasterWrapper />}>
+        <Route path={HOME_ROUTE} element={<HomeMasterPane />} />
+        <Route path={WELCOME_ROUTE} element={welcomeMasterPane} />
+        <Route path={LOGIN_ROUTE} element={welcomeMasterPane} />
+        <Route path={SIGNUP_ROUTE} element={welcomeMasterPane} />
+        <Route path={TASKS_ROUTE} element={<TasklistMasterPane />} />
+        <Route path={TIMESHEET_ROUTE} element={<TimesheetMasterPane />} />
+        <Route path={ACCOUNT_ROUTE} element={<AccountMasterPane />} />
+      </Route>
+    </Routes>
   );
 };

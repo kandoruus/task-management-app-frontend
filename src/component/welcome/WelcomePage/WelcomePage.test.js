@@ -20,6 +20,6 @@ describe('WelcomePage', () => {
     store.dispatch.mockClear();
   });
   it('TODO', () => {
-    expect(true).toBe(true);
+    expect(true).toBe(false);
   });
 });
