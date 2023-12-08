@@ -13,7 +13,7 @@ import {
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import axios from 'axios';
 import {
-  LOGIN_USER_API,
+  USER_API,
   AXIOS_HEADERS,
   SIGNUP_ROUTE,
   LOGIN_COOKIE,
@@ -50,7 +50,7 @@ export const LoginPage: React.FC<Props> = (props) => {
     try {
       const resData = (
         await axios.post(
-          LOGIN_USER_API,
+          USER_API.LOGIN,
           {
             username,
             password,

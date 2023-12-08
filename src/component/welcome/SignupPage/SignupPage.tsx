@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import axios from 'axios';
-import { AXIOS_HEADERS, LOGIN_ROUTE, SIGNUP_USER_API } from 'helper/constants';
+import { AXIOS_HEADERS, LOGIN_ROUTE, USER_API } from 'helper/constants';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -39,7 +39,7 @@ export const SignupPage: React.FC<Props> = (props) => {
     try {
       const resData = (
         await axios.post(
-          SIGNUP_USER_API,
+          USER_API.SIGNUP,
           {
             username,
             password,

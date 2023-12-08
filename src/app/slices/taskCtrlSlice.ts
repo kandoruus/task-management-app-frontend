@@ -4,15 +4,10 @@ import { RootState } from 'app/store';
 import { Task, Tasklist, TaskDataWIdx } from 'app/types';
 import axios from 'axios';
 import {
-  GET_ALL_TASKS_API,
-  DELETE_ALL_TASKS_API,
   AXIOS_HEADERS,
-  SAVE_NEW_TASKS_API,
   NEW_TASK_DATA,
-  DELETE_TASK_API,
-  SAVE_ONE_TASK_API,
   TASKS_PER_PAGE,
-  SAVE_ALL_TASKS_API,
+  TASKS_API,
 } from 'helper/constants';
 
 const sliceName = 'taskCtrl';
@@ -22,7 +17,7 @@ export const fetchTasklist = createAsyncThunk(
   async (_, thunkAPI) => {
     return (
       await axios.post(
-        GET_ALL_TASKS_API,
+        TASKS_API.GET_ALL,
         { ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData },
         AXIOS_HEADERS
       )
@@ -34,7 +29,7 @@ export const deleteTasklist = createAsyncThunk(
   sliceName + '/deleteTasklist',
   async (_, thunkAPI) => {
     await axios.post(
-      DELETE_ALL_TASKS_API,
+      TASKS_API.DELETE_ALL,
       { ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData },
       AXIOS_HEADERS
     );
@@ -45,7 +40,7 @@ export const saveTasklist = createAsyncThunk(
   sliceName + '/saveTasklist',
   async (_, thunkAPI) => {
     await axios.post(
-      SAVE_ALL_TASKS_API,
+      TASKS_API.SAVE_ALL,
       {
         tasklist: JSON.stringify(
           selectTaskCtrl(thunkAPI.getState() as RootState).tasklist
@@ -61,7 +56,7 @@ export const createNewTask = createAsyncThunk(
   sliceName + '/createNewTask',
   async (_, thunkAPI) => {
     const response = await axios.post(
-      SAVE_NEW_TASKS_API,
+      TASKS_API.SAVE_NEW,
       {
         data: JSON.stringify(NEW_TASK_DATA),
         ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData,
@@ -86,7 +81,7 @@ export const saveOneTask = createAsyncThunk(
   sliceName + '/saveOneTask',
   async (task: Task, thunkAPI) => {
     const response = await axios.post(
-      SAVE_ONE_TASK_API,
+      TASKS_API.SAVE_ONE,
       {
         _id: task._id,
         data: JSON.stringify(task.data),
@@ -105,7 +100,7 @@ export const deleteTask = createAsyncThunk(
   async (params: { index: number; taskId: string }, thunkAPI) => {
     try {
       await axios.post(
-        DELETE_TASK_API + params.taskId,
+        TASKS_API.DELETE_ONE + params.taskId,
         { ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData },
         AXIOS_HEADERS
       );
