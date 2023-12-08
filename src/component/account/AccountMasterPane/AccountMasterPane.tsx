@@ -1,33 +1,160 @@
-import React, { useEffect } from 'react';
-import { Box } from '@mui/material';
-import './AccountMasterPane.css';
-import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
+import React, { useEffect, useState } from 'react';
 import {
-  ACCOUNT_PAGE,
-  LOGGED_OUT_STATUS,
-  LOGIN_COOKIE,
-  WELCOME_ROUTE,
-} from 'helper/constants';
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
+import './AccountMasterPane.css';
+import { useAppSelector, useAppDispatch, useModal } from 'app/hooks';
+import {
+  appCtrlSlice,
+  changePassword,
+  deleteAccount,
+  selectAppCtrl,
+} from 'app/slices/appCtrlSlice';
+import { COOKIES, ERR_MSG, PAGES } from 'helper/constants';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import { CredentialsInput } from 'component/helper-components/CredentialsInput/CredentialsInput';
 
 export const AccountMasterPane: React.FC = () => {
-  const [cookies] = useCookies([LOGIN_COOKIE]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [cookies, setCookie, removeCookie] = useCookies([
+    COOKIES.LOGIN,
+    COOKIES.USERNAME,
+  ]);
   const navigate = useNavigate();
   const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
   const dispatch = useAppDispatch();
+  const [alertIsOpen, toggleAlert] = useModal();
+  const [alertMessage, setAlertMessage] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [deleteAccPassword, setDeleteAccPassword] = useState('');
+
+  const newPasswordsMatch = () => {
+    return newPassword === confirmNewPassword;
+  };
+  const sendAlert = (message: string) => {
+    setAlertMessage(message);
+    toggleAlert();
+  };
+
+  const handleChangePasswordClick = async () => {
+    if (newPasswordsMatch()) {
+      const res = (await dispatch(changePassword({ oldPassword, newPassword })))
+        .payload as { message: string; status: string } | undefined;
+      if (res !== undefined) {
+        sendAlert(res.message);
+        if (res.status === 'success') {
+          setOldPassword('');
+          setNewPassword('');
+          setConfirmNewPassword('');
+        }
+      } else {
+        sendAlert('ERROR: Password failed to update.');
+      }
+    } else {
+      sendAlert(ERR_MSG.NOT_PWD_MATCH);
+    }
+  };
+  const handleDeleteAccClick = async () => {
+    const res = (await dispatch(deleteAccount({ password: deleteAccPassword })))
+      .payload as { message: string; status: string } | undefined;
+    console.log(res);
+    if (res !== undefined) {
+      sendAlert(res.message);
+      if (res.status === 'success') {
+        setDeleteAccPassword('');
+        removeCookie(COOKIES.LOGIN, { path: '/' });
+      }
+    } else {
+      sendAlert('Account failed to delete.');
+    }
+  };
+
   useEffect(() => {
-    if (appFocus !== ACCOUNT_PAGE) {
+    if (appFocus !== PAGES.ACCOUNT) {
       dispatch(appCtrlSlice.actions.focusAccount());
     }
-    if (cookies[LOGIN_COOKIE] === LOGGED_OUT_STATUS) {
-      navigate(WELCOME_ROUTE);
+    if (cookies[COOKIES.LOGIN] === undefined) {
+      navigate(PAGES.WELCOME);
     }
   });
   return (
     <Box className="master-pane" data-testid="account-master-pane">
-      ACCOUNT
+      <Box className="account-settings">
+        <Box className="account-forms" sx={{ borderColor: 'primary.main' }}>
+          <Typography
+            color="common.white"
+            sx={{ bgcolor: 'primary.main' }}
+            variant="h3"
+          >
+            Account Settings
+          </Typography>
+          <Box className="form-wrapper">
+            <Typography color="primary" variant="h6">
+              Change Password
+            </Typography>
+            <CredentialsInput
+              input={oldPassword}
+              setInput={setOldPassword}
+              label="Old Password"
+              id="old-password-input"
+              isPassword
+            />
+            <CredentialsInput
+              input={newPassword}
+              setInput={setNewPassword}
+              label="New Password"
+              id="new-password-input"
+              isPassword
+            />
+            <CredentialsInput
+              input={confirmNewPassword}
+              setInput={setConfirmNewPassword}
+              label="Confirm New Password"
+              id="confirm-new-password-input"
+              isPassword
+            />
+            <Button
+              onClick={handleChangePasswordClick}
+              variant="contained"
+              sx={{ margin: '8px' }}
+            >
+              Change Password
+            </Button>
+            <Typography color="error" variant="h6">
+              Delete Account
+            </Typography>
+            <CredentialsInput
+              input={deleteAccPassword}
+              setInput={setDeleteAccPassword}
+              label="Password"
+              id="delete-acc-password-input"
+              isPassword
+            />
+            <Button
+              onClick={handleDeleteAccClick}
+              color="error"
+              variant="contained"
+              sx={{ margin: '8px 8px 25%' }}
+            >
+              Delete Account
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+      <Dialog open={alertIsOpen}>
+        <DialogTitle>{alertMessage}</DialogTitle>
+        <DialogActions>
+          <Button onClick={toggleAlert}>Okay</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
