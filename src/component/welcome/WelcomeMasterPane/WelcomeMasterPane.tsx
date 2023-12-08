@@ -13,20 +13,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { LoginPage } from 'component/welcome/LoginPage/LoginPage';
 import { WelcomePage } from 'component/welcome/WelcomePage/WelcomePage';
 import { SignupPage } from 'component/welcome/SignupPage/SignupPage';
-import {
-  AUTH_PAGE,
-  HOME_ROUTE,
-  LOGGED_IN_STATUS,
-  LOGIN_COOKIE,
-  LOGIN_ROUTE,
-  SIGNUP_ROUTE,
-  WELCOME_ROUTE,
-} from 'helper/constants';
+import { COOKIES, PAGES } from 'helper/constants';
 import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
 import { useCookies } from 'react-cookie';
 
 export const WelcomeMasterPane: React.FC = () => {
-  const [cookies] = useCookies([LOGIN_COOKIE]);
+  const [cookies] = useCookies([COOKIES.LOGIN]);
   const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
   const dispatch = useAppDispatch();
   const [alertIsOpen, toggleAlert] = useModal();
@@ -39,27 +31,32 @@ export const WelcomeMasterPane: React.FC = () => {
   };
 
   useEffect(() => {
-    if (appFocus !== AUTH_PAGE) {
+    if (appFocus !== PAGES.AUTH) {
       dispatch(appCtrlSlice.actions.focusAuth());
     }
-    if (cookies[LOGIN_COOKIE] === LOGGED_IN_STATUS) {
-      navigate(HOME_ROUTE);
+    if (cookies[COOKIES.LOGIN] === COOKIES.LOGIN) {
+      navigate(PAGES.HOME);
     }
   });
 
   return (
     <Box className="master-pane" data-testid="welcome-master-pane">
-      <Box className="login-container">
+      <Box className="login-container" sx={{ borderColor: 'primary.main' }}>
         <Typography
-          sx={{ bgcolor: 'primary.main', textAlign: 'center', padding: '8px' }}
+          sx={{
+            bgcolor: 'primary.main',
+            textAlign: 'center',
+            padding: '8px',
+            borderRadius: '12px 12px 0px 0px',
+          }}
           color="common.white"
           variant="h6"
         >
           Task Management App
         </Typography>
-        {pathname === WELCOME_ROUTE && <WelcomePage />}
-        {pathname === LOGIN_ROUTE && <LoginPage sendAlert={sendAlert} />}
-        {pathname === SIGNUP_ROUTE && <SignupPage sendAlert={sendAlert} />}
+        {pathname === PAGES.WELCOME && <WelcomePage />}
+        {pathname === PAGES.LOGIN && <LoginPage sendAlert={sendAlert} />}
+        {pathname === PAGES.SIGNUP && <SignupPage sendAlert={sendAlert} />}
       </Box>
       <Dialog open={alertIsOpen}>
         <DialogTitle>{alertMessage}</DialogTitle>

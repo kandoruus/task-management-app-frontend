@@ -2,19 +2,12 @@ import * as React from 'react';
 import { screen } from '@testing-library/react';
 import { TimesheetMasterPane } from './TimesheetMasterPane';
 import { renderWithProviders } from 'helper/testUtils';
-import {
-  AUTH_PAGE,
-  LOGGED_IN_STATUS,
-  LOGGED_OUT_STATUS,
-  LOGIN_COOKIE,
-  TIMESHEET_PAGE,
-  WELCOME_ROUTE,
-} from 'helper/constants';
+import { PAGES, COOKIES } from 'helper/constants';
 import { setupStore } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 
 let mockedUseCookies = () => {
-  return { [LOGIN_COOKIE]: LOGGED_IN_STATUS };
+  return { [COOKIES.LOGIN]: COOKIES.LOGIN };
 };
 const mockedNavigator = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -29,7 +22,7 @@ jest.mock('react-cookie', () => ({
 describe('TimesheetMasterPane', () => {
   it('renders the timesheet-master-pane', () => {
     const store = {
-      ...setupStore({ appCtrl: { appFocus: TIMESHEET_PAGE } }),
+      ...setupStore({ appCtrl: { appFocus: PAGES.TIMESHEET } }),
       dispatch: jest.fn(),
     };
     renderWithProviders(<TimesheetMasterPane />, { store });
@@ -39,7 +32,7 @@ describe('TimesheetMasterPane', () => {
   });
   it('dispatches focusTimesheet when appFocus is off ACCOUNT_PAGE', () => {
     const store = {
-      ...setupStore({ appCtrl: { appFocus: AUTH_PAGE } }),
+      ...setupStore({ appCtrl: { appFocus: PAGES.AUTH } }),
       dispatch: jest.fn(),
     };
     renderWithProviders(<TimesheetMasterPane />, { store });
@@ -49,12 +42,12 @@ describe('TimesheetMasterPane', () => {
   });
   it('navigates to WELCOME_ROUTE when the LOGIN_COOKIE is not set to LOGGED_IN_STATUS', () => {
     mockedUseCookies = () => {
-      return { [LOGIN_COOKIE]: LOGGED_OUT_STATUS };
+      return { [COOKIES.LOGIN]: undefined };
     };
     renderWithProviders(<TimesheetMasterPane />, {
-      preloadedState: { appCtrl: { appFocus: TIMESHEET_PAGE } },
+      preloadedState: { appCtrl: { appFocus: PAGES.TIMESHEET } },
     });
-    expect(mockedNavigator).toHaveBeenCalledWith(WELCOME_ROUTE);
+    expect(mockedNavigator).toHaveBeenCalledWith(PAGES.WELCOME);
   });
   it('TODO: Test page contents', () => {
     expect(true).toBe(false);

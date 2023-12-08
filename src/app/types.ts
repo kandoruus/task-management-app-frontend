@@ -22,13 +22,15 @@ export type Tasklist = Task[];
 
 export type SessionData = { username: string; sessionCode: string };
 
+export type PasswordArgs = { oldPassword: string; newPassword: string };
+
 export type AppFocusT =
-  | 'AUTH_PAGE'
-  | 'TASKS_PAGE'
-  | 'TIMESHEET_PAGE'
-  | 'ACCOUNT_PAGE'
-  | 'ADMIN_PAGE'
-  | 'SETTINGS_PAGE'
-  | 'HOME_PAGE';
+  | '/task-management-app/welcome'
+  | '/task-management-app/login'
+  | '/task-management-app/signup'
+  | '/task-management-app'
+  | '/task-management-app/tasks'
+  | '/task-management-app/timesheet'
+  | '/task-management-app/account';
 
 export type WelcomePageT = React.FC<{ sendAlert: (message: string) => void }>;

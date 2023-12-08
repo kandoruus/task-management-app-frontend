@@ -1,18 +1,91 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
-import { AppFocusT, SessionData } from 'app/types';
+import { AppFocusT, PasswordArgs, SessionData } from 'app/types';
+import axios from 'axios';
 import {
-  ACCOUNT_PAGE,
-  ADMIN_PAGE,
-  SETTINGS_PAGE,
-  TASKS_PAGE,
-  TIMESHEET_PAGE,
-  HOME_PAGE,
-  AUTH_PAGE,
+  PAGES,
   SESSION_LOGGED_OUT,
+  AXIOS_HEADERS,
+  USER_API,
 } from 'helper/constants';
 
 const sliceName = 'appCtrl';
+
+export const postToDB = createAsyncThunk(
+  sliceName + '/postToDB',
+  async (args: { url: string; postPayload: object }, thunkAPI) => {
+    try {
+      return {
+        status: 'success',
+        message: (
+          await axios.post(
+            args.url,
+            {
+              ...args.postPayload,
+              ...selectAppCtrl(thunkAPI.getState() as RootState).sessionData,
+            },
+            AXIOS_HEADERS
+          )
+        ).data.message,
+      };
+    } catch (e) {
+      if (axios.isAxiosError(e) && e.response) {
+        return { message: e.response.data.message, status: 'error' };
+      } else {
+        console.error(e);
+        return undefined;
+      }
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  sliceName + '/changePassword',
+  async ({ oldPassword, newPassword }: PasswordArgs, thunkAPI) => {
+    return (
+      await thunkAPI.dispatch(
+        postToDB({
+          url: USER_API.CHANGE_PASSWORD,
+          postPayload: { oldPassword: oldPassword, newPassword: newPassword },
+        })
+      )
+    ).payload;
+  }
+);
+
+export const deleteAccount = createAsyncThunk(
+  sliceName + '/deleteAccount',
+  async ({ password }: { password: string }, thunkAPI) => {
+    const res = await thunkAPI.dispatch(
+      postToDB({
+        url: USER_API.DELETE_ACCOUNT,
+        postPayload: { password: password },
+      })
+    );
+    console.log(res);
+    const payload = res.payload as
+      | { message: string; status: string }
+      | undefined;
+    if (payload !== undefined && payload.status === 'success') {
+      thunkAPI.dispatch(logout.fulfilled);
+    }
+    return payload;
+  }
+);
+
+export const logout = createAsyncThunk(
+  sliceName + '/logout',
+  async (_, thunkAPI) => {
+    return (
+      await thunkAPI.dispatch(
+        postToDB({
+          url: USER_API.LOGOUT,
+          postPayload: {},
+        })
+      )
+    ).payload;
+  }
+);
 
 interface AppCtrlState {
   appFocus: AppFocusT;
@@ -20,7 +93,7 @@ interface AppCtrlState {
 }
 
 export const initialAppCtrlState = {
-  appFocus: AUTH_PAGE,
+  appFocus: PAGES.AUTH,
   sessionData: SESSION_LOGGED_OUT,
 } as AppCtrlState;
 
@@ -29,45 +102,32 @@ export const appCtrlSlice = createSlice({
   initialState: initialAppCtrlState,
   reducers: {
     focusAuth: (state) => {
-      state.appFocus = AUTH_PAGE;
+      state.appFocus = PAGES.AUTH;
     },
     focusHome: (state) => {
-      state.appFocus = HOME_PAGE;
+      state.appFocus = PAGES.HOME;
     },
     focusTasks: (state) => {
-      state.appFocus = TASKS_PAGE;
+      state.appFocus = PAGES.TASKS;
     },
     focusTimesheet: (state) => {
-      state.appFocus = TIMESHEET_PAGE;
+      state.appFocus = PAGES.TIMESHEET;
     },
     focusAccount: (state) => {
-      state.appFocus = ACCOUNT_PAGE;
-    },
-    focusAdmin: (state) => {
-      state.appFocus = ADMIN_PAGE;
-    },
-    focusSettings: (state) => {
-      state.appFocus = SETTINGS_PAGE;
+      state.appFocus = PAGES.ACCOUNT;
     },
     login: (state, action: PayloadAction<SessionData>) => {
       state.sessionData = action.payload;
-      state.appFocus = HOME_PAGE;
+      state.appFocus = PAGES.HOME;
     },
-    logout: (state) => {
-      //TODO, axios post loggout thunk
+  },
+  extraReducers: (builder) => {
+    builder.addCase(logout.fulfilled, (state) => {
       state.sessionData = SESSION_LOGGED_OUT;
-      state.appFocus = AUTH_PAGE;
-    },
+      state.appFocus = PAGES.AUTH;
+    });
   },
 });
 
-export const {
-  focusHome,
-  focusTasks,
-  focusTimesheet,
-  focusAccount,
-  focusAdmin,
-  focusSettings,
-} = appCtrlSlice.actions;
 export const selectAppCtrl = (state: RootState) => state.appCtrl;
 export default appCtrlSlice.reducer;

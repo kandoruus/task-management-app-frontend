@@ -1,10 +1,13 @@
-import { SessionData, TaskData } from 'app/types';
-
+import { AppFocusT } from 'app/types';
 //Error messages
-export const ERR_MSG_BLANK_NAME = 'Task name cannot be blank';
-
+export const ERR_MSG = {
+  BLANK_NAME: 'Task name cannot be blank',
+  NOT_PWD_MATCH: 'The passwords do not match.',
+};
 //Popup messages
-export const POP_MSG_QUERY_SAVE = 'Do you want to save your changes?';
+export const POP_MSG = {
+  QUERY_SAVE: 'Do you want to save your changes?',
+};
 
 //API addresses
 export const TASKS_API = {
@@ -21,51 +24,44 @@ export const USER_API = {
   LOGIN: process.env.REACT_APP_LOGIN_USER_API as string,
   CHANGE_PASSWORD: process.env.REACT_APP_CHANGE_PASSWORD_USER_API as string,
   DELETE_ACCOUNT: process.env.REACT_APP_DELETE_ACCOUNT_USER_API as string,
+  LOGOUT: process.env.REACT_APP_LOGOUT_USER_API as string,
 };
 
-//axios headers
+//cookies
+export const COOKIES = {
+  USERNAME: 'USERNAME_COOKIE',
+  SESSIONCODE: 'SESSION_STATUS_COOKIE',
+  LOGIN: 'LOGIN_COOKIE',
+};
+
+//routes
+export const PAGES = {
+  AUTH: '/task-management-app/welcome' as AppFocusT,
+  WELCOME: '/task-management-app/welcome' as AppFocusT,
+  LOGIN: '/task-management-app/login' as AppFocusT,
+  SIGNUP: '/task-management-app/signup' as AppFocusT,
+  HOME: '/task-management-app' as AppFocusT,
+  TASKS: '/task-management-app/tasks' as AppFocusT,
+  TIMESHEET: '/task-management-app/timesheet' as AppFocusT,
+  ACCOUNT: '/task-management-app/account' as AppFocusT,
+};
+
+//misc
+//  axios headers
 export const AXIOS_HEADERS = {
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 };
-
-//TODO label constant catagories
-export const NEW_TASK_DATA: TaskData = {
+//  data for newly created task
+export const NEW_TASK_DATA = {
   name: 'New Task',
   description: '',
   status: 'Not Started',
   priority: 'Low',
 };
+//  number of tasks displayed in the tasklist viewer
 export const TASKS_PER_PAGE = 25;
-
-//app focuses
-export const AUTH_PAGE = 'AUTH_PAGE';
-export const HOME_PAGE = 'HOME_PAGE';
-export const TASKS_PAGE = 'TASKS_PAGE';
-export const TIMESHEET_PAGE = 'TIMESHEET_PAGE';
-export const ACCOUNT_PAGE = 'ACCOUNT_PAGE';
-export const ADMIN_PAGE = 'ADMIN_PAGE';
-export const SETTINGS_PAGE = 'SETTINGS_PAGE';
-
-//Empty Session Data
-export const SESSION_LOGGED_OUT: SessionData = {
+//  session data when logged out
+export const SESSION_LOGGED_OUT = {
   username: '',
   sessionCode: '',
 };
-
-//cookies
-export const USERNAME_COOKIE = 'USERNAME_COOKIE';
-export const SESSIONCODE_COOKIE = 'SESSION_STATUS_COOKIE';
-export const LOGIN_COOKIE = 'LOGIN_COOKIE';
-
-//login statuses
-export const LOGGED_IN_STATUS = 'LOGGED_IN_STATUS';
-export const LOGGED_OUT_STATUS = 'LOGGED_OUT_STATUS';
-
-//routes
-export const WELCOME_ROUTE = '/task-management-app/welcome';
-export const LOGIN_ROUTE = '/task-management-app/login';
-export const SIGNUP_ROUTE = '/task-management-app/signup';
-export const HOME_ROUTE = '/task-management-app';
-export const TASKS_ROUTE = '/task-management-app/tasks';
-export const TIMESHEET_ROUTE = '/task-management-app/timesheet';
-export const ACCOUNT_ROUTE = '/task-management-app/account';

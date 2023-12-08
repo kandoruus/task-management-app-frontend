@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import axios from 'axios';
-import { AXIOS_HEADERS, LOGIN_ROUTE, USER_API } from 'helper/constants';
+import { AXIOS_HEADERS, PAGES, USER_API } from 'helper/constants';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -48,7 +48,7 @@ export const SignupPage: React.FC<Props> = (props) => {
         )
       ).data;
       sendAlert(resData.message);
-      navigate(LOGIN_ROUTE);
+      navigate(PAGES.LOGIN);
     } catch (e) {
       if (axios.isAxiosError(e) && e.response) {
         sendAlert(e.response.data.message);
@@ -135,7 +135,7 @@ export const SignupPage: React.FC<Props> = (props) => {
         </Typography>
         <Button
           onClick={() => {
-            navigate(LOGIN_ROUTE);
+            navigate(PAGES.LOGIN);
           }}
           sx={{ width: 'fit-content', padding: '0', ml: 'auto' }}
         >

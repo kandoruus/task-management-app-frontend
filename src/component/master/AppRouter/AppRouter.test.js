@@ -3,15 +3,7 @@ import { screen } from '@testing-library/react';
 import { AppRouter } from './AppRouter';
 import { renderWithProviders } from 'helper/testUtils';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  ACCOUNT_ROUTE,
-  HOME_ROUTE,
-  LOGIN_ROUTE,
-  SIGNUP_ROUTE,
-  TASKS_ROUTE,
-  TIMESHEET_ROUTE,
-  WELCOME_ROUTE,
-} from 'helper/constants';
+import { PAGES } from 'helper/constants';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -29,7 +21,7 @@ describe('AppRouter', () => {
   });
   it('renders the welcome-master-pane and the welcome-page at WELCOME_ROUTE', () => {
     renderWithProviders(
-      <MemoryRouter initialEntries={[WELCOME_ROUTE]}>
+      <MemoryRouter initialEntries={[PAGES.WELCOME]}>
         <AppRouter />
       </MemoryRouter>
     );
@@ -38,7 +30,7 @@ describe('AppRouter', () => {
   });
   it('renders the welcome-master-pane and the login-page at LOGIN_ROUTE', () => {
     renderWithProviders(
-      <MemoryRouter initialEntries={[LOGIN_ROUTE]}>
+      <MemoryRouter initialEntries={[PAGES.LOGIN]}>
         <AppRouter />
       </MemoryRouter>
     );
@@ -47,16 +39,7 @@ describe('AppRouter', () => {
   });
   it('renders the welcome-master-pane and the signup-page at SIGNUP_ROUTE', () => {
     renderWithProviders(
-      <MemoryRouter initialEntries={[SIGNUP_ROUTE]}>
-        <AppRouter />
-      </MemoryRouter>
-    );
-    expect(screen.getByTestId('welcome-master-pane')).toBeInTheDocument();
-    expect(screen.getByTestId('signup-page')).toBeInTheDocument();
-  });
-  it('renders the welcome-master-pane and the signup-page at SIGNUP_ROUTE', () => {
-    renderWithProviders(
-      <MemoryRouter initialEntries={[SIGNUP_ROUTE]}>
+      <MemoryRouter initialEntries={[PAGES.SIGNUP]}>
         <AppRouter />
       </MemoryRouter>
     );
@@ -65,7 +48,7 @@ describe('AppRouter', () => {
   });
   it('renders the home-master-pane at HOME_ROUTE', () => {
     renderWithProviders(
-      <MemoryRouter initialEntries={[HOME_ROUTE]}>
+      <MemoryRouter initialEntries={[PAGES.HOME]}>
         <AppRouter />
       </MemoryRouter>
     );
@@ -73,7 +56,7 @@ describe('AppRouter', () => {
   });
   it('renders the tasklist-master-pane at TASKS_ROUTE', () => {
     renderWithProviders(
-      <MemoryRouter initialEntries={[TASKS_ROUTE]}>
+      <MemoryRouter initialEntries={[PAGES.TASKS]}>
         <AppRouter />
       </MemoryRouter>
     );
@@ -81,7 +64,7 @@ describe('AppRouter', () => {
   });
   it('renders the timesheet-master-pane at TIMESHEET_ROUTE', () => {
     renderWithProviders(
-      <MemoryRouter initialEntries={[TIMESHEET_ROUTE]}>
+      <MemoryRouter initialEntries={[PAGES.TIMESHEET]}>
         <AppRouter />
       </MemoryRouter>
     );
@@ -89,7 +72,7 @@ describe('AppRouter', () => {
   });
   it('renders the account-master-pane at ACCOUNT_ROUTE', () => {
     renderWithProviders(
-      <MemoryRouter initialEntries={[ACCOUNT_ROUTE]}>
+      <MemoryRouter initialEntries={[PAGES.ACCOUNT]}>
         <AppRouter />
       </MemoryRouter>
     );

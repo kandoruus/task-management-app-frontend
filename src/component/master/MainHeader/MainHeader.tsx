@@ -13,27 +13,16 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppFocusT } from 'app/types';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import {
-  ACCOUNT_PAGE,
-  ACCOUNT_ROUTE,
-  HOME_PAGE,
-  HOME_ROUTE,
-  LOGGED_OUT_STATUS,
-  LOGIN_COOKIE,
-  TASKS_PAGE,
-  TASKS_ROUTE,
-  TIMESHEET_PAGE,
-  TIMESHEET_ROUTE,
-} from 'helper/constants';
+import { PAGES, COOKIES } from 'helper/constants';
 import { AppDispatch } from 'app/store';
-import { appCtrlSlice } from 'app/slices/appCtrlSlice';
+import { logout } from 'app/slices/appCtrlSlice';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
 export const MainHeader: React.FC = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [cookie, setCookie] = useCookies([LOGIN_COOKIE]);
+  const [cookie, setCookie, removeCookie] = useCookies([COOKIES.LOGIN]);
   const focus: AppFocusT = useAppSelector((state) => state.appCtrl.appFocus);
   const dispatch: AppDispatch = useAppDispatch();
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
@@ -46,36 +35,28 @@ export const MainHeader: React.FC = () => {
     setMenuAnchor(null);
   };
   const handleHomeClick = () => {
-    if (focus !== HOME_PAGE) {
-      navigate(HOME_ROUTE);
+    if (focus !== PAGES.HOME) {
+      navigate(PAGES.HOME);
       handleMenuClose();
     }
   };
   const handleLogoutClick = () => {
-    setCookie(LOGIN_COOKIE, LOGGED_OUT_STATUS, { path: '/' });
-    dispatch(appCtrlSlice.actions.logout());
+    removeCookie(COOKIES.LOGIN, { path: '/' });
+    dispatch(logout());
   };
   const handleTasksClick = () => {
-    navigate(TASKS_ROUTE);
+    navigate(PAGES.TASKS);
     handleMenuClose();
   };
   const handleTimesheetClick = () => {
-    navigate(TIMESHEET_ROUTE);
+    navigate(PAGES.TIMESHEET);
     handleMenuClose();
   };
   const handleAccountClick = () => {
-    navigate(ACCOUNT_ROUTE);
+    navigate(PAGES.ACCOUNT);
     handleMenuClose();
   };
-  /* Pushed to v3
-  const handleSettingsClick = () => {
-    dispatch(appCtrlSlice.actions.focusSettings());
-    handleMenuClose();
-  };
-  const handleAdminClick = () => {
-    dispatch(appCtrlSlice.actions.focusAdmin());
-    handleMenuClose();
-  }*/
+
   return (
     <Box className="main-header" data-testid="main-header">
       <AppBar>
@@ -96,28 +77,21 @@ export const MainHeader: React.FC = () => {
             open={menuOpen}
             onClose={handleMenuClose}
           >
-            {focus !== HOME_PAGE && (
+            {focus !== PAGES.HOME && (
               <MenuItem onClick={handleHomeClick}>Home</MenuItem>
             )}
-            {focus !== TASKS_PAGE && (
+            {focus !== PAGES.TASKS && (
               <MenuItem onClick={handleTasksClick}>Tasks</MenuItem>
             )}
-            {focus !== TIMESHEET_PAGE && (
+            {focus !== PAGES.TIMESHEET && (
               <MenuItem onClick={handleTimesheetClick}>Timesheet</MenuItem>
             )}
-            {focus !== ACCOUNT_PAGE && (
+            {focus !== PAGES.ACCOUNT && (
               <MenuItem onClick={handleAccountClick}>Account</MenuItem>
             )}
-            {/* Pushed to v3
-            {focus !== SETTINGS_PAGE && (
-              <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-            )}
-            {focus !== ADMIN_PAGE && (
-              <MenuItem onClick={handleAdminClick}>Administration</MenuItem>
-            )}*/}
           </Menu>
           <Typography
-            className={focus !== HOME_PAGE ? 'clickable-typography' : ''}
+            className={focus !== PAGES.HOME ? 'clickable-typography' : ''}
             onClick={handleHomeClick}
             noWrap
             variant="h6"

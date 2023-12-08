@@ -3,19 +3,12 @@ import { screen } from '@testing-library/react';
 import { TasklistMasterPane } from './TasklistMasterPane';
 import { initialTaskCtrlState } from 'app/slices/taskCtrlSlice';
 import { renderWithProviders } from 'helper/testUtils';
-import {
-  HOME_PAGE,
-  LOGGED_IN_STATUS,
-  LOGGED_OUT_STATUS,
-  LOGIN_COOKIE,
-  TASKS_PAGE,
-  WELCOME_ROUTE,
-} from 'helper/constants';
+import { COOKIES, PAGES } from 'helper/constants';
 import { setupStore } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 
 let mockedUseCookies = () => {
-  return { [LOGIN_COOKIE]: LOGGED_IN_STATUS };
+  return { [COOKIES.LOGIN]: COOKIES.LOGIN };
 };
 const mockedNavigator = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -32,7 +25,7 @@ describe('TasklistMasterPane', () => {
     const store = {
       ...setupStore({
         appCtrl: {
-          appFocus: TASKS_PAGE,
+          appFocus: PAGES.TASKS,
         },
       }),
       dispatch: jest.fn(),
@@ -49,7 +42,7 @@ describe('TasklistMasterPane', () => {
     const store = {
       ...setupStore({
         appCtrl: {
-          appFocus: TASKS_PAGE,
+          appFocus: PAGES.TASKS,
         },
         taskCtrl: { ...initialTaskCtrlState, showEditor: true },
       }),
@@ -61,7 +54,7 @@ describe('TasklistMasterPane', () => {
     const store = {
       ...setupStore({
         appCtrl: {
-          appFocus: HOME_PAGE,
+          appFocus: PAGES.HOME,
         },
       }),
       dispatch: jest.fn(),
@@ -73,17 +66,17 @@ describe('TasklistMasterPane', () => {
   });
   it('navigates to the WELCOME_ROUTE if the LOGIN_COOKIE is not set to LOGGED_IN_STATUS', () => {
     mockedUseCookies = () => {
-      return { [LOGIN_COOKIE]: LOGGED_OUT_STATUS };
+      return { [COOKIES.LOGIN]: undefined };
     };
     const store = {
       ...setupStore({
         appCtrl: {
-          appFocus: TASKS_PAGE,
+          appFocus: PAGES.TASKS,
         },
       }),
       dispatch: jest.fn(),
     };
     renderWithProviders(<TasklistMasterPane />, { store });
-    expect(mockedNavigator).toHaveBeenCalledWith(WELCOME_ROUTE);
+    expect(mockedNavigator).toHaveBeenCalledWith(PAGES.WELCOME);
   });
 });

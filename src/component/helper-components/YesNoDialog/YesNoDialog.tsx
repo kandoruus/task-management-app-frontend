@@ -1,6 +1,5 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import React from 'react';
-import './YesNoDialog.css';
 
 interface Props {
   open: boolean;

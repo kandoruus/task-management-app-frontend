@@ -13,7 +13,7 @@ import {
 import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
 import { TaskEditor } from './TaskEditor';
 import { setupStore } from 'app/store';
-import { POP_MSG_QUERY_SAVE, ERR_MSG_BLANK_NAME } from 'helper/constants';
+import { POP_MSG, ERR_MSG } from 'helper/constants';
 
 describe('TaskEditor', () => {
   const mockedList = getMockTasklist(1);
@@ -191,7 +191,7 @@ describe('TaskEditor', () => {
         });
       });
       it('displays the correct question', async () => {
-        expect(await screen.findByText(POP_MSG_QUERY_SAVE)).toBeInTheDocument();
+        expect(await screen.findByText(POP_MSG.QUERY_SAVE)).toBeInTheDocument();
       });
       it('dispatches the saveOneTask, closeEditor, updateTaskData, and clearTaskData actions when the Yes button is clicked', () => {
         fireEvent.click(screen.getByText('Yes'));
@@ -246,12 +246,12 @@ describe('TaskEditor', () => {
     });
     it('will display the alert popup and will not dispatch any actions when the save button is clicked', async () => {
       fireEvent.click(screen.getByText('Save'));
-      expect(await screen.findByText(ERR_MSG_BLANK_NAME)).toBeInTheDocument();
+      expect(await screen.findByText(ERR_MSG.BLANK_NAME)).toBeInTheDocument();
       expect(store.dispatch).not.toHaveBeenCalled();
     });
     it('will display the alert popup and will not dispatch any actions when the save and exit button is clicked', async () => {
       fireEvent.click(screen.getByText('Save and Exit'));
-      expect(await screen.findByText(ERR_MSG_BLANK_NAME)).toBeInTheDocument();
+      expect(await screen.findByText(ERR_MSG.BLANK_NAME)).toBeInTheDocument();
       expect(store.dispatch).not.toHaveBeenCalled();
     });
     it('will display the alert popup and will not dispatch any actions onClose when the yes button is clicked', async () => {
@@ -260,7 +260,7 @@ describe('TaskEditor', () => {
         code: 'Escape',
       });
       fireEvent.click(await screen.findByText('Yes'));
-      expect(await screen.findByText(ERR_MSG_BLANK_NAME)).toBeInTheDocument();
+      expect(await screen.findByText(ERR_MSG.BLANK_NAME)).toBeInTheDocument();
       expect(store.dispatch).not.toHaveBeenCalled();
     });
     describe('the alert popup', () => {
@@ -268,7 +268,7 @@ describe('TaskEditor', () => {
         fireEvent.click(screen.getByText('Save'));
         fireEvent.click(await screen.findByText('Okay'));
         await waitFor(() => {
-          expect(screen.queryByText(ERR_MSG_BLANK_NAME)).toBeNull();
+          expect(screen.queryByText(ERR_MSG.BLANK_NAME)).toBeNull();
         });
       });
     });

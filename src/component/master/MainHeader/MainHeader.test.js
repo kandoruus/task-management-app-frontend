@@ -3,22 +3,12 @@ import { screen, fireEvent } from '@testing-library/react';
 import { renderWithProviders } from 'helper/testUtils';
 import { MainHeader } from './MainHeader';
 import { setupStore } from 'app/store';
-import { appCtrlSlice } from 'app/slices/appCtrlSlice';
-import {
-  ACCOUNT_PAGE,
-  ACCOUNT_ROUTE,
-  HOME_PAGE,
-  HOME_ROUTE,
-  LOGGED_OUT_STATUS,
-  LOGIN_COOKIE,
-  TASKS_PAGE,
-  TASKS_ROUTE,
-  TIMESHEET_PAGE,
-  TIMESHEET_ROUTE,
-} from 'helper/constants';
+import { logout } from 'app/slices/appCtrlSlice';
+import { PAGES, COOKIES } from 'helper/constants';
 
 const mockedNavigator = jest.fn();
 const mockedSetCookie = jest.fn();
+const mockedRemoveCookie = jest.fn();
 const mockCookies = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -27,7 +17,7 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('react-cookie', () => ({
   ...jest.requireActual('react-cookie'),
-  useCookies: () => [mockCookies, mockedSetCookie],
+  useCookies: () => [mockCookies, mockedSetCookie, mockedRemoveCookie],
 }));
 
 describe('MainHeader', () => {
@@ -39,7 +29,7 @@ describe('MainHeader', () => {
     const store = {
       ...setupStore({
         appCtrl: {
-          appFocus: HOME_PAGE,
+          appFocus: PAGES.HOME,
         },
       }),
       dispatch: jest.fn(),
@@ -61,14 +51,12 @@ describe('MainHeader', () => {
     });
     it('dispatches the logout action and updates the LOGIN_COOKIE when the Logout button is clicked', () => {
       fireEvent.click(screen.getByText('Logout'));
-      expect(store.dispatch).toHaveBeenCalledWith(
-        appCtrlSlice.actions.logout()
+      expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
+        logout().toString()
       );
-      expect(mockedSetCookie).toHaveBeenCalledWith(
-        LOGIN_COOKIE,
-        LOGGED_OUT_STATUS,
-        { path: '/' }
-      );
+      expect(mockedRemoveCookie).toHaveBeenCalledWith(COOKIES.LOGIN, {
+        path: '/',
+      });
     });
     describe('when the menu button is clicked', () => {
       beforeEach(() => {
@@ -98,19 +86,19 @@ describe('MainHeader', () => {
         fireEvent.click(
           await screen.findByRole('menuitem', { name: /Tasks/i })
         );
-        expect(mockedNavigator).toHaveBeenCalledWith(TASKS_ROUTE);
+        expect(mockedNavigator).toHaveBeenCalledWith(PAGES.TASKS);
       });
       it('navigates to TIMESHEET_ROUTE action when the Timesheet option is clicked', async () => {
         fireEvent.click(
           await screen.findByRole('menuitem', { name: /Timesheet/i })
         );
-        expect(mockedNavigator).toHaveBeenCalledWith(TIMESHEET_ROUTE);
+        expect(mockedNavigator).toHaveBeenCalledWith(PAGES.TIMESHEET);
       });
       it('navigates to ACCOUNT_ROUTE action when the Account option is clicked', async () => {
         fireEvent.click(
           await screen.findByRole('menuitem', { name: /Account/i })
         );
-        expect(mockedNavigator).toHaveBeenCalledWith(ACCOUNT_ROUTE);
+        expect(mockedNavigator).toHaveBeenCalledWith(PAGES.ACCOUNT);
       });
       /* pushed to v3
       it('dispatches the focusSettings action when the Settings option is clicked', async () => {
@@ -136,14 +124,14 @@ describe('MainHeader', () => {
       renderWithProviders(<MainHeader />, {
         preloadedState: {
           appCtrl: {
-            appFocus: TASKS_PAGE,
+            appFocus: PAGES.TASKS,
           },
         },
       });
     });
     it('navigates to HOME_ROUTE when the app header is clicked', () => {
       fireEvent.click(screen.getByText('Task Management App'));
-      expect(mockedNavigator).toHaveBeenCalledWith(HOME_ROUTE);
+      expect(mockedNavigator).toHaveBeenCalledWith(PAGES.HOME);
     });
     describe('when the menu button is clicked', () => {
       beforeEach(() => {
@@ -170,7 +158,7 @@ describe('MainHeader', () => {
       });
       it('navigates to HOME_ROUTE when the Home option is clicked', async () => {
         fireEvent.click(await screen.findByRole('menuitem', { name: /Home/i }));
-        expect(mockedNavigator).toHaveBeenCalledWith(HOME_ROUTE);
+        expect(mockedNavigator).toHaveBeenCalledWith(PAGES.HOME);
       });
     });
   });
@@ -179,7 +167,7 @@ describe('MainHeader', () => {
       renderWithProviders(<MainHeader />, {
         preloadedState: {
           appCtrl: {
-            appFocus: TIMESHEET_PAGE,
+            appFocus: PAGES.TIMESHEET,
           },
         },
       });
@@ -208,7 +196,7 @@ describe('MainHeader', () => {
       renderWithProviders(<MainHeader />, {
         preloadedState: {
           appCtrl: {
-            appFocus: ACCOUNT_PAGE,
+            appFocus: PAGES.ACCOUNT,
           },
         },
       });

@@ -3,21 +3,11 @@ import { screen, fireEvent } from '@testing-library/react';
 import { HomeMasterPane } from './HomeMasterPane';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 import { renderWithProviders } from 'helper/testUtils';
-import {
-  ACCOUNT_ROUTE,
-  AUTH_PAGE,
-  HOME_PAGE,
-  LOGGED_IN_STATUS,
-  LOGGED_OUT_STATUS,
-  LOGIN_COOKIE,
-  TASKS_ROUTE,
-  TIMESHEET_ROUTE,
-  WELCOME_ROUTE,
-} from 'helper/constants';
+import { PAGES, COOKIES } from 'helper/constants';
 import { setupStore } from 'app/store';
 
 let mockedUseCookies = () => {
-  return { [LOGIN_COOKIE]: LOGGED_IN_STATUS };
+  return { [COOKIES.LOGIN]: COOKIES.LOGIN };
 };
 const mockedNavigator = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -36,7 +26,7 @@ describe('HomeMasterPane', () => {
   describe('when opened with the appFocus on HOME_PAGE and the status set to LOGGED_IN_STATUS', () => {
     beforeEach(() => {
       renderWithProviders(<HomeMasterPane />, {
-        preloadedState: { appCtrl: { appFocus: HOME_PAGE } },
+        preloadedState: { appCtrl: { appFocus: PAGES.HOME } },
       });
     });
     it('renders the home page', () => {
@@ -50,21 +40,21 @@ describe('HomeMasterPane', () => {
     });
     it('navigates to TASKS_ROUTE when the Tasks button is clicked', () => {
       fireEvent.click(screen.getByText('Tasks'));
-      expect(mockedNavigator).toHaveBeenCalledWith(TASKS_ROUTE);
+      expect(mockedNavigator).toHaveBeenCalledWith(PAGES.TASKS);
     });
     it('navigates to TIMESHEET_ROUTE when the Timesheet button is clicked', () => {
       fireEvent.click(screen.getByText('Timesheet'));
-      expect(mockedNavigator).toHaveBeenCalledWith(TIMESHEET_ROUTE);
+      expect(mockedNavigator).toHaveBeenCalledWith(PAGES.TIMESHEET);
     });
     it('navigates to ACCOUNT_ROUTE when the Account button is clicked', () => {
       fireEvent.click(screen.getByText('Account'));
-      expect(mockedNavigator).toHaveBeenCalledWith(ACCOUNT_ROUTE);
+      expect(mockedNavigator).toHaveBeenCalledWith(PAGES.ACCOUNT);
     });
   });
   describe('when opened with the appFocus off HOME_PAGE', () => {
     it('dispatches the focusHome action', () => {
       const store = {
-        ...setupStore({ appCtrl: { appFocus: AUTH_PAGE } }),
+        ...setupStore({ appCtrl: { appFocus: PAGES.AUTH } }),
         dispatch: jest.fn(),
       };
       renderWithProviders(<HomeMasterPane />, { store });
@@ -76,13 +66,13 @@ describe('HomeMasterPane', () => {
   describe('when opened with the status not set to LOGGED_IN_STATUS', () => {
     it('navigates to WELCOME_ROUTE', () => {
       mockedUseCookies = () => {
-        return { [LOGIN_COOKIE]: LOGGED_OUT_STATUS };
+        return { [COOKIES.LOGIN]: undefined };
       };
       const store = {
-        ...setupStore({ appCtrl: { appFocus: HOME_PAGE } }),
+        ...setupStore({ appCtrl: { appFocus: PAGES.HOME } }),
       };
       renderWithProviders(<HomeMasterPane />, { store });
-      expect(mockedNavigator).toHaveBeenCalledWith(WELCOME_ROUTE);
+      expect(mockedNavigator).toHaveBeenCalledWith(PAGES.WELCOME);
     });
   });
 });

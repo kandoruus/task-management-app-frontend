@@ -21,7 +21,7 @@ import {
 import { taskEditorSlice } from 'app/slices/taskEditorSlice';
 import { YesNoDialog } from '../../helper-components/YesNoDialog/YesNoDialog';
 import { priorityOptions, statusOptions } from 'helper/componentConfig';
-import { ERR_MSG_BLANK_NAME, POP_MSG_QUERY_SAVE } from 'helper/constants';
+import { ERR_MSG, POP_MSG } from 'helper/constants';
 import React, { useState } from 'react';
 import './TaskEditor.css';
 
@@ -184,11 +184,11 @@ export const TaskEditor: React.FC = () => {
         <YesNoDialog
           open={queryIsOpen}
           closeDialog={toggleQuery}
-          question={POP_MSG_QUERY_SAVE}
+          question={POP_MSG.QUERY_SAVE}
           response={handleExitPopUpResponse}
         />
         <Dialog open={alertIsOpen}>
-          <DialogTitle>{ERR_MSG_BLANK_NAME}</DialogTitle>
+          <DialogTitle>{ERR_MSG.BLANK_NAME}</DialogTitle>
           <DialogActions>
             <Button onClick={toggleAlert}>Okay</Button>
           </DialogActions>

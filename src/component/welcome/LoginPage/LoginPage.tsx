@@ -12,15 +12,7 @@ import {
 } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import axios from 'axios';
-import {
-  USER_API,
-  AXIOS_HEADERS,
-  SIGNUP_ROUTE,
-  LOGIN_COOKIE,
-  SESSIONCODE_COOKIE,
-  USERNAME_COOKIE,
-  LOGGED_IN_STATUS,
-} from 'helper/constants';
+import { USER_API, AXIOS_HEADERS, COOKIES, PAGES } from 'helper/constants';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
@@ -31,9 +23,9 @@ type Props = {
 export const LoginPage: React.FC<Props> = (props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies([
-    USERNAME_COOKIE,
-    SESSIONCODE_COOKIE,
-    LOGIN_COOKIE,
+    COOKIES.USERNAME,
+    COOKIES.SESSIONCODE,
+    COOKIES.LOGIN,
   ]);
   const navigate = useNavigate();
   const { sendAlert } = props;
@@ -58,9 +50,9 @@ export const LoginPage: React.FC<Props> = (props) => {
           AXIOS_HEADERS
         )
       ).data;
-      setCookie(LOGIN_COOKIE, LOGGED_IN_STATUS, { path: '/' });
-      setCookie(USERNAME_COOKIE, resData.username, { path: '/' });
-      setCookie(SESSIONCODE_COOKIE, resData.sessionCode, { path: '/' });
+      setCookie(COOKIES.LOGIN, COOKIES.LOGIN, { path: '/' });
+      setCookie(COOKIES.USERNAME, resData.username, { path: '/' });
+      setCookie(COOKIES.SESSIONCODE, resData.sessionCode, { path: '/' });
     } catch (e) {
       if (axios.isAxiosError(e) && e.response) {
         sendAlert(e.response.data.message);
@@ -121,7 +113,7 @@ export const LoginPage: React.FC<Props> = (props) => {
         </Typography>
         <Button
           onClick={() => {
-            navigate(SIGNUP_ROUTE);
+            navigate(PAGES.SIGNUP);
           }}
           sx={{ width: 'fit-content', padding: '0', m: '0 8px 0 auto' }}
         >

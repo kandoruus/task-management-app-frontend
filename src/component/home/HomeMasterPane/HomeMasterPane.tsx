@@ -4,31 +4,23 @@ import './HomeMasterPane.css';
 import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
-import {
-  ACCOUNT_ROUTE,
-  HOME_PAGE,
-  LOGGED_IN_STATUS,
-  LOGIN_COOKIE,
-  TASKS_ROUTE,
-  TIMESHEET_ROUTE,
-  WELCOME_ROUTE,
-} from 'helper/constants';
+import { PAGES, COOKIES } from 'helper/constants';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
 export const HomeMasterPane: React.FC = () => {
-  const [cookies] = useCookies([LOGIN_COOKIE]);
+  const [cookies] = useCookies([COOKIES.LOGIN]);
   const navigate = useNavigate();
   const dispatch: AppDispatch = useAppDispatch();
   const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
   const handleTasksClick = () => {
-    navigate(TASKS_ROUTE);
+    navigate(PAGES.TASKS);
   };
   const handleTimesheetClick = () => {
-    navigate(TIMESHEET_ROUTE);
+    navigate(PAGES.TIMESHEET);
   };
   const handleAccountClick = () => {
-    navigate(ACCOUNT_ROUTE);
+    navigate(PAGES.ACCOUNT);
   };
   /* pushed to v3
   const handleSettingsClick = () => {
@@ -38,11 +30,11 @@ export const HomeMasterPane: React.FC = () => {
     dispatch(appCtrlSlice.actions.focusAdmin());
   };*/
   useEffect(() => {
-    if (appFocus !== HOME_PAGE) {
+    if (appFocus !== PAGES.HOME) {
       dispatch(appCtrlSlice.actions.focusHome());
     }
-    if (cookies[LOGIN_COOKIE] !== LOGGED_IN_STATUS) {
-      navigate(WELCOME_ROUTE);
+    if (cookies[COOKIES.LOGIN] === undefined) {
+      navigate(PAGES.WELCOME);
     }
   });
   return (

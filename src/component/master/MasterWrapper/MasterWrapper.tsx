@@ -2,17 +2,9 @@ import React, { useEffect } from 'react';
 import './MasterWrapper.css';
 import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
+import { appCtrlSlice, logout, selectAppCtrl } from 'app/slices/appCtrlSlice';
 import { MainHeader } from 'component/master/MainHeader/MainHeader';
-import {
-  AUTH_PAGE,
-  LOGGED_IN_STATUS,
-  LOGGED_OUT_STATUS,
-  LOGIN_COOKIE,
-  SESSIONCODE_COOKIE,
-  SESSION_LOGGED_OUT,
-  USERNAME_COOKIE,
-} from 'helper/constants';
+import { PAGES, COOKIES, SESSION_LOGGED_OUT } from 'helper/constants';
 import { AppDispatch } from 'app/store';
 import { useCookies } from 'react-cookie';
 import { Outlet } from 'react-router-dom';
@@ -23,32 +15,32 @@ export const MasterWrapper: React.FC = () => {
   );
   const dispatch: AppDispatch = useAppDispatch();
   const [cookies] = useCookies([
-    USERNAME_COOKIE,
-    SESSIONCODE_COOKIE,
-    LOGIN_COOKIE,
+    COOKIES.USERNAME,
+    COOKIES.SESSIONCODE,
+    COOKIES.LOGIN,
   ]);
 
   useEffect(() => {
     if (
       sessionData === SESSION_LOGGED_OUT &&
-      cookies[LOGIN_COOKIE] === LOGGED_IN_STATUS
+      cookies[COOKIES.LOGIN] === COOKIES.LOGIN
     ) {
       dispatch(
         appCtrlSlice.actions.login({
-          username: cookies[USERNAME_COOKIE],
-          sessionCode: cookies[SESSIONCODE_COOKIE],
+          username: cookies[COOKIES.USERNAME],
+          sessionCode: cookies[COOKIES.SESSIONCODE],
         })
       );
     } else if (
       sessionData !== SESSION_LOGGED_OUT &&
-      cookies[LOGIN_COOKIE] === LOGGED_OUT_STATUS
+      cookies[COOKIES.LOGIN] === undefined
     ) {
-      dispatch(appCtrlSlice.actions.logout());
+      dispatch(logout());
     }
   });
   return (
     <Box className="master-wrapper" data-testid="master-wrapper">
-      {appFocus !== AUTH_PAGE && <MainHeader />}
+      {appFocus !== PAGES.AUTH && <MainHeader />}
       <Box className="master-container" data-testid="master-container">
         <Outlet />
       </Box>

@@ -2,7 +2,7 @@ import React from 'react';
 import './WelcomePage.css';
 import { Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { LOGIN_ROUTE, SIGNUP_ROUTE } from 'helper/constants';
+import { PAGES } from 'helper/constants';
 
 export const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export const WelcomePage: React.FC = () => {
       <Button
         variant="contained"
         onClick={() => {
-          navigate(LOGIN_ROUTE);
+          navigate(PAGES.LOGIN);
         }}
       >
         Login
@@ -24,7 +24,7 @@ export const WelcomePage: React.FC = () => {
       <Button
         variant="contained"
         onClick={() => {
-          navigate(SIGNUP_ROUTE);
+          navigate(PAGES.SIGNUP);
         }}
         sx={{ mt: '16px' }}
       >

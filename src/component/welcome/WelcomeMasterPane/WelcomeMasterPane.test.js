@@ -2,22 +2,12 @@ import * as React from 'react';
 import { screen } from '@testing-library/react';
 import { WelcomeMasterPane } from './WelcomeMasterPane';
 import { renderWithProviders } from 'helper/testUtils';
-import {
-  AUTH_PAGE,
-  LOGGED_IN_STATUS,
-  LOGGED_OUT_STATUS,
-  LOGIN_COOKIE,
-  HOME_PAGE,
-  HOME_ROUTE,
-  WELCOME_ROUTE,
-  LOGIN_ROUTE,
-  SIGNUP_ROUTE,
-} from 'helper/constants';
+import { COOKIES, PAGES } from 'helper/constants';
 import { setupStore } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 
 let mockedUseCookies = () => {
-  return { [LOGIN_COOKIE]: LOGGED_OUT_STATUS };
+  return { [COOKIES.LOGIN]: undefined };
 };
 let mockedLocator = () => {
   return { pathname: '' };
@@ -38,7 +28,7 @@ jest.mock('react-cookie', () => ({
 describe('WelcomeMasterPane', () => {
   it('renders the welcome-master-pane', () => {
     const store = {
-      ...setupStore({ appCtrl: { appFocus: AUTH_PAGE } }),
+      ...setupStore({ appCtrl: { appFocus: PAGES.AUTH } }),
       dispatch: jest.fn(),
     };
     renderWithProviders(<WelcomeMasterPane />, { store });
@@ -48,7 +38,7 @@ describe('WelcomeMasterPane', () => {
   });
   it('dispatches focusAuth when appFocus is off AUTH_PAGE', () => {
     const store = {
-      ...setupStore({ appCtrl: { appFocus: HOME_PAGE } }),
+      ...setupStore({ appCtrl: { appFocus: PAGES.HOME } }),
       dispatch: jest.fn(),
     };
     renderWithProviders(<WelcomeMasterPane />, { store });
@@ -58,40 +48,40 @@ describe('WelcomeMasterPane', () => {
   });
   it('navigates to HOME_ROUTE when the LOGIN_COOKIE is set to LOGGED_IN_STATUS', () => {
     mockedUseCookies = () => {
-      return { [LOGIN_COOKIE]: LOGGED_IN_STATUS };
+      return { [COOKIES.LOGIN]: COOKIES.LOGIN };
     };
     renderWithProviders(<WelcomeMasterPane />, {
-      preloadedState: { appCtrl: { appFocus: AUTH_PAGE } },
+      preloadedState: { appCtrl: { appFocus: PAGES.AUTH } },
     });
-    expect(mockedNavigator).toHaveBeenCalledWith(HOME_ROUTE);
+    expect(mockedNavigator).toHaveBeenCalledWith(PAGES.HOME);
     mockedUseCookies = () => {
-      return { [LOGIN_COOKIE]: LOGGED_OUT_STATUS };
+      return { [COOKIES.LOGIN]: undefined };
     };
   });
   it('renders the welcome-page when the location is set to WELCOME_ROUTE', () => {
     mockedLocator = () => {
-      return { pathname: WELCOME_ROUTE };
+      return { pathname: PAGES.WELCOME };
     };
     renderWithProviders(<WelcomeMasterPane />, {
-      preloadedState: { appCtrl: { appFocus: AUTH_PAGE } },
+      preloadedState: { appCtrl: { appFocus: PAGES.AUTH } },
     });
     expect(screen.getByTestId('welcome-page')).toBeInTheDocument();
   });
   it('renders the login-page when the location is set to LOGIN_ROUTE', () => {
     mockedLocator = () => {
-      return { pathname: LOGIN_ROUTE };
+      return { pathname: PAGES.LOGIN };
     };
     renderWithProviders(<WelcomeMasterPane />, {
-      preloadedState: { appCtrl: { appFocus: AUTH_PAGE } },
+      preloadedState: { appCtrl: { appFocus: PAGES.AUTH } },
     });
     expect(screen.getByTestId('login-page')).toBeInTheDocument();
   });
   it('renders the signup-page when the location is set to SIGNUP_ROUTE', () => {
     mockedLocator = () => {
-      return { pathname: SIGNUP_ROUTE };
+      return { pathname: PAGES.SIGNUP };
     };
     renderWithProviders(<WelcomeMasterPane />, {
-      preloadedState: { appCtrl: { appFocus: AUTH_PAGE } },
+      preloadedState: { appCtrl: { appFocus: PAGES.AUTH } },
     });
     expect(screen.getByTestId('signup-page')).toBeInTheDocument();
   });

@@ -7,15 +7,7 @@ import { TasklistMasterPane } from 'component/tasks/TasklistMasterPane/TasklistM
 import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane/TimesheetMasterPane';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import {
-  ACCOUNT_ROUTE,
-  HOME_ROUTE,
-  LOGIN_ROUTE,
-  SIGNUP_ROUTE,
-  TASKS_ROUTE,
-  TIMESHEET_ROUTE,
-  WELCOME_ROUTE,
-} from 'helper/constants';
+import { PAGES } from 'helper/constants';
 import { MasterWrapper } from 'component/master/MasterWrapper/MasterWrapper';
 
 export const AppRouter: React.FC = () => {
@@ -23,13 +15,13 @@ export const AppRouter: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MasterWrapper />}>
-        <Route path={HOME_ROUTE} element={<HomeMasterPane />} />
-        <Route path={WELCOME_ROUTE} element={welcomeMasterPane} />
-        <Route path={LOGIN_ROUTE} element={welcomeMasterPane} />
-        <Route path={SIGNUP_ROUTE} element={welcomeMasterPane} />
-        <Route path={TASKS_ROUTE} element={<TasklistMasterPane />} />
-        <Route path={TIMESHEET_ROUTE} element={<TimesheetMasterPane />} />
-        <Route path={ACCOUNT_ROUTE} element={<AccountMasterPane />} />
+        <Route path={PAGES.HOME} element={<HomeMasterPane />} />
+        <Route path={PAGES.WELCOME} element={welcomeMasterPane} />
+        <Route path={PAGES.LOGIN} element={welcomeMasterPane} />
+        <Route path={PAGES.SIGNUP} element={welcomeMasterPane} />
+        <Route path={PAGES.TASKS} element={<TasklistMasterPane />} />
+        <Route path={PAGES.TIMESHEET} element={<TimesheetMasterPane />} />
+        <Route path={PAGES.ACCOUNT} element={<AccountMasterPane />} />
       </Route>
     </Routes>
   );
