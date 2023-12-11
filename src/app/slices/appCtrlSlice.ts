@@ -39,6 +39,33 @@ export const postToDB = createAsyncThunk(
   }
 );
 
+export const login = createAsyncThunk(
+  sliceName + '/login',
+  async (credentials: { username: string; password: string }) => {
+    try {
+      return {
+        status: 'success',
+        data: (await axios.post(USER_API.LOGIN, credentials, AXIOS_HEADERS))
+          .data,
+      };
+    } catch (e) {
+      if (axios.isAxiosError(e) && e.response) {
+        return {
+          data: {
+            message: e.response.data.message,
+            username: '',
+            sessionCode: '',
+          },
+          status: 'error',
+        };
+      } else {
+        console.error(e);
+        return undefined;
+      }
+    }
+  }
+);
+
 export const changePassword = createAsyncThunk(
   sliceName + '/changePassword',
   async ({ oldPassword, newPassword }: PasswordArgs, thunkAPI) => {
