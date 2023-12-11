@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 
 interface Props {
   input: string;
-  setInput: React.Dispatch<React.SetStateAction<string>>;
+  setInput: (arg: string) => void;
   isPassword?: boolean;
   label: string;
   id: string;
@@ -23,7 +23,7 @@ export const CredentialsInput: React.FC<Props> = ({
   label,
   id,
 }: Props) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(!isPassword);
   const toggleShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (
