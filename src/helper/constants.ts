@@ -4,8 +4,9 @@ export const ERR_MSG = {
   BLANK_NAME: 'Task name cannot be blank',
   NOT_PWD_MATCH: 'The passwords do not match.',
   INPUT_IS_BLANK: 'Input is blank.',
-  PWD_UPDATE_FAILED: 'ERROR: Password failed to update.',
-  DELETE_ACC_FAILED: 'ERROR: Account failed to delete.',
+  PWD_UPDATE_FAILED: 'SERVER ERROR: Password failed to update.',
+  DELETE_ACC_FAILED: 'SERVER ERROR: Account failed to delete.',
+  LOGIN_FAILED: 'SERVER ERROR: Login attempt failed.',
 };
 //Popup messages
 export const POP_MSG = {
