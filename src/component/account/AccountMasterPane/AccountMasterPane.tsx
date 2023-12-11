@@ -22,10 +22,7 @@ import { CredentialsInput } from 'component/helper-components/CredentialsInput/C
 
 export const AccountMasterPane: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [cookies, setCookie, removeCookie] = useCookies([
-    COOKIES.LOGIN,
-    COOKIES.USERNAME,
-  ]);
+  const [cookies, setCookie, removeCookie] = useCookies([COOKIES.LOGIN]);
   const navigate = useNavigate();
   const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
   const dispatch = useAppDispatch();
@@ -36,8 +33,11 @@ export const AccountMasterPane: React.FC = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [deleteAccPassword, setDeleteAccPassword] = useState('');
 
-  const newPasswordsMatch = () => {
-    return newPassword === confirmNewPassword;
+  const passwordsDoNotMatch = () => {
+    return newPassword !== confirmNewPassword;
+  };
+  const areBlankInputs = (inputs: string[]) => {
+    return !inputs.every((input) => input !== '');
   };
   const sendAlert = (message: string) => {
     setAlertMessage(message);
@@ -45,35 +45,41 @@ export const AccountMasterPane: React.FC = () => {
   };
 
   const handleChangePasswordClick = async () => {
-    if (newPasswordsMatch()) {
+    if (areBlankInputs([oldPassword, newPassword, confirmNewPassword])) {
+      sendAlert(ERR_MSG.INPUT_IS_BLANK);
+    } else if (passwordsDoNotMatch()) {
+      sendAlert(ERR_MSG.NOT_PWD_MATCH);
+    } else {
       const res = (await dispatch(changePassword({ oldPassword, newPassword })))
         .payload as { message: string; status: string } | undefined;
-      if (res !== undefined) {
+      if (res === undefined) {
+        sendAlert(ERR_MSG.PWD_UPDATE_FAILED);
+      } else if (res.status === 'success') {
         sendAlert(res.message);
-        if (res.status === 'success') {
-          setOldPassword('');
-          setNewPassword('');
-          setConfirmNewPassword('');
-        }
+        setOldPassword('');
+        setNewPassword('');
+        setConfirmNewPassword('');
       } else {
-        sendAlert('ERROR: Password failed to update.');
+        sendAlert(res.message);
       }
-    } else {
-      sendAlert(ERR_MSG.NOT_PWD_MATCH);
     }
   };
   const handleDeleteAccClick = async () => {
-    const res = (await dispatch(deleteAccount({ password: deleteAccPassword })))
-      .payload as { message: string; status: string } | undefined;
-    console.log(res);
-    if (res !== undefined) {
-      sendAlert(res.message);
-      if (res.status === 'success') {
+    if (areBlankInputs([deleteAccPassword])) {
+      sendAlert(ERR_MSG.INPUT_IS_BLANK);
+    } else {
+      const res = (
+        await dispatch(deleteAccount({ password: deleteAccPassword }))
+      ).payload as { message: string; status: string } | undefined;
+      if (res === undefined) {
+        sendAlert(ERR_MSG.DELETE_ACC_FAILED);
+      } else if (res.status === 'success') {
+        sendAlert(res.message);
         setDeleteAccPassword('');
         removeCookie(COOKIES.LOGIN, { path: '/' });
+      } else {
+        sendAlert(res.message);
       }
-    } else {
-      sendAlert('Account failed to delete.');
     }
   };
 

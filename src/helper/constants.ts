@@ -5,6 +5,7 @@ export const ERR_MSG = {
   NOT_PWD_MATCH: 'The passwords do not match.',
   INPUT_IS_BLANK: 'Input is blank.',
   PWD_UPDATE_FAILED: 'ERROR: Password failed to update.',
+  DELETE_ACC_FAILED: 'ERROR: Account failed to delete.',
 };
 //Popup messages
 export const POP_MSG = {
