@@ -19,6 +19,7 @@ import { COOKIES, ERR_MSG, PAGES } from 'helper/constants';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsInput } from 'component/helper-components/CredentialsInput/CredentialsInput';
+import { areBlankInputs } from 'helper/functions';
 
 export const AccountMasterPane: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -35,9 +36,6 @@ export const AccountMasterPane: React.FC = () => {
 
   const passwordsDoNotMatch = () => {
     return newPassword !== confirmNewPassword;
-  };
-  const areBlankInputs = (inputs: string[]) => {
-    return !inputs.every((input) => input !== '');
   };
   const sendAlert = (message: string) => {
     setAlertMessage(message);
