@@ -3,6 +3,8 @@ import { AppFocusT } from 'app/types';
 export const ERR_MSG = {
   BLANK_NAME: 'Task name cannot be blank',
   NOT_PWD_MATCH: 'The passwords do not match.',
+  INPUT_IS_BLANK: 'Input is blank.',
+  PWD_UPDATE_FAILED: 'ERROR: Password failed to update.',
 };
 //Popup messages
 export const POP_MSG = {
