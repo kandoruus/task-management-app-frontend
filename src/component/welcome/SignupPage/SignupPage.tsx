@@ -63,8 +63,8 @@ export const SignupPage: React.FC<Props> = (props) => {
       <CredentialsInput
         input={confirmPassword}
         setInput={setConfirmPassword}
-        label="Comfirm Password"
-        id="comfirm-password-input"
+        label="Confirm Password"
+        id="confirm-password-input"
         isPassword
       />
       <Box
