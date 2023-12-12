@@ -1,0 +1,109 @@
+.task-editor {
+  display: flex;
+  flex-direction: column;
+  margin: calc(min(84px, 10%)) auto auto;
+  /*background-color: #e3f2fd;*/
+  background-color: white;
+  padding: calc(min(4.5%, 34px)) calc(min(8%, 60px)) calc(min(6%, 45px));
+  width: 80%;
+  height: fit-content;
+  max-height: 80%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 10px;
+}
+
+.task-editor-btns {
+  width: 100%;
+  margin: 5% auto 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  & button {
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 25%;
+    min-width: 20%;
+  }
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  & h4 {
+    text-align: center;
+    line-height: 56px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+  }
+}
+
+.input-wrapper > *:not(:first-child) {
+  margin-top: calc(min(6%, 24px)) !important;
+}
+
+.input-wrapper > *:first-child {
+  height: 56px;
+}
+
+.tasklist-control-pane {
+  background-color: white;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  width: 100%;
+}
+
+.tl-control-btn {
+  padding: 2px !important;
+  max-height: 34px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.task-viewer {
+  background-color: white;
+  width: 100%;
+  height: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+}
+.tasklist-viewer {
+  width: 100%;
+  height: 96%;
+  max-height: calc(100% - 30px);
+  overflow-y: auto;
+}
+.tasklist-viewer > table > tbody > tr:last-of-type > td {
+  border-bottom: none;
+}
+.taskcard-table {
+  height: 100%;
+}
+.tasklist-footer {
+  height: 4%;
+  min-height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: white;
+  width: 100%;
+  border-top: 1px solid rgb(224, 224, 224);
+}
+.page-ref:hover {
+  background-color: transparent !important;
+  cursor: auto;
+}
+.footer-btn {
+  color: black !important;
+  border: none !important;
+  text-transform: none !important;
+  min-width: 20px !important;
+  padding: 6px !important;
+}

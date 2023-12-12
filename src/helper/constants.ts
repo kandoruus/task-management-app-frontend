@@ -23,7 +23,6 @@ export const TASKS_API = {
   DELETE_ONE: process.env.REACT_APP_DELETE_TASK_API as string,
   SAVE_ONE: process.env.REACT_APP_SAVE_ONE_TASK_API as string,
 };
-
 export const USER_API = {
   SIGNUP: process.env.REACT_APP_SIGNUP_USER_API as string,
   LOGIN: process.env.REACT_APP_LOGIN_USER_API as string,
