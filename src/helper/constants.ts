@@ -15,20 +15,22 @@ export const POP_MSG = {
 };
 
 //API addresses
+const taskApiRoot = process.env.REACT_APP_TASK_API as string;
 export const TASKS_API = {
-  GET_ALL: process.env.REACT_APP_GET_ALL_TASKS_API as string,
-  DELETE_ALL: process.env.REACT_APP_DELETE_ALL_TASKS_API as string,
-  SAVE_ALL: process.env.REACT_APP_SAVE_ALL_TASKS_API as string,
-  SAVE_NEW: process.env.REACT_APP_SAVE_NEW_TASKS_API as string,
-  DELETE_ONE: process.env.REACT_APP_DELETE_TASK_API as string,
-  SAVE_ONE: process.env.REACT_APP_SAVE_ONE_TASK_API as string,
+  GET_ALL: taskApiRoot + '/tasklist',
+  DELETE_ALL: taskApiRoot + '/cleartasks',
+  SAVE_ALL: taskApiRoot + '/updatemanytasks',
+  SAVE_NEW: taskApiRoot + '/task',
+  DELETE_ONE: taskApiRoot + '/removetask',
+  SAVE_ONE: taskApiRoot + '/updatetask',
 };
+const userApiRoot = process.env.REACT_APP_USER_API as string;
 export const USER_API = {
-  SIGNUP: process.env.REACT_APP_SIGNUP_USER_API as string,
-  LOGIN: process.env.REACT_APP_LOGIN_USER_API as string,
-  CHANGE_PASSWORD: process.env.REACT_APP_CHANGE_PASSWORD_USER_API as string,
-  DELETE_ACCOUNT: process.env.REACT_APP_DELETE_ACCOUNT_USER_API as string,
-  LOGOUT: process.env.REACT_APP_LOGOUT_USER_API as string,
+  SIGNUP: userApiRoot + '/signup',
+  LOGIN: userApiRoot + '/login',
+  CHANGE_PASSWORD: userApiRoot + '/change-password',
+  DELETE_ACCOUNT: userApiRoot + '/delete-account',
+  LOGOUT: userApiRoot + '/logout',
 };
 
 //cookies
