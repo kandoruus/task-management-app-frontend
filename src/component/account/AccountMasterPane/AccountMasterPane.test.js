@@ -36,6 +36,7 @@ describe('AccountMasterPane', () => {
   afterEach(() => {
     mockedSetCookie.mockClear();
     mockedRemoveCookie.mockClear();
+    mockedNavigator.mockClear();
   });
   describe('When loaded with the correct app data', () => {
     const store = {
