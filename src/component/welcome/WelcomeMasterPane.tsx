@@ -8,23 +8,20 @@ import {
   Typography,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector, useModal } from 'app/hooks';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { LoginPage } from 'component/welcome/LoginPage';
 import { WelcomePage } from 'component/welcome/WelcomePage';
 import { SignupPage } from 'component/welcome/SignupPage';
-import { COOKIES, PAGES } from 'helper/constants';
+import { PAGES } from 'helper/constants';
 import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
-import { useCookies } from 'react-cookie';
 import 'component/welcome/_styles.css';
 
 export const WelcomeMasterPane: React.FC = () => {
-  const [cookies] = useCookies([COOKIES.LOGIN]);
   const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
   const dispatch = useAppDispatch();
   const [alertIsOpen, toggleAlert] = useModal();
   const [alertMessage, setAlertMessage] = useState('');
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const sendAlert = (message: string) => {
     setAlertMessage(message);
     toggleAlert();
@@ -33,9 +30,6 @@ export const WelcomeMasterPane: React.FC = () => {
   useEffect(() => {
     if (appFocus !== PAGES.AUTH) {
       dispatch(appCtrlSlice.actions.focusAuth());
-    }
-    if (cookies[COOKIES.LOGIN] === COOKIES.LOGIN) {
-      navigate(PAGES.HOME);
     }
   });
 

@@ -3,24 +3,6 @@ import { screen } from '@testing-library/react';
 import { renderWithProviders } from 'helper/testUtils';
 import { App } from './App';
 import { MemoryRouter } from 'react-router-dom';
-
-describe('App', () => {
-  it('renders the master-wrapper', () => {
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/']}>
-        <App />
-      </MemoryRouter>
-    );
-    expect(screen.queryByTestId('master-wrapper')).toBeInTheDocument();
-  });
-});
-
-/*
-import * as React from 'react';
-import { screen } from '@testing-library/react';
-import { AppRouter } from './AppRouter';
-import { renderWithProviders } from 'helper/testUtils';
-import { MemoryRouter } from 'react-router-dom';
 import { PAGES } from 'helper/constants';
 
 jest.mock('react-router-dom', () => ({
@@ -28,11 +10,17 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => jest.fn(),
 }));
 
-describe('AppRouter', () => {
+describe('App', () => {
+  it('TODO: add tests for redirect', () => {
+    expect(true).toBe(false);
+  });
+  it('TODO: add tests for cookies', () => {
+    expect(true).toBe(false);
+  });
   it('renders the master-wrapper at "/"', () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
-        <AppRouter />
+        <App />
       </MemoryRouter>
     );
     expect(screen.getByTestId('master-wrapper')).toBeInTheDocument();
@@ -40,7 +28,7 @@ describe('AppRouter', () => {
   it('renders the welcome-master-pane and the welcome-page at WELCOME_ROUTE', () => {
     renderWithProviders(
       <MemoryRouter initialEntries={[PAGES.WELCOME]}>
-        <AppRouter />
+        <App />
       </MemoryRouter>
     );
     expect(screen.getByTestId('welcome-master-pane')).toBeInTheDocument();
@@ -49,7 +37,7 @@ describe('AppRouter', () => {
   it('renders the welcome-master-pane and the login-page at LOGIN_ROUTE', () => {
     renderWithProviders(
       <MemoryRouter initialEntries={[PAGES.LOGIN]}>
-        <AppRouter />
+        <App />
       </MemoryRouter>
     );
     expect(screen.getByTestId('welcome-master-pane')).toBeInTheDocument();
@@ -58,7 +46,7 @@ describe('AppRouter', () => {
   it('renders the welcome-master-pane and the signup-page at SIGNUP_ROUTE', () => {
     renderWithProviders(
       <MemoryRouter initialEntries={[PAGES.SIGNUP]}>
-        <AppRouter />
+        <App />
       </MemoryRouter>
     );
     expect(screen.getByTestId('welcome-master-pane')).toBeInTheDocument();
@@ -67,7 +55,7 @@ describe('AppRouter', () => {
   it('renders the home-master-pane at HOME_ROUTE', () => {
     renderWithProviders(
       <MemoryRouter initialEntries={[PAGES.HOME]}>
-        <AppRouter />
+        <App />
       </MemoryRouter>
     );
     expect(screen.getByTestId('home-master-pane')).toBeInTheDocument();
@@ -75,7 +63,7 @@ describe('AppRouter', () => {
   it('renders the tasklist-master-pane at TASKS_ROUTE', () => {
     renderWithProviders(
       <MemoryRouter initialEntries={[PAGES.TASKS]}>
-        <AppRouter />
+        <App />
       </MemoryRouter>
     );
     expect(screen.getByTestId('tasklist-master-pane')).toBeInTheDocument();
@@ -83,7 +71,7 @@ describe('AppRouter', () => {
   it('renders the timesheet-master-pane at TIMESHEET_ROUTE', () => {
     renderWithProviders(
       <MemoryRouter initialEntries={[PAGES.TIMESHEET]}>
-        <AppRouter />
+        <App />
       </MemoryRouter>
     );
     expect(screen.getByTestId('timesheet-master-pane')).toBeInTheDocument();
@@ -91,11 +79,9 @@ describe('AppRouter', () => {
   it('renders the account-master-pane at ACCOUNT_ROUTE', () => {
     renderWithProviders(
       <MemoryRouter initialEntries={[PAGES.ACCOUNT]}>
-        <AppRouter />
+        <App />
       </MemoryRouter>
     );
     expect(screen.getByTestId('account-master-pane')).toBeInTheDocument();
   });
 });
-
-*/

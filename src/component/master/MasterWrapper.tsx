@@ -1,43 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import 'component/master/_styles.css';
 import { Box } from '@mui/material';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { appCtrlSlice, logout, selectAppCtrl } from 'app/slices/appCtrlSlice';
+import { useAppSelector } from 'app/hooks';
+import { selectAppCtrl } from 'app/slices/appCtrlSlice';
 import { MainHeader } from 'component/master/MainHeader';
-import { PAGES, COOKIES, SESSION_LOGGED_OUT } from 'helper/constants';
-import { AppDispatch } from 'app/store';
-import { useCookies } from 'react-cookie';
+import { PAGES } from 'helper/constants';
+
 import { Outlet } from 'react-router-dom';
 
 export const MasterWrapper: React.FC = () => {
-  const { sessionData, appFocus } = useAppSelector((state) =>
-    selectAppCtrl(state)
-  );
-  const dispatch: AppDispatch = useAppDispatch();
-  const [cookies] = useCookies([
-    COOKIES.USERNAME,
-    COOKIES.SESSIONCODE,
-    COOKIES.LOGIN,
-  ]);
+  const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
 
-  useEffect(() => {
-    if (
-      sessionData === SESSION_LOGGED_OUT &&
-      cookies[COOKIES.LOGIN] === COOKIES.LOGIN
-    ) {
-      dispatch(
-        appCtrlSlice.actions.login({
-          username: cookies[COOKIES.USERNAME],
-          sessionCode: cookies[COOKIES.SESSIONCODE],
-        })
-      );
-    } else if (
-      sessionData !== SESSION_LOGGED_OUT &&
-      cookies[COOKIES.LOGIN] === undefined
-    ) {
-      dispatch(logout());
-    }
-  });
   return (
     <Box className="master-wrapper" data-testid="master-wrapper">
       {appFocus !== PAGES.AUTH && <MainHeader />}

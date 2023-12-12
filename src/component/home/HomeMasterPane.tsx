@@ -4,12 +4,10 @@ import 'component/home/_styles.css';
 import { appCtrlSlice, selectAppCtrl } from 'app/slices/appCtrlSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { AppDispatch } from 'app/store';
-import { PAGES, COOKIES } from 'helper/constants';
-import { useCookies } from 'react-cookie';
+import { PAGES } from 'helper/constants';
 import { useNavigate } from 'react-router-dom';
 
 export const HomeMasterPane: React.FC = () => {
-  const [cookies] = useCookies([COOKIES.LOGIN]);
   const navigate = useNavigate();
   const dispatch: AppDispatch = useAppDispatch();
   const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
@@ -32,9 +30,6 @@ export const HomeMasterPane: React.FC = () => {
   useEffect(() => {
     if (appFocus !== PAGES.HOME) {
       dispatch(appCtrlSlice.actions.focusHome());
-    }
-    if (cookies[COOKIES.LOGIN] === undefined) {
-      navigate(PAGES.WELCOME);
     }
   });
   return (

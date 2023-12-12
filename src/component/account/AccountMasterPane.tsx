@@ -17,14 +17,12 @@ import {
 } from 'app/slices/appCtrlSlice';
 import { COOKIES, ERR_MSG, PAGES } from 'helper/constants';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 import { CredentialsInput } from 'component/helper-components/CredentialsInput';
 import { areBlankInputs } from 'helper/functions';
 
 export const AccountMasterPane: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies([COOKIES.LOGIN]);
-  const navigate = useNavigate();
   const { appFocus } = useAppSelector((state) => selectAppCtrl(state));
   const dispatch = useAppDispatch();
   const [alertIsOpen, toggleAlert] = useModal();
@@ -84,9 +82,6 @@ export const AccountMasterPane: React.FC = () => {
   useEffect(() => {
     if (appFocus !== PAGES.ACCOUNT) {
       dispatch(appCtrlSlice.actions.focusAccount());
-    }
-    if (cookies[COOKIES.LOGIN] === undefined) {
-      navigate(PAGES.WELCOME);
     }
   });
   return (
