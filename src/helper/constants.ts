@@ -7,6 +7,7 @@ export const ERR_MSG = {
   PWD_UPDATE_FAILED: 'SERVER ERROR: Password failed to update.',
   DELETE_ACC_FAILED: 'SERVER ERROR: Account failed to delete.',
   LOGIN_FAILED: 'SERVER ERROR: Login attempt failed.',
+  SIGNUP_FAILED: 'SERVER ERROR: Failed to create new account.',
 };
 //Popup messages
 export const POP_MSG = {
