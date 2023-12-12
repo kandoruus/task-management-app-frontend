@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import './SignupPage.css';
-import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-} from '@mui/material';
-import { VisibilityOff, Visibility } from '@mui/icons-material';
-import axios from 'axios';
-import { AXIOS_HEADERS, PAGES, USER_API } from 'helper/constants';
+import { Box, Button, Typography } from '@mui/material';
+import { ERR_MSG, PAGES } from 'helper/constants';
 import { useNavigate } from 'react-router-dom';
+import { CredentialsInput } from 'component/helper-components/CredentialsInput/CredentialsInput';
+import { areBlankInputs } from 'helper/functions';
+import { useAppDispatch } from 'app/hooks';
+import { signup } from 'app/slices/appCtrlSlice';
 
 type Props = {
   sendAlert: (message: string) => void;
@@ -22,106 +15,58 @@ type Props = {
 export const SignupPage: React.FC<Props> = (props) => {
   const navigate = useNavigate();
   const { sendAlert } = props;
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
+  const dispatch = useAppDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-  const handleClickShowPasswordConfirm = () =>
-    setShowPasswordConfirm((show) => !show);
+  const passwordsDoNotMatch = () => {
+    return password !== confirmPassword;
+  };
   const handleSignup = async () => {
-    try {
-      const resData = (
-        await axios.post(
-          USER_API.SIGNUP,
-          {
-            username,
-            password,
-          },
-          AXIOS_HEADERS
-        )
-      ).data;
-      sendAlert(resData.message);
-      navigate(PAGES.LOGIN);
-    } catch (e) {
-      if (axios.isAxiosError(e) && e.response) {
-        sendAlert(e.response.data.message);
+    if (areBlankInputs([username, password, confirmPassword])) {
+      sendAlert(ERR_MSG.INPUT_IS_BLANK);
+    } else if (passwordsDoNotMatch()) {
+      sendAlert(ERR_MSG.NOT_PWD_MATCH);
+    } else {
+      const res = (await dispatch(signup({ username, password }))).payload as
+        | {
+            message: string;
+            status: string;
+          }
+        | undefined;
+      if (res === undefined) {
+        sendAlert(ERR_MSG.SIGNUP_FAILED);
+      } else if (res.status === 'success') {
+        sendAlert(res.message);
+        navigate(PAGES.LOGIN);
       } else {
-        console.error(e);
+        sendAlert(res.message);
       }
     }
   };
 
   return (
     <Box className="login-inner-wrapper" data-testid="signup-page">
-      <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-        <InputLabel htmlFor="outlined-username">Username</InputLabel>
-        <OutlinedInput
-          id="outlined-username"
-          type="text"
-          label="Username"
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
-      </FormControl>
-      <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
-          type={showPassword ? 'text' : 'password'}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-      </FormControl>
-      <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-confirm-password">
-          Confirm Password
-        </InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-confirm-password"
-          type={showPasswordConfirm ? 'text' : 'password'}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPasswordConfirm}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPasswordConfirm ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => {
-            setConfirmPassword(e.target.value);
-          }}
-        />
-      </FormControl>
+      <CredentialsInput
+        input={username}
+        setInput={setUsername}
+        label="Username"
+        id="username-input"
+      />
+      <CredentialsInput
+        input={password}
+        setInput={setPassword}
+        label="Password"
+        id="password-input"
+        isPassword
+      />
+      <CredentialsInput
+        input={confirmPassword}
+        setInput={setConfirmPassword}
+        label="Comfirm Password"
+        id="comfirm-password-input"
+        isPassword
+      />
       <Box
         sx={{
           display: 'flex',
