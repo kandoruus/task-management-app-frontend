@@ -66,6 +66,29 @@ export const login = createAsyncThunk(
   }
 );
 
+export const signup = createAsyncThunk(
+  sliceName + '/signup',
+  async (credentials: { username: string; password: string }) => {
+    try {
+      return {
+        status: 'success',
+        message: (await axios.post(USER_API.SIGNUP, credentials, AXIOS_HEADERS))
+          .data.message,
+      };
+    } catch (e) {
+      if (axios.isAxiosError(e) && e.response) {
+        return {
+          message: e.response.data.message,
+          status: 'error',
+        };
+      } else {
+        console.error(e);
+        return undefined;
+      }
+    }
+  }
+);
+
 export const changePassword = createAsyncThunk(
   sliceName + '/changePassword',
   async ({ oldPassword, newPassword }: PasswordArgs, thunkAPI) => {
