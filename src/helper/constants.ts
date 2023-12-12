@@ -42,14 +42,14 @@ export const COOKIES = {
 
 //routes
 export const PAGES = {
-  AUTH: '/task-management-app/welcome' as AppFocusT,
-  WELCOME: '/task-management-app/welcome' as AppFocusT,
-  LOGIN: '/task-management-app/login' as AppFocusT,
-  SIGNUP: '/task-management-app/signup' as AppFocusT,
-  HOME: '/task-management-app' as AppFocusT,
-  TASKS: '/task-management-app/tasks' as AppFocusT,
-  TIMESHEET: '/task-management-app/timesheet' as AppFocusT,
-  ACCOUNT: '/task-management-app/account' as AppFocusT,
+  AUTH: '/welcome' as AppFocusT,
+  WELCOME: '/welcome' as AppFocusT,
+  LOGIN: '/login' as AppFocusT,
+  SIGNUP: '/signup' as AppFocusT,
+  HOME: '/' as AppFocusT,
+  TASKS: '/tasks' as AppFocusT,
+  TIMESHEET: '/timesheet' as AppFocusT,
+  ACCOUNT: '/account' as AppFocusT,
 };
 
 //misc

@@ -1,7 +1,6 @@
 {
   "name": "task-management-app",
   "version": "0.1.0",
-  "homepage": "https://kandoruus.github.io/task-management-app",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",

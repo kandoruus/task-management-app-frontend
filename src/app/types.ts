@@ -25,12 +25,12 @@ export type SessionData = { username: string; sessionCode: string };
 export type PasswordArgs = { oldPassword: string; newPassword: string };
 
 export type AppFocusT =
-  | '/task-management-app/welcome'
-  | '/task-management-app/login'
-  | '/task-management-app/signup'
-  | '/task-management-app'
-  | '/task-management-app/tasks'
-  | '/task-management-app/timesheet'
-  | '/task-management-app/account';
+  | '/welcome'
+  | '/login'
+  | '/signup'
+  | '/'
+  | '/tasks'
+  | '/timesheet'
+  | '/account';
 
 export type WelcomePageT = React.FC<{ sendAlert: (message: string) => void }>;
