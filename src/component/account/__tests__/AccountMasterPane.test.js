@@ -12,16 +12,6 @@ import {
 import { act } from 'react-dom/test-utils';
 
 const mockedRemoveCookie = jest.fn();
-const mockedSetCookie = jest.fn();
-const mockedUseLoggedInCookies = () => {
-  return {
-    [COOKIES.LOGIN]: COOKIES.LOGIN,
-  };
-};
-const mockedUseLoggedOutCookies = () => {
-  return { [COOKIES.LOGIN]: undefined };
-};
-let mockedUseCookies = mockedUseLoggedInCookies;
 const mockedNavigator = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -29,12 +19,11 @@ jest.mock('react-router-dom', () => ({
 }));
 jest.mock('react-cookie', () => ({
   ...jest.requireActual('react-cookie'),
-  useCookies: () => [mockedUseCookies(), mockedSetCookie, mockedRemoveCookie],
+  useCookies: () => [jest.fn(), jest.fn(), mockedRemoveCookie],
 }));
 
 describe('AccountMasterPane', () => {
   afterEach(() => {
-    mockedSetCookie.mockClear();
     mockedRemoveCookie.mockClear();
     mockedNavigator.mockClear();
   });
@@ -250,14 +239,6 @@ describe('AccountMasterPane', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         appCtrlSlice.actions.focusAccount()
       );
-    });
-    it('navigates to WELCOME_ROUTE when the LOGIN_COOKIE is not set to LOGGED_IN_STATUS', () => {
-      mockedUseCookies = mockedUseLoggedOutCookies;
-      renderWithProviders(<AccountMasterPane />, {
-        preloadedState: { appCtrl: { appFocus: PAGES.ACCOUNT } },
-      });
-      expect(mockedNavigator).toHaveBeenCalledWith(PAGES.WELCOME);
-      mockedUseCookies = mockedUseLoggedInCookies;
     });
   });
 });

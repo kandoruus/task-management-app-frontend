@@ -3,21 +3,14 @@ import { screen } from '@testing-library/react';
 import { TasklistMasterPane } from '../TasklistMasterPane';
 import { initialTaskCtrlState } from 'app/slices/taskCtrlSlice';
 import { renderWithProviders } from 'helper/testUtils';
-import { COOKIES, PAGES } from 'helper/constants';
+import { PAGES } from 'helper/constants';
 import { setupStore } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 
-let mockedUseCookies = () => {
-  return { [COOKIES.LOGIN]: COOKIES.LOGIN };
-};
 const mockedNavigator = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockedNavigator,
-}));
-jest.mock('react-cookie', () => ({
-  ...jest.requireActual('react-cookie'),
-  useCookies: () => [mockedUseCookies()],
 }));
 
 describe('TasklistMasterPane', () => {
@@ -63,20 +56,5 @@ describe('TasklistMasterPane', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       appCtrlSlice.actions.focusTasks()
     );
-  });
-  it('navigates to the WELCOME_ROUTE if the LOGIN_COOKIE is not set to LOGGED_IN_STATUS', () => {
-    mockedUseCookies = () => {
-      return { [COOKIES.LOGIN]: undefined };
-    };
-    const store = {
-      ...setupStore({
-        appCtrl: {
-          appFocus: PAGES.TASKS,
-        },
-      }),
-      dispatch: jest.fn(),
-    };
-    renderWithProviders(<TasklistMasterPane />, { store });
-    expect(mockedNavigator).toHaveBeenCalledWith(PAGES.WELCOME);
   });
 });

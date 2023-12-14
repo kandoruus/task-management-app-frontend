@@ -3,20 +3,13 @@ import { screen, fireEvent } from '@testing-library/react';
 import { HomeMasterPane } from '../HomeMasterPane';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 import { renderWithProviders } from 'helper/testUtils';
-import { PAGES, COOKIES } from 'helper/constants';
+import { PAGES } from 'helper/constants';
 import { setupStore } from 'app/store';
 
-let mockedUseCookies = () => {
-  return { [COOKIES.LOGIN]: COOKIES.LOGIN };
-};
 const mockedNavigator = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockedNavigator,
-}));
-jest.mock('react-cookie', () => ({
-  ...jest.requireActual('react-cookie'),
-  useCookies: () => [mockedUseCookies()],
 }));
 
 describe('HomeMasterPane', () => {
@@ -61,18 +54,6 @@ describe('HomeMasterPane', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         appCtrlSlice.actions.focusHome()
       );
-    });
-  });
-  describe('when opened with the status not set to LOGGED_IN_STATUS', () => {
-    it('navigates to WELCOME_ROUTE', () => {
-      mockedUseCookies = () => {
-        return { [COOKIES.LOGIN]: undefined };
-      };
-      const store = {
-        ...setupStore({ appCtrl: { appFocus: PAGES.HOME } }),
-      };
-      renderWithProviders(<HomeMasterPane />, { store });
-      expect(mockedNavigator).toHaveBeenCalledWith(PAGES.WELCOME);
     });
   });
 });

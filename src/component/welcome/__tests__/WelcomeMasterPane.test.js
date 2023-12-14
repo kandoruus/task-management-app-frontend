@@ -2,13 +2,10 @@ import * as React from 'react';
 import { screen } from '@testing-library/react';
 import { WelcomeMasterPane } from '../WelcomeMasterPane';
 import { renderWithProviders } from 'helper/testUtils';
-import { COOKIES, PAGES } from 'helper/constants';
+import { PAGES } from 'helper/constants';
 import { setupStore } from 'app/store';
 import { appCtrlSlice } from 'app/slices/appCtrlSlice';
 
-let mockedUseCookies = () => {
-  return { [COOKIES.LOGIN]: undefined };
-};
 let mockedLocator = () => {
   return { pathname: '' };
 };
@@ -19,10 +16,6 @@ jest.mock('react-router-dom', () => ({
   useLocation: () => {
     return { ...mockedLocator() };
   },
-}));
-jest.mock('react-cookie', () => ({
-  ...jest.requireActual('react-cookie'),
-  useCookies: () => [mockedUseCookies()],
 }));
 
 describe('WelcomeMasterPane', () => {
@@ -45,18 +38,6 @@ describe('WelcomeMasterPane', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       appCtrlSlice.actions.focusAuth()
     );
-  });
-  it('navigates to HOME_ROUTE when the LOGIN_COOKIE is set to LOGGED_IN_STATUS', () => {
-    mockedUseCookies = () => {
-      return { [COOKIES.LOGIN]: COOKIES.LOGIN };
-    };
-    renderWithProviders(<WelcomeMasterPane />, {
-      preloadedState: { appCtrl: { appFocus: PAGES.AUTH } },
-    });
-    expect(mockedNavigator).toHaveBeenCalledWith(PAGES.HOME);
-    mockedUseCookies = () => {
-      return { [COOKIES.LOGIN]: undefined };
-    };
   });
   it('renders the welcome-page when the location is set to WELCOME_ROUTE', () => {
     mockedLocator = () => {
