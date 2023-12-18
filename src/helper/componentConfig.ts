@@ -1,27 +1,37 @@
+import {
+  createNewTask,
+  deleteTasklist,
+  fetchTasklist,
+  saveTasklist,
+} from 'app/slices/taskCtrlSlice';
+
+//Talk to Mike about the right way to do this, feels hacked this way
+export type AsyncThunkT = typeof fetchTasklist;
+
 export const tasklistCtrlBtns: {
   id: string;
   value: string;
-  handleClickIdx: number;
+  action: AsyncThunkT;
 }[] = [
   {
     id: 'load-tl-btn',
     value: 'Load Tasks',
-    handleClickIdx: 0,
+    action: fetchTasklist,
   },
   {
     id: 'delete-tl-btn',
     value: 'Delete Tasks',
-    handleClickIdx: 1,
+    action: deleteTasklist,
   },
   {
     id: 'save-tl-btn',
     value: 'Save Tasks',
-    handleClickIdx: 2,
+    action: saveTasklist,
   },
   {
     id: 'new-task-tl-btn',
     value: 'Create Task',
-    handleClickIdx: 3,
+    action: createNewTask,
   },
 ];
 

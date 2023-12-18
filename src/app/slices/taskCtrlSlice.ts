@@ -1,5 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { selectAppCtrl } from 'app/slices/appCtrlSlice';
+import { loadTaskData } from 'app/slices/taskEditorSlice';
 import { RootState } from 'app/store';
 import { Task, Tasklist, TaskDataWIdx } from 'app/types';
 import axios from 'axios';
@@ -64,6 +65,8 @@ export const createNewTask = createAsyncThunk(
       AXIOS_HEADERS
     );
     if (response.data.id) {
+      const indexOfNewTask = selectTaskCtrl(thunkAPI.getState() as RootState)
+        .tasklist.length;
       thunkAPI.dispatch(
         addTaskToList({
           _id: response.data.id,
@@ -71,6 +74,13 @@ export const createNewTask = createAsyncThunk(
           __v: 0,
         })
       );
+      thunkAPI.dispatch(
+        loadTaskData({
+          data: { ...NEW_TASK_DATA },
+          indx: indexOfNewTask,
+        })
+      );
+      thunkAPI.dispatch(openEditor());
     } else {
       throw new Error('No id returned from Database');
     }

@@ -6,19 +6,12 @@ import {
   fetchTasklist,
   initialTaskCtrlState,
   saveTasklist,
-  taskCtrlSlice,
 } from 'app/slices/taskCtrlSlice';
-import {
-  taskEditorSlice,
-  initialTaskEditorState,
-} from 'app/slices/taskEditorSlice';
+import { initialTaskEditorState } from 'app/slices/taskEditorSlice';
 import { getMockTasklist, renderWithProviders } from 'helper/testUtils';
 import { TasklistControlPane } from '../TasklistControlPane';
-//import { useAppSelector } from 'app/hooks';
-import { NEW_TASK_DATA } from 'helper/constants';
 import { setupStore } from 'app/store';
 
-//new unit tests
 describe('TasklistControlPane', () => {
   const mockedList = getMockTasklist(2);
   const store = {
@@ -39,7 +32,9 @@ describe('TasklistControlPane', () => {
   });
   it('renders the toolbar and menu button', () => {
     expect(screen.getByTestId('tasklist-control-pane')).toBeInTheDocument();
-    expect(screen.getByTestId('tasklist-menu-btn')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /menu-btn/i })
+    ).toBeInTheDocument();
     expect(screen.getAllByRole('button').length).toEqual(1);
     expect(screen.queryByText('Load Tasks')).toBeNull();
     expect(screen.queryByText('Delete Tasks')).toBeNull();
@@ -47,7 +42,7 @@ describe('TasklistControlPane', () => {
     expect(screen.queryByText('Create Task')).toBeNull();
   });
   it('opens the menu when the menu button is clicked', () => {
-    fireEvent.click(screen.getByTestId('tasklist-menu-btn'));
+    fireEvent.click(screen.getByRole('button', { name: /menu-btn/i }));
     expect(screen.getByText('Load Tasks')).toBeInTheDocument();
     expect(screen.getByText('Delete Tasks')).toBeInTheDocument();
     expect(screen.getByText('Save Tasks')).toBeInTheDocument();
@@ -55,7 +50,7 @@ describe('TasklistControlPane', () => {
   });
   describe('when the menu button is clicked', () => {
     beforeEach(() => {
-      fireEvent.click(screen.getByTestId('tasklist-menu-btn'));
+      fireEvent.click(screen.getByRole('button', { name: /menu-btn/i }));
     });
     it('dispatches the fetchTasklist action when Load Tasks is clicked', () => {
       fireEvent.click(screen.getByText('Load Tasks'));
@@ -80,91 +75,6 @@ describe('TasklistControlPane', () => {
       expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
         createNewTask(store.dispatch).toString()
       );
-      expect(store.dispatch).toHaveBeenCalledWith(
-        taskEditorSlice.actions.loadTaskData({
-          data: { ...NEW_TASK_DATA },
-          indx: 2,
-        })
-      );
-      expect(store.dispatch).toHaveBeenCalledWith(
-        taskCtrlSlice.actions.openEditor()
-      );
     });
   });
 });
-
-/*//integration tests
-const TasklistControlPaneWithState = () => {
-  const listLength = useAppSelector((state) => state.taskCtrl.tasklist.length);
-  const showEditor = useAppSelector((state) => state.taskCtrl.showEditor);
-  return (
-    <div>
-      <div>{'There are ' + listLength + ' tasks in the list'}</div>
-      <div>{showEditor ? 'The Editor is Open' : 'The Editor is Closed'}</div>
-      <TasklistControlPane />
-    </div>
-  );
-};
-
-describe('TasklistControlPane', () => {
-  it('loads the tasklist from the database when Load Tasks is clicked', async () => {
-    axios.get.mockImplementation(() =>
-      Promise.resolve({ data: getMockTasklist(2) })
-    );
-    renderWithProviders(<TasklistControlPaneWithState />);
-    expect(
-      screen.getByText('There are 0 tasks in the list')
-    ).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Load Tasks'));
-    expect(
-      await screen.findByText('There are 2 tasks in the list')
-    ).toBeInTheDocument();
-  });
-  it('deletes the tasklist locally and from the db when Delete Tasks is clicked', async () => {
-    axios.get.mockImplementation(() => Promise.resolve());
-    renderWithProviders(<TasklistControlPaneWithState />, {
-      preloadedState: {
-        taskCtrl: {
-          ...initialTaskCtrlState,
-          tasklist: getMockTasklist(2),
-        },
-        taskEditor: initialTaskEditorState,
-      },
-    });
-    expect(
-      screen.getByText('There are 2 tasks in the list')
-    ).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Delete Tasks'));
-    expect(
-      await screen.findByText('There are 0 tasks in the list')
-    ).toBeInTheDocument();
-  });
-  it('creates a new task, saves it to the db, and opens that task in the editor when Create Task is clicked', async () => {
-    const mockTasklistLength = 2;
-    let taskIsSaved = false;
-    axios.post.mockImplementation((_, data) => {
-      taskIsSaved = data.data === JSON.stringify(NEW_TASK_DATA);
-      return Promise.resolve({ data: { id: 'mock id 2' } });
-    });
-    renderWithProviders(<TasklistControlPaneWithState />, {
-      preloadedState: {
-        taskCtrl: {
-          ...initialTaskCtrlState,
-          tasklist: getMockTasklist(mockTasklistLength),
-        },
-        taskEditor: initialTaskEditorState,
-      },
-    });
-    expect(taskIsSaved).toBe(false);
-    expect(
-      screen.getByText('There are 2 tasks in the list')
-    ).toBeInTheDocument();
-    expect(screen.getByText('The Editor is Closed')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Create Task'));
-    expect(
-      await screen.findByText('There are 3 tasks in the list')
-    ).toBeInTheDocument();
-    expect(screen.getByText('The Editor is Open')).toBeInTheDocument();
-    expect(taskIsSaved).toBe(true);
-  });
-});*/
