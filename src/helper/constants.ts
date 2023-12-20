@@ -1,4 +1,5 @@
 import { AppFocusT } from 'app/types';
+import { Duration, FormatDurationOptions } from 'date-fns';
 //Error messages
 export const ERR_MSG = {
   BLANK_NAME: 'Task name cannot be blank',
@@ -70,4 +71,23 @@ export const TASKS_PER_PAGE = 25;
 export const SESSION_LOGGED_OUT = {
   username: '',
   sessionCode: '',
+};
+
+//zeroed duration object
+export const zeroDuration: Duration = {
+  years: 0,
+  months: 0,
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+};
+//format options for duration outputs, ref: https://stackoverflow.com/a/65711327
+export const durationFormatOptions: FormatDurationOptions = {
+  format: ['hours', 'minutes'],
+  zero: true,
+  delimiter: ':',
+  locale: {
+    formatDistance: (_token, count) => String(count).padStart(2, '0'),
+  },
 };
