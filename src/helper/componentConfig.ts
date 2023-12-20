@@ -4,15 +4,16 @@ import {
   fetchTasklist,
   saveTasklist,
 } from 'app/slices/taskCtrlSlice';
+import { ActionCreator } from 'redux';
 
-//Talk to Mike about the right way to do this, feels hacked this way
-export type AsyncThunkT = typeof fetchTasklist;
-
-export const tasklistCtrlBtns: {
+export type MenuButtonConfig = {
   id: string;
   value: string;
-  action: AsyncThunkT;
-}[] = [
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  action: ActionCreator<any>;
+};
+
+export const tasklistCtrlBtns: MenuButtonConfig[] = [
   {
     id: 'load-tl-btn',
     value: 'Load Tasks',
@@ -32,6 +33,30 @@ export const tasklistCtrlBtns: {
     id: 'new-task-tl-btn',
     value: 'Create Task',
     action: createNewTask,
+  },
+];
+
+export const timesheetCtrlBtns: MenuButtonConfig[] = [
+  {
+    id: 'view-week-btn',
+    value: 'Weekly',
+    action: () => {
+      console.log('Weekly');
+    },
+  },
+  {
+    id: 'view-month-btn',
+    value: 'Monthly',
+    action: () => {
+      console.log('Monthly');
+    },
+  },
+  {
+    id: 'set-view-btn',
+    value: 'Custom',
+    action: () => {
+      console.log('Custom');
+    },
   },
 ];
 
