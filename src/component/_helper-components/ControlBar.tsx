@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
-import { IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import React, { PropsWithChildren, useState } from 'react';
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import 'component/tasks/_styles.css';
 import { AppDispatch } from 'app/store';
-import { AsyncThunkT } from 'helper/componentConfig';
+import { MenuButtonConfig } from 'helper/componentConfig';
 
 interface Props {
-  buttons: {
-    id: string;
-    value: string;
-    action: AsyncThunkT;
-  }[];
+  buttons: MenuButtonConfig[];
   title: string;
+  tooltipLabel?: string;
   dispatch: AppDispatch;
 }
 
-export const ControlBar: React.FC<Props> = ({ buttons, title, dispatch }) => {
+export const ControlBar: React.FC<PropsWithChildren<Props>> = ({
+  buttons,
+  title,
+  tooltipLabel,
+  dispatch,
+  children,
+}) => {
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(menuAnchor);
 
@@ -28,14 +37,20 @@ export const ControlBar: React.FC<Props> = ({ buttons, title, dispatch }) => {
 
   return (
     <Toolbar variant="dense" sx={{ minHeight: '34px', width: '100%' }}>
-      <IconButton
-        size="small"
-        edge="start"
-        onClick={handleMenuClick}
-        aria-label="menu-btn"
+      <Tooltip
+        title={tooltipLabel !== undefined ? tooltipLabel : ''}
+        placement="bottom-start"
       >
-        <MenuIcon />
-      </IconButton>
+        <IconButton
+          size="small"
+          edge="start"
+          onClick={handleMenuClick}
+          aria-label="menu-btn"
+          sx={{ ml: '-5px', mr: '23px' }}
+        >
+          {children}
+        </IconButton>
+      </Tooltip>
       <Menu anchorEl={menuAnchor} open={menuOpen} onClose={handleMenuClose}>
         {buttons.map((button) => (
           <MenuItem
