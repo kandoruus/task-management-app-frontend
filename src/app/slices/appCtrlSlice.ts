@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from 'app/store';
 import { AppFocusT, PasswordArgs, SessionData } from 'app/types';
 import axios from 'axios';
@@ -8,10 +8,11 @@ import {
   AXIOS_HEADERS,
   USER_API,
 } from 'helper/constants';
+import { createAppAsyncThunk } from 'helper/functions';
 
 const sliceName = 'appCtrl';
 
-export const postToDB = createAsyncThunk(
+export const postToDB = createAppAsyncThunk(
   sliceName + '/postToDB',
   async (args: { url: string; postPayload: object }, thunkAPI) => {
     try {
@@ -39,7 +40,7 @@ export const postToDB = createAsyncThunk(
   }
 );
 
-export const login = createAsyncThunk(
+export const login = createAppAsyncThunk(
   sliceName + '/login',
   async (credentials: { username: string; password: string }) => {
     try {
@@ -66,7 +67,7 @@ export const login = createAsyncThunk(
   }
 );
 
-export const signup = createAsyncThunk(
+export const signup = createAppAsyncThunk(
   sliceName + '/signup',
   async (credentials: { username: string; password: string }) => {
     try {
@@ -89,7 +90,7 @@ export const signup = createAsyncThunk(
   }
 );
 
-export const changePassword = createAsyncThunk(
+export const changePassword = createAppAsyncThunk(
   sliceName + '/changePassword',
   async ({ oldPassword, newPassword }: PasswordArgs, thunkAPI) => {
     return (
@@ -103,7 +104,7 @@ export const changePassword = createAsyncThunk(
   }
 );
 
-export const deleteAccount = createAsyncThunk(
+export const deleteAccount = createAppAsyncThunk(
   sliceName + '/deleteAccount',
   async ({ password }: { password: string }, thunkAPI) => {
     const res = await thunkAPI.dispatch(
@@ -123,7 +124,7 @@ export const deleteAccount = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk(
+export const logout = createAppAsyncThunk(
   sliceName + '/logout',
   async (_, thunkAPI) => {
     return (
