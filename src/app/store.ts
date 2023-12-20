@@ -6,6 +6,7 @@ import {
   PreloadedState,
   combineReducers,
 } from '@reduxjs/toolkit';
+import { punchCtrlSlice } from 'app/slices/punchCtrlSlice';
 import { taskCtrlSlice } from 'app/slices/taskCtrlSlice';
 import { taskEditorSlice } from 'app/slices/taskEditorSlice';
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   appCtrl: appCtrlSlice.reducer,
   taskCtrl: taskCtrlSlice.reducer,
   taskEditor: taskEditorSlice.reducer,
+  punchCtrl: punchCtrlSlice.reducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
