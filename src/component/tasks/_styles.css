@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   margin: calc(min(84px, 10%)) auto auto;
-  /*background-color: #e3f2fd;*/
   background-color: white;
   padding: calc(min(4.5%, 34px)) calc(min(8%, 60px)) calc(min(6%, 45px));
   width: 80%;
