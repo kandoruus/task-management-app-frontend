@@ -3,7 +3,7 @@ import 'component/welcome/_styles.css';
 import { Box, Button, Typography } from '@mui/material';
 import { ERR_MSG, PAGES } from 'helper/constants';
 import { useNavigate } from 'react-router-dom';
-import { CredentialsInput } from 'component/helper-components/CredentialsInput';
+import { CredentialsInput } from 'component/_helper-components/CredentialsInput';
 import { areBlankInputs } from 'helper/functions';
 import { useAppDispatch } from 'app/hooks';
 import { signup } from 'app/slices/appCtrlSlice';

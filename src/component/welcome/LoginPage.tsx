@@ -4,7 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { COOKIES, PAGES, ERR_MSG } from 'helper/constants';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { CredentialsInput } from 'component/helper-components/CredentialsInput';
+import { CredentialsInput } from 'component/_helper-components/CredentialsInput';
 import { areBlankInputs } from 'helper/functions';
 import { useAppDispatch } from 'app/hooks';
 import { login } from 'app/slices/appCtrlSlice';

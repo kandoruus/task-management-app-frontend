@@ -17,7 +17,7 @@ import {
 } from 'app/slices/appCtrlSlice';
 import { COOKIES, ERR_MSG, PAGES } from 'helper/constants';
 import { useCookies } from 'react-cookie';
-import { CredentialsInput } from 'component/helper-components/CredentialsInput';
+import { CredentialsInput } from 'component/_helper-components/CredentialsInput';
 import { areBlankInputs } from 'helper/functions';
 
 export const AccountMasterPane: React.FC = () => {

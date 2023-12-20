@@ -9,7 +9,7 @@ import { WelcomeMasterPane } from 'component/welcome/WelcomeMasterPane';
 import { COOKIES, PAGES, SESSION_LOGGED_OUT } from 'helper/constants';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { ProtectedRoute } from 'component/helper-components/ProtectedRoute';
+import { ProtectedRoute } from 'component/_helper-components/ProtectedRoute';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { appCtrlSlice, selectAppCtrl, logout } from 'app/slices/appCtrlSlice';
 import { AppDispatch } from 'app/store';

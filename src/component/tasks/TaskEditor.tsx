@@ -19,7 +19,7 @@ import {
   taskCtrlSlice,
 } from 'app/slices/taskCtrlSlice';
 import { taskEditorSlice } from 'app/slices/taskEditorSlice';
-import { YesNoDialog } from '../helper-components/YesNoDialog';
+import { YesNoDialog } from '../_helper-components/YesNoDialog';
 import { priorityOptions, statusOptions } from 'helper/componentConfig';
 import { ERR_MSG, POP_MSG } from 'helper/constants';
 import React, { useState } from 'react';
