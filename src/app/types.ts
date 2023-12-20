@@ -34,3 +34,10 @@ export type AppFocusT =
   | '/account';
 
 export type WelcomePageT = React.FC<{ sendAlert: (message: string) => void }>;
+
+export type TimePunch = {
+  punchIn: number;
+  punchOut?: number;
+  taskId: string;
+  userId: string;
+};
