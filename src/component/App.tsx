@@ -11,7 +11,12 @@ import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { ProtectedRoute } from 'component/_helper-components/ProtectedRoute';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { appCtrlSlice, selectAppCtrl, logout } from 'app/slices/appCtrlSlice';
+import {
+  appCtrlSlice,
+  selectAppCtrl,
+  logout,
+  fetchUserData,
+} from 'app/slices/appCtrlSlice';
 import { AppDispatch } from 'app/store';
 
 export function App(): JSX.Element {
@@ -19,6 +24,7 @@ export function App(): JSX.Element {
   const dispatch: AppDispatch = useAppDispatch();
   const [cookies] = useCookies([
     COOKIES.USERNAME,
+    COOKIES.USERID,
     COOKIES.SESSIONCODE,
     COOKIES.LOGIN,
   ]);
@@ -33,9 +39,11 @@ export function App(): JSX.Element {
       dispatch(
         appCtrlSlice.actions.login({
           username: cookies[COOKIES.USERNAME],
+          userId: cookies[COOKIES.USERID],
           sessionCode: cookies[COOKIES.SESSIONCODE],
         })
       );
+      dispatch(fetchUserData());
     } else if (
       sessionData !== SESSION_LOGGED_OUT &&
       cookies[COOKIES.LOGIN] === undefined
