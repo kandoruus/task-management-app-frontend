@@ -22,6 +22,13 @@ export const useTasklistByIds = (taskIds: string[]) => {
     })
   );
 };
+//use for get the names of tasks associated with the ids referenced in the punchlist
+export const useTaskNamesFromPunchList = (punchlist: TimePunch[]): string => {
+  const listOfTaskIds = getTaskIdsFromPunchlist(punchlist);
+  const listOfTasks = useTasklistByIds(listOfTaskIds);
+  const listOfTaskNames = matchTaskIdsToNames(listOfTasks, listOfTaskIds);
+  return listOfTaskNames.join(', ');
+};
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 type DispatchFunc = () => AppDispatch;
