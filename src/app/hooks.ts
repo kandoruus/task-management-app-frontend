@@ -2,6 +2,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from './store';
 import { useState } from 'react';
 import { selectTaskCtrl } from 'app/slices/taskCtrlSlice';
+import { selectPunchCtrl } from 'app/slices/punchCtrlSlice';
+import { TimeInterval, TimePunch } from 'app/types';
+import {
+  getTaskIdsFromPunchlist,
+  isPunchInInterval,
+  matchTaskIdsToNames,
+} from 'helper/functions';
 
 //useModal hook base on this article: https://upmostly.com/tutorials/modal-components-react-custom-hooks
 export const useModal = (): [boolean, () => void] => {
@@ -35,6 +42,15 @@ export const useTaskNameFromId = (id: string): string => {
     return selectTaskCtrl(state).tasklist.find((task) => task._id === id);
   });
   return task?.data.name || '';
+};
+
+//get the punchlist filtered by interval
+export const usePunchlistInInterval = (interval: TimeInterval) => {
+  return useAppSelector((state) =>
+    selectPunchCtrl(state).punchlist.filter((punch) =>
+      isPunchInInterval(interval, punch)
+    )
+  );
 };
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
