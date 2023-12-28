@@ -38,6 +38,7 @@ export const USER_API = {
 //cookies
 export const COOKIES = {
   USERNAME: 'USERNAME_COOKIE',
+  USERID: 'USERID_COOKIE',
   SESSIONCODE: 'SESSION_STATUS_COOKIE',
   LOGIN: 'LOGIN_COOKIE',
 };
