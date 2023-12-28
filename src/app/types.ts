@@ -46,3 +46,11 @@ export type TimePunch = {
   taskId: string;
   userId: string;
 };
+export type ActivityData = {
+  punchId: string;
+  taskId: string;
+};
+export type TimeInterval = {
+  start: number;
+  end: number;
+};

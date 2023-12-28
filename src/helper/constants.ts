@@ -70,6 +70,7 @@ export const TASKS_PER_PAGE = 25;
 //  session data when logged out
 export const SESSION_LOGGED_OUT = {
   username: '',
+  userId: '',
   sessionCode: '',
 };
 
@@ -91,3 +92,11 @@ export const durationFormatOptions: FormatDurationOptions = {
     formatDistance: (_token, count) => String(count).padStart(2, '0'),
   },
 };
+export const BLANK_ACTIVITY_DATA: ActivityData = {
+  punchId: '',
+  taskId: '',
+};
+export const TIME_OF_LOAD: number = Date.now();
+
+export const INITIAL_TIMESHEET_DISPLAY_INTERVAL: TimeInterval =
+  getWeeklyTimeInterval(TIME_OF_LOAD);

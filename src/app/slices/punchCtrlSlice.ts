@@ -1,22 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { selectAppCtrl } from './appCtrlSlice';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { postToDB } from 'app/slices/appCtrlSlice';
 import { RootState } from 'app/store';
-import { TimePunch } from 'app/types';
+import {
+  ActivityData,
+  DBResponse,
+  DBData,
+  PunchInData,
+  TimePunch,
+  TimeInterval,
+} from 'app/types';
+import {
+  BLANK_ACTIVITY_DATA,
+  INITIAL_TIMESHEET_DISPLAY_INTERVAL,
+  PUNCH_API,
+} from 'helper/constants';
+import { createAppAsyncThunk, peak } from 'helper/functions';
 
 const sliceName = 'punchCtrl';
 
 interface PunchCtrlState {
   punchlist: TimePunch[];
+  isClockedIn: boolean;
+  currentActivity: ActivityData;
+  displayInterval: TimeInterval;
 }
 
 export const initialPunchCtrlState = {
-  punchlist: [
-    {
-      punchIn: 1703014542001,
-      punchOut: 1703021742545,
-      taskId: '65820af30025a5590f1d41ea',
-      userId: '6573a8859985e010b9ec6815',
-    } as TimePunch,
-  ],
+  punchlist: [],
+  isClockedIn: false,
+  currentActivity: BLANK_ACTIVITY_DATA,
+  displayInterval: INITIAL_TIMESHEET_DISPLAY_INTERVAL,
 } as PunchCtrlState;
 
 export const punchCtrlSlice = createSlice({
