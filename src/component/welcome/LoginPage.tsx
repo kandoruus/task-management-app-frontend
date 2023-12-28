@@ -16,6 +16,7 @@ type Props = {
 export const LoginPage: React.FC<Props> = (props) => {
   const setCookie = useCookies([
     COOKIES.USERNAME,
+    COOKIES.USERID,
     COOKIES.SESSIONCODE,
     COOKIES.LOGIN,
   ])[1];
@@ -30,7 +31,12 @@ export const LoginPage: React.FC<Props> = (props) => {
     } else {
       const res = (await dispatch(login({ username, password }))).payload as
         | {
-            data: { message: string; username: string; sessionCode: string };
+            data: {
+              message: string;
+              username: string;
+              userId: string;
+              sessionCode: string;
+            };
             status: string;
           }
         | undefined;
@@ -39,6 +45,7 @@ export const LoginPage: React.FC<Props> = (props) => {
       } else if (res.status === 'success') {
         setCookie(COOKIES.LOGIN, COOKIES.LOGIN, { path: '/' });
         setCookie(COOKIES.USERNAME, res.data.username, { path: '/' });
+        setCookie(COOKIES.USERID, res.data.userId, { path: '/' });
         setCookie(COOKIES.SESSIONCODE, res.data.sessionCode, { path: '/' });
       } else {
         sendAlert(res.data.message);

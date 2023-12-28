@@ -1,6 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { fetchTasklist } from 'app/slices/taskCtrlSlice';
 import { RootState } from 'app/store';
-import { AppFocusT, PasswordArgs, SessionData } from 'app/types';
+import {
+  AppFocusT,
+  DBResponse,
+  DBData,
+  PasswordArgs,
+  SessionData,
+} from 'app/types';
 import axios from 'axios';
 import {
   PAGES,
@@ -14,11 +21,14 @@ const sliceName = 'appCtrl';
 
 export const postToDB = createAppAsyncThunk(
   sliceName + '/postToDB',
-  async (args: { url: string; postPayload: object }, thunkAPI) => {
+  async (
+    args: { url: string; postPayload: object },
+    thunkAPI
+  ): Promise<DBResponse<DBData>> => {
     try {
       return {
         status: 'success',
-        message: (
+        data: (
           await axios.post(
             args.url,
             {
@@ -27,16 +37,28 @@ export const postToDB = createAppAsyncThunk(
             },
             AXIOS_HEADERS
           )
-        ).data.message,
+        ).data,
       };
     } catch (e) {
       if (axios.isAxiosError(e) && e.response) {
-        return { message: e.response.data.message, status: 'error' };
+        return { data: e.response.data.message, status: 'error' };
       } else {
         console.error(e);
-        return undefined;
+        return {
+          data: { message: 'An unknown error has occurred' },
+          status: 'error',
+        };
       }
     }
+  }
+);
+
+export const fetchUserData = createAppAsyncThunk(
+  sliceName + '/fetchUserData',
+  async (_args, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    dispatch(fetchTasklist());
+    //dispatch(fetchPunchlist());
   }
 );
 
@@ -93,48 +115,44 @@ export const signup = createAppAsyncThunk(
 export const changePassword = createAppAsyncThunk(
   sliceName + '/changePassword',
   async ({ oldPassword, newPassword }: PasswordArgs, thunkAPI) => {
-    return (
+    const payload = (
       await thunkAPI.dispatch(
         postToDB({
           url: USER_API.CHANGE_PASSWORD,
           postPayload: { oldPassword: oldPassword, newPassword: newPassword },
         })
       )
-    ).payload;
+    ).payload as DBResponse<DBData>;
+    return { ...payload, message: payload.data.message };
   }
 );
 
 export const deleteAccount = createAppAsyncThunk(
   sliceName + '/deleteAccount',
   async ({ password }: { password: string }, thunkAPI) => {
-    const res = await thunkAPI.dispatch(
-      postToDB({
-        url: USER_API.DELETE_ACCOUNT,
-        postPayload: { password: password },
-      })
-    );
-    console.log(res);
-    const payload = res.payload as
-      | { message: string; status: string }
-      | undefined;
-    if (payload !== undefined && payload.status === 'success') {
-      thunkAPI.dispatch(logout.fulfilled);
-    }
-    return payload;
+    const payload = (
+      await thunkAPI.dispatch(
+        postToDB({
+          url: USER_API.DELETE_ACCOUNT,
+          postPayload: { password: password },
+        })
+      )
+    ).payload as DBResponse<DBData>;
+
+    thunkAPI.dispatch(logout.fulfilled);
+    return { ...payload, message: payload.data.message };
   }
 );
 
 export const logout = createAppAsyncThunk(
   sliceName + '/logout',
   async (_, thunkAPI) => {
-    return (
-      await thunkAPI.dispatch(
-        postToDB({
-          url: USER_API.LOGOUT,
-          postPayload: {},
-        })
-      )
-    ).payload;
+    await thunkAPI.dispatch(
+      postToDB({
+        url: USER_API.LOGOUT,
+        postPayload: {},
+      })
+    );
   }
 );
 

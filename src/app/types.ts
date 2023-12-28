@@ -46,10 +46,25 @@ export type TimePunch = {
   taskId: string;
   userId: string;
 };
+
 export type ActivityData = {
   punchId: string;
   taskId: string;
 };
+
+export type DBData = {
+  message: string;
+};
+
+export interface PunchInData extends DBData {
+  id: string;
+}
+
+export type DBResponse<T extends DBData> = {
+  status: 'error' | 'success';
+  data: T;
+};
+
 export type TimeInterval = {
   start: number;
   end: number;
