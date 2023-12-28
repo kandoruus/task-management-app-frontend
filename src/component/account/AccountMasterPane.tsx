@@ -47,10 +47,8 @@ export const AccountMasterPane: React.FC = () => {
       sendAlert(ERR_MSG.NOT_PWD_MATCH);
     } else {
       const res = (await dispatch(changePassword({ oldPassword, newPassword })))
-        .payload as { message: string; status: string } | undefined;
-      if (res === undefined) {
-        sendAlert(ERR_MSG.PWD_UPDATE_FAILED);
-      } else if (res.status === 'success') {
+        .payload as { message: string; status: string };
+      if (res.status === 'success') {
         sendAlert(res.message);
         setOldPassword('');
         setNewPassword('');
@@ -66,10 +64,8 @@ export const AccountMasterPane: React.FC = () => {
     } else {
       const res = (
         await dispatch(deleteAccount({ password: deleteAccPassword }))
-      ).payload as { message: string; status: string } | undefined;
-      if (res === undefined) {
-        sendAlert(ERR_MSG.DELETE_ACC_FAILED);
-      } else if (res.status === 'success') {
+      ).payload as { message: string; status: string };
+      if (res.status === 'success') {
         sendAlert(res.message);
         setDeleteAccPassword('');
         removeCookie(COOKIES.LOGIN, { path: '/' });
