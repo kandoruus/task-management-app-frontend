@@ -1,3 +1,7 @@
+import {
+  AutocompleteChangeReason,
+  AutocompleteChangeDetails,
+} from '@mui/material';
 import React from 'react';
 
 export type TaskData = {
@@ -65,7 +69,24 @@ export type DBResponse<T extends DBData> = {
   data: T;
 };
 
+export type TaskOption = {
+  id: string;
+  label: string;
+};
+
+export type TaskSelectorChangeHandler = (
+  _: React.SyntheticEvent<Element, Event>,
+  value: TaskOption | null,
+  reason: AutocompleteChangeReason,
+  details?: AutocompleteChangeDetails<TaskOption> | undefined
+) => void;
+
 export type TimeInterval = {
   start: number;
   end: number;
+};
+
+export type TimesheetRowProps = {
+  interval: TimeInterval;
+  isHourlyView: boolean;
 };

@@ -1,51 +1,54 @@
-import { TableRow, TableCell } from '@mui/material';
-import { useAppSelector, useTasklistByIds } from 'app/hooks';
+import { TableRow, TableCell, IconButton } from '@mui/material';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { useAppSelector, useTaskNamesFromPunchList } from 'app/hooks';
 import { selectPunchCtrl } from 'app/slices/punchCtrlSlice';
-import { TimePunch } from 'app/types';
+import { TimePunch, TimesheetRowProps } from 'app/types';
 import { SmTableCell } from 'component/_styled-mui-components/SmTableCell';
+import { format, formatDuration } from 'date-fns';
+import { durationFormatOptions } from 'helper/constants';
 import {
-  Duration,
-  format,
-  formatDuration,
-  intervalToDuration,
-  isSameDay,
-} from 'date-fns';
-import { durationFormatOptions, zeroDuration } from 'helper/constants';
-import { addDurations } from 'helper/functions';
+  getTotalDurationWithinInterval,
+  isPunchInInterval,
+  shouldUseExtraPadding,
+} from 'helper/functions';
 import React from 'react';
 
-interface Props {
-  date: Date;
-}
-
-export const TimesheetRow: React.FC<Props> = ({ date }) => {
+export const TimesheetRow: React.FC<TimesheetRowProps> = ({
+  interval,
+  isHourlyView,
+}) => {
   const punchlist: TimePunch[] = useAppSelector((state) =>
     selectPunchCtrl(state).punchlist.filter((punch) => {
-      return isSameDay(new Date(punch.punchIn), date);
+      return isPunchInInterval(interval, punch);
     })
   );
-  const listOfTasks = useTasklistByIds(punchlist.map((punch) => punch.taskId));
+  const taskNames = useTaskNamesFromPunchList(punchlist);
 
   const getTotalTime = (): string => {
     return formatDuration(
-      punchlist.reduce((total: Duration, punch: TimePunch) => {
-        const start = new Date(punch.punchIn);
-        const end = new Date(punch.punchOut || Date.now());
-        return addDurations(total, intervalToDuration({ start, end }));
-      }, zeroDuration),
+      getTotalDurationWithinInterval(punchlist, interval),
       durationFormatOptions
     );
-  };
-  const getTaskNames = (): string => {
-    return listOfTasks.map((task) => task.data.name).join(', ');
   };
 
   return (
     <TableRow>
-      <SmTableCell>{format(date, 'M/d/yy')}</SmTableCell>
+      <SmTableCell
+        sx={{
+          paddingLeft: shouldUseExtraPadding(interval, isHourlyView)
+            ? 'calc(16px + 0.525rem)'
+            : '16px',
+        }}
+      >
+        {format(interval.start, isHourlyView ? 'h:mm aaa' : 'M/d/yy')}
+      </SmTableCell>
       <SmTableCell>{getTotalTime()}</SmTableCell>
-      <TableCell>{getTaskNames()}</TableCell>
-      <SmTableCell></SmTableCell>
+      <TableCell>{taskNames}</TableCell>
+      <SmTableCell sx={{ p: '0px' }}>
+        <IconButton sx={{ height: '30px', width: '30px' }}>
+          <EditOutlinedIcon sx={{ height: '18px', width: '18px' }} />
+        </IconButton>
+      </SmTableCell>
     </TableRow>
   );
 };

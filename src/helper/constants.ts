@@ -1,5 +1,6 @@
-import { AppFocusT } from 'app/types';
+import { ActivityData, AppFocusT, TaskOption, TimeInterval } from 'app/types';
 import { Duration, FormatDurationOptions } from 'date-fns';
+import { getWeeklyTimeInterval } from 'helper/functions';
 //Error messages
 export const ERR_MSG = {
   BLANK_NAME: 'Task name cannot be blank',
@@ -89,13 +90,22 @@ export const durationFormatOptions: FormatDurationOptions = {
   zero: true,
   delimiter: ':',
   locale: {
-    formatDistance: (_token, count) => String(count).padStart(2, '0'),
+    formatDistance: (_token, count) => {
+      return _token === 'xHours'
+        ? String(count)
+        : String(count).padStart(2, '0');
+    },
   },
 };
+
 export const BLANK_ACTIVITY_DATA: ActivityData = {
   punchId: '',
   taskId: '',
 };
+
+//blank TaskOption
+export const NO_TASK_SELECTED: TaskOption = { id: '', label: '' };
+
 export const TIME_OF_LOAD: number = Date.now();
 
 export const INITIAL_TIMESHEET_DISPLAY_INTERVAL: TimeInterval =
