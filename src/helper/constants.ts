@@ -17,22 +17,33 @@ export const POP_MSG = {
 };
 
 //API addresses
-const taskApiRoot = process.env.REACT_APP_TASK_API as string;
+const apiRoot = process.env.REACT_APP_API_ROOT as string;
+const taskApiRoot = apiRoot + '/task-api';
 export const TASKS_API = {
   GET_ALL: taskApiRoot + '/tasklist',
   DELETE_ALL: taskApiRoot + '/cleartasks',
   SAVE_ALL: taskApiRoot + '/updatemanytasks',
   SAVE_NEW: taskApiRoot + '/task',
-  DELETE_ONE: taskApiRoot + '/removetask',
+  DELETE_ONE: taskApiRoot + '/removetask/',
   SAVE_ONE: taskApiRoot + '/updatetask',
 };
-const userApiRoot = process.env.REACT_APP_USER_API as string;
+const userApiRoot = apiRoot + '/user-api';
 export const USER_API = {
   SIGNUP: userApiRoot + '/signup',
   LOGIN: userApiRoot + '/login',
   CHANGE_PASSWORD: userApiRoot + '/change-password',
   DELETE_ACCOUNT: userApiRoot + '/delete-account',
   LOGOUT: userApiRoot + '/logout',
+};
+const punchApiRoot = apiRoot + '/punch-api';
+export const PUNCH_API = {
+  PUNCH_IN: punchApiRoot + '/punch-in',
+  PUNCH_OUT: punchApiRoot + '/punch-out',
+  PUNCHLIST: punchApiRoot + '/user-punchlist',
+  UPDATE: punchApiRoot + '/update-punch',
+  DELETE: punchApiRoot + '/delete-punch',
+  DELETE_BY_USER: punchApiRoot + '/delete-punches-by-user',
+  DELETE_BY_TASK: punchApiRoot + '/delete-punches-by-task',
 };
 
 //cookies
