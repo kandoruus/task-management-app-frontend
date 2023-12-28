@@ -29,6 +29,13 @@ export const useTaskNamesFromPunchList = (punchlist: TimePunch[]): string => {
   const listOfTaskNames = matchTaskIdsToNames(listOfTasks, listOfTaskIds);
   return listOfTaskNames.join(', ');
 };
+//get the name of the task associated with the provided id, return a blank string if no match is found
+export const useTaskNameFromId = (id: string): string => {
+  const task = useAppSelector((state) => {
+    return selectTaskCtrl(state).tasklist.find((task) => task._id === id);
+  });
+  return task?.data.name || '';
+};
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 type DispatchFunc = () => AppDispatch;
