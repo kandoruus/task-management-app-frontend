@@ -104,15 +104,15 @@
   height: 4%;
 }
 .info-cell {
-  width: calc(100% - 30px);
+  width: calc(100% - 28px);
 }
 .delete-cell {
-  width: 30px;
+  width: 28px;
   min-width: 0 !important;
 }
 .delete-cell > button,
 .info-cell > button {
-  height: 30px;
+  height: 28px;
   width: 100%;
   min-width: 0 !important;
 }
