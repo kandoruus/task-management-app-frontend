@@ -20,7 +20,11 @@ export type Task = {
 
 export type Tasklist = Task[];
 
-export type SessionData = { username: string; sessionCode: string };
+export type SessionData = {
+  username: string;
+  sessionCode: string;
+  userId: string;
+};
 
 export type PasswordArgs = { oldPassword: string; newPassword: string };
 
