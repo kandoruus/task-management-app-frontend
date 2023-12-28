@@ -7,7 +7,7 @@ import { TasklistMasterPane } from 'component/tasks/TasklistMasterPane';
 import { TimesheetMasterPane } from 'component/timesheet/TimesheetMasterPane';
 import { WelcomeMasterPane } from 'component/welcome/WelcomeMasterPane';
 import { COOKIES, PAGES, SESSION_LOGGED_OUT } from 'helper/constants';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { ProtectedRoute } from 'component/_helper-components/ProtectedRoute';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
@@ -45,35 +45,37 @@ export function App(): JSX.Element {
   });
 
   return (
-    <Routes>
-      <Route path={PAGES.HOME} element={<MasterWrapper />}>
-        <Route
-          element={
-            <ProtectedRoute
-              redirectTo={PAGES.HOME}
-              isAuthenticated={cookies[COOKIES.LOGIN] === undefined}
-            />
-          }
-        >
-          <Route path={PAGES.WELCOME} element={welcomeMasterPane} />
-          <Route path={PAGES.LOGIN} element={welcomeMasterPane} />
-          <Route path={PAGES.SIGNUP} element={welcomeMasterPane} />
+    <BrowserRouter>
+      <Routes>
+        <Route path={PAGES.HOME} element={<MasterWrapper />}>
+          <Route
+            element={
+              <ProtectedRoute
+                redirectTo={PAGES.HOME}
+                isAuthenticated={cookies[COOKIES.LOGIN] === undefined}
+              />
+            }
+          >
+            <Route path={PAGES.WELCOME} element={welcomeMasterPane} />
+            <Route path={PAGES.LOGIN} element={welcomeMasterPane} />
+            <Route path={PAGES.SIGNUP} element={welcomeMasterPane} />
+          </Route>
+          <Route
+            element={
+              <ProtectedRoute
+                redirectTo={PAGES.WELCOME}
+                isAuthenticated={cookies[COOKIES.LOGIN] !== undefined}
+              />
+            }
+          >
+            <Route index element={<HomeMasterPane />} />
+            <Route path={PAGES.TASKS} element={<TasklistMasterPane />} />
+            <Route path={PAGES.TIMESHEET} element={<TimesheetMasterPane />} />
+            <Route path={PAGES.ACCOUNT} element={<AccountMasterPane />} />
+          </Route>
+          <Route path="*" element={<Navigate to={PAGES.HOME} />} />
         </Route>
-        <Route
-          element={
-            <ProtectedRoute
-              redirectTo={PAGES.WELCOME}
-              isAuthenticated={cookies[COOKIES.LOGIN] !== undefined}
-            />
-          }
-        >
-          <Route index element={<HomeMasterPane />} />
-          <Route path={PAGES.TASKS} element={<TasklistMasterPane />} />
-          <Route path={PAGES.TIMESHEET} element={<TimesheetMasterPane />} />
-          <Route path={PAGES.ACCOUNT} element={<AccountMasterPane />} />
-        </Route>
-        <Route path="*" element={<Navigate to={PAGES.HOME} />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </BrowserRouter>
   );
 }
