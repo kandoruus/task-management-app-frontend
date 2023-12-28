@@ -22,7 +22,12 @@ import { useNavigate } from 'react-router-dom';
 export const MainHeader: React.FC = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [cookie, setCookie, removeCookie] = useCookies([COOKIES.LOGIN]);
+  const [cookie, setCookie, removeCookie] = useCookies([
+    COOKIES.USERNAME,
+    COOKIES.USERID,
+    COOKIES.SESSIONCODE,
+    COOKIES.LOGIN,
+  ]);
   const focus: AppFocusT = useAppSelector((state) => state.appCtrl.appFocus);
   const dispatch: AppDispatch = useAppDispatch();
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
@@ -41,6 +46,9 @@ export const MainHeader: React.FC = () => {
     }
   };
   const handleLogoutClick = () => {
+    removeCookie(COOKIES.SESSIONCODE, { path: '/' });
+    removeCookie(COOKIES.USERNAME, { path: '/' });
+    removeCookie(COOKIES.USERID, { path: '/' });
     removeCookie(COOKIES.LOGIN, { path: '/' });
     dispatch(logout());
   };
