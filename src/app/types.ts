@@ -40,6 +40,7 @@ export type AppFocusT =
 export type WelcomePageT = React.FC<{ sendAlert: (message: string) => void }>;
 
 export type TimePunch = {
+  id: string;
   punchIn: number;
   punchOut?: number;
   taskId: string;
