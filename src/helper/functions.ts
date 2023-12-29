@@ -13,7 +13,6 @@ import {
   add,
   startOfWeek,
   endOfWeek,
-  Interval,
   startOfMonth,
   endOfMonth,
   startOfDay,
@@ -29,6 +28,7 @@ import {
   endOfHour,
   areIntervalsOverlapping,
   getHours,
+  differenceInHours,
 } from 'date-fns';
 import { zeroDuration } from 'helper/constants';
 
@@ -90,21 +90,34 @@ export const isBetween = (
 /////////////////////////////////////////////////////////////////////////////////////////
 // Time manipulation functions
 /////////////////////////////////////////////////////////////////////////////////////////
+export const getTimeInterval = (start: number, end: number): TimeInterval => {
+  return { start, end };
+};
+
+export const intervalToDurationNoHourCap = (
+  interval: TimeInterval
+): Duration => {
+  const { minutes, seconds } = intervalToDuration(interval);
+  const hours = differenceInHours(interval.end, interval.start);
+  const duration = {
+    hours: hours || 0,
+    minutes: minutes || 0,
+    seconds: seconds || 0,
+  };
+  return duration;
+};
+
 //ref: https://github.com/date-fns/date-fns/issues/2253#issuecomment-1737596439
 export const addDurations = (duration1: Duration, duration2: Duration) => {
   const baseDate = new Date(0);
   return {
-    ...zeroDuration,
-    ...intervalToDuration({
-      start: baseDate,
-      end: add(add(baseDate, duration1), duration2),
-    }),
+    ...intervalToDurationNoHourCap(
+      getTimeInterval(
+        baseDate.getTime(),
+        add(add(baseDate, duration1), duration2).getTime()
+      )
+    ),
   };
-};
-
-//get the interval between the provided dates
-export const createInterval = (start: number, end: number): Interval => {
-  return { start, end };
 };
 
 //get the duration of punches in a list
@@ -112,17 +125,18 @@ export const getTotalDurationWithinInterval = (
   punchlist: TimePunch[],
   interval: TimeInterval
 ): Duration => {
-  return punchlist.reduce((total: Duration, punch: TimePunch) => {
-    const punchInterval = createInterval(
-      Math.max(punch.punchIn, interval.start),
-      Math.min(punch.punchOut || Date.now(), interval.end)
-    );
-    return addDurations(total, intervalToDuration(punchInterval));
-  }, zeroDuration);
-};
-
-export const getTimeInterval = (start: number, end: number): TimeInterval => {
-  return { start, end };
+  const totalDuration = punchlist.reduce(
+    (total: Duration, punch: TimePunch) => {
+      const punchInterval = getTimeInterval(
+        Math.max(punch.punchIn, interval.start),
+        Math.min(punch.punchOut || Date.now(), interval.end)
+      );
+      const punchDuration = intervalToDurationNoHourCap(punchInterval);
+      return addDurations(total, punchDuration);
+    },
+    zeroDuration
+  );
+  return totalDuration;
 };
 
 export const getHourlyTimeInterval = (date: number): TimeInterval => {
