@@ -1,4 +1,4 @@
-import { punchCtrlSlice } from 'app/slices/punchCtrlSlice';
+import { punchCtrlSlice, fetchPunchlist } from 'app/slices/punchCtrlSlice';
 import {
   createNewTask,
   deleteTasklist,
@@ -94,6 +94,13 @@ export const getTimeCtrlBtns = (
         return punchCtrlSlice.actions.setDisplayInterval(
           getYearlyTimeInterval(TIME_OF_LOAD)
         );
+      },
+    },
+    {
+      id: 'fetch-punchlist-btn',
+      value: 'Load Punches',
+      action: () => {
+        return fetchPunchlist();
       },
     },
     /*{

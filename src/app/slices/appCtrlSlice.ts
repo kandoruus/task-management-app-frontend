@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { fetchPunchlist, punchCtrlSlice } from 'app/slices/punchCtrlSlice';
 import { fetchTasklist } from 'app/slices/taskCtrlSlice';
 import { RootState } from 'app/store';
 import {
@@ -7,6 +8,7 @@ import {
   DBData,
   PasswordArgs,
   SessionData,
+  PunchlistData,
 } from 'app/types';
 import axios from 'axios';
 import {
@@ -57,8 +59,9 @@ export const fetchUserData = createAppAsyncThunk(
   sliceName + '/fetchUserData',
   async (_args, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    dispatch(fetchTasklist());
-    //dispatch(fetchPunchlist());
+    await dispatch(fetchTasklist());
+    await dispatch(fetchPunchlist());
+    dispatch(punchCtrlSlice.actions.initializeClockedStatus());
   }
 );
 
@@ -137,8 +140,8 @@ export const deleteAccount = createAppAsyncThunk(
           postPayload: { password: password },
         })
       )
-    ).payload as DBResponse<DBData>;
-
+    ).payload as DBResponse<PunchlistData>;
+    console.log(payload.data.punchlist);
     thunkAPI.dispatch(logout.fulfilled);
     return { ...payload, message: payload.data.message };
   }

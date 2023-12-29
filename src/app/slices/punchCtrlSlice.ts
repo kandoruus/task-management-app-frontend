@@ -9,6 +9,7 @@ import {
   PunchInData,
   TimePunch,
   TimeInterval,
+  PunchlistData,
 } from 'app/types';
 import {
   BLANK_ACTIVITY_DATA,
@@ -18,28 +19,6 @@ import {
 import { createAppAsyncThunk, peak } from 'helper/functions';
 
 const sliceName = 'punchCtrl';
-
-export const initializeClockedStatus = createAppAsyncThunk(
-  sliceName + 'initializeClockedStatus',
-  async (_, thunkAPI) => {
-    const { punchlist } = selectPunchCtrl(thunkAPI.getState());
-    const lastPunch = peak(punchlist);
-    if (punchlist.length < 1 || lastPunch.punchOut !== undefined) {
-      return {
-        isClockedIn: false,
-        currentActivity: BLANK_ACTIVITY_DATA,
-      };
-    } else {
-      return {
-        isClockedIn: true,
-        currentActivity: {
-          punchId: lastPunch.id,
-          taskId: lastPunch.taskId,
-        },
-      };
-    }
-  }
-);
 
 export const punchIn = createAppAsyncThunk(
   sliceName + '/punchIn',
@@ -95,6 +74,107 @@ export const punchOut = createAppAsyncThunk(
   }
 );
 
+export const fetchPunchlist = createAppAsyncThunk(
+  sliceName + '/fetchPunchlist',
+  async (_, thunkAPI) => {
+    const payload = (
+      await thunkAPI.dispatch(
+        postToDB({
+          url: PUNCH_API.PUNCHLIST,
+          postPayload: {},
+        })
+      )
+    ).payload as DBResponse<PunchlistData>;
+    if (payload.status === 'error') {
+      return thunkAPI.rejectWithValue(payload.data.message);
+    } else {
+      return payload.data.punchlist.map((punch) => {
+        const punchIn = parseInt(punch.punchIn);
+        const punchOut =
+          punch.punchOut !== undefined ? parseInt(punch.punchOut) : undefined;
+        return { ...punch, punchIn, punchOut, id: punch._id };
+      });
+    }
+  }
+);
+
+export const updatePunch = createAppAsyncThunk(
+  sliceName + '/updatePunch',
+  async (updatedPunch: TimePunch, thunkAPI) => {
+    const { userId: _, ...postPayload } = updatedPunch;
+    const payload = (
+      await thunkAPI.dispatch(
+        postToDB({
+          url: PUNCH_API.UPDATE,
+          postPayload,
+        })
+      )
+    ).payload as DBResponse<DBData>;
+    if (payload.status === 'error') {
+      return thunkAPI.rejectWithValue(payload.data.message);
+    } else {
+      return payload.data.message;
+    }
+  }
+);
+
+export const deletePunch = createAppAsyncThunk(
+  sliceName + '/deletePunch',
+  async (id: string, thunkAPI) => {
+    const payload = (
+      await thunkAPI.dispatch(
+        postToDB({
+          url: PUNCH_API.DELETE,
+          postPayload: { id },
+        })
+      )
+    ).payload as DBResponse<DBData>;
+    if (payload.status === 'error') {
+      return thunkAPI.rejectWithValue(payload.data.message);
+    } else {
+      return payload.data.message;
+    }
+  }
+);
+
+export const deleteAllUserPunches = createAppAsyncThunk(
+  sliceName + '/deleteAllUserPunches',
+  async (_, thunkAPI) => {
+    const payload = (
+      await thunkAPI.dispatch(
+        postToDB({
+          url: PUNCH_API.DELETE_BY_USER,
+          postPayload: {},
+        })
+      )
+    ).payload as DBResponse<DBData>;
+    if (payload.status === 'error') {
+      return thunkAPI.rejectWithValue(payload.data.message);
+    } else {
+      return payload.data.message;
+    }
+  }
+);
+
+export const deleteAllTaskPunches = createAppAsyncThunk(
+  sliceName + '/deleteAllTaskPunches',
+  async (taskId: string, thunkAPI) => {
+    const payload = (
+      await thunkAPI.dispatch(
+        postToDB({
+          url: PUNCH_API.DELETE_BY_TASK,
+          postPayload: { taskId },
+        })
+      )
+    ).payload as DBResponse<DBData>;
+    if (payload.status === 'error') {
+      return thunkAPI.rejectWithValue(payload.data.message);
+    } else {
+      return payload.data.message;
+    }
+  }
+);
+
 interface PunchCtrlState {
   punchlist: TimePunch[];
   isClockedIn: boolean;
@@ -113,15 +193,24 @@ export const punchCtrlSlice = createSlice({
   name: sliceName,
   initialState: initialPunchCtrlState,
   reducers: {
+    initializeClockedStatus: (state) => {
+      const lastPunch = peak(state.punchlist);
+      if (state.punchlist.length < 1 || lastPunch.punchOut !== undefined) {
+        state.isClockedIn = false;
+        state.currentActivity = BLANK_ACTIVITY_DATA;
+      } else {
+        state.isClockedIn = true;
+        state.currentActivity = {
+          punchId: lastPunch.id,
+          taskId: lastPunch.taskId,
+        };
+      }
+    },
     setDisplayInterval: (state, action: PayloadAction<TimeInterval>) => {
       state.displayInterval = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(initializeClockedStatus.fulfilled, (state, action) => {
-      state.isClockedIn = action.payload.isClockedIn;
-      state.currentActivity = { ...action.payload.currentActivity };
-    });
     builder.addCase(punchIn.fulfilled, (state, action) => {
       state.punchlist = [...state.punchlist, { ...action.payload.newPunch }];
       state.isClockedIn = true;
@@ -146,6 +235,15 @@ export const punchCtrlSlice = createSlice({
       state.isClockedIn = false;
     });
     builder.addCase(punchOut.rejected, (_, action) => {
+      console.error(new Error(action.payload));
+    });
+    builder.addCase(fetchPunchlist.fulfilled, (state, action) => {
+      state.punchlist = [...action.payload];
+    });
+    builder.addCase(fetchPunchlist.rejected, (_, action) => {
+      console.error(new Error(action.payload));
+    });
+    builder.addCase(updatePunch.rejected, (_, action) => {
       console.error(new Error(action.payload));
     });
   },
