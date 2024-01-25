@@ -19,8 +19,11 @@ export const TasklistViewer: React.FC = () => {
     (state) => state.taskCtrl.tasklist.length
   );
   const page: number = useAppSelector((state) => state.taskCtrl.page);
-  const dispatch: AppDispatch = useAppDispatch();
+  const taskIndexes: number[] = Array(TASKS_PER_PAGE)
+    .fill(undefined)
+    .map((_, index) => (page - 1) * TASKS_PER_PAGE + index);
 
+  const dispatch: AppDispatch = useAppDispatch();
   const handleFirstPageClick = () => {
     try {
       dispatch(taskCtrlSlice.actions.firstPage());
@@ -53,23 +56,19 @@ export const TasklistViewer: React.FC = () => {
     }
   };
 
-  const getTaskCards = () => {
-    const taskCards = [];
-    for (let i = (page - 1) * TASKS_PER_PAGE; i < page * TASKS_PER_PAGE; i++) {
-      if (i < listLength) {
-        taskCards.push(<TaskCard idx={i} key={i} />);
-      } else {
-        taskCards.push(<TableRow key={i} />);
-      }
-    }
-    return taskCards;
-  };
-
   return (
     <Box className="task-viewer" data-testid="tasklist-viewer">
       <Box className="tasklist-viewer">
         <Table className="taskcard-table" padding="none" size="small">
-          <TableBody>{getTaskCards()}</TableBody>
+          <TableBody>
+            {taskIndexes.map((taskIndex) =>
+              taskIndex < listLength ? (
+                <TaskCard idx={taskIndex} key={taskIndex} />
+              ) : (
+                <TableRow key={taskIndex} />
+              )
+            )}
+          </TableBody>
         </Table>
       </Box>
       <Box className={'tasklist-footer'}>

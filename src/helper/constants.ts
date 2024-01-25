@@ -1,4 +1,11 @@
-import { ActivityData, AppFocusT, TaskOption, TimeInterval } from 'app/types';
+import {
+  ActivityData,
+  AppFocusT,
+  LocalPunch,
+  TaskOption,
+  TimeInterval,
+  TimePunch,
+} from 'app/types';
 import { Duration, FormatDurationOptions } from 'date-fns';
 import { getWeeklyTimeInterval } from 'helper/functions';
 //Error messages
@@ -37,6 +44,7 @@ export const USER_API = {
 };
 const punchApiRoot = apiRoot + '/punch-api';
 export const PUNCH_API = {
+  CREATE_PUNCH: punchApiRoot + '/create-punch',
   PUNCH_IN: punchApiRoot + '/punch-in',
   PUNCH_OUT: punchApiRoot + '/punch-out',
   PUNCHLIST: punchApiRoot + '/user-punchlist',
@@ -118,3 +126,29 @@ export const TIME_OF_LOAD: number = Date.now();
 
 export const INITIAL_TIMESHEET_DISPLAY_INTERVAL: TimeInterval =
   getWeeklyTimeInterval(TIME_OF_LOAD);
+
+export const PX_PER_MS = 3600 / 86400000;
+
+//blank timeinterval
+export const BLANK_TIME_INTERVAL: TimeInterval = {
+  start: 18000000,
+  end: 104399999,
+};
+
+//blank punch
+export const BLANK_PUNCH: TimePunch = {
+  id: 'BLANK_PUNCH',
+  punchIn: 0,
+  punchOut: 1,
+  taskId: 'TASK_ID_FOR_BLANK_PUNCH',
+  userId: 'USER_ID_FOR_BLANK_PUNCH',
+};
+
+export const BLANK_LOCAL_PUNCH: LocalPunch = {
+  id: '',
+  punchIn: TIME_OF_LOAD,
+  taskId: '',
+  userId: '',
+  taskName: '',
+  isPunchedOut: false,
+};

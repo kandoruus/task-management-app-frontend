@@ -52,19 +52,21 @@ export const ControlBar: React.FC<PropsWithChildren<Props>> = ({
         </IconButton>
       </Tooltip>
       <Menu anchorEl={menuAnchor} open={menuOpen} onClose={handleMenuClose}>
-        {buttons.map((button) => (
-          <MenuItem
-            id={button.id}
-            onClick={() => {
-              handleMenuClose();
-              dispatch(button.action());
-            }}
-            value={button.value}
-            key={button.id}
-          >
-            {button.value}
-          </MenuItem>
-        ))}
+        {buttons.map((button) => {
+          return (
+            <MenuItem
+              id={button.id}
+              onClick={() => {
+                handleMenuClose();
+                dispatch(button.action());
+              }}
+              value={button.value}
+              key={button.id}
+            >
+              {button.value}
+            </MenuItem>
+          );
+        })}
       </Menu>
       <Typography noWrap variant="h6">
         {title}

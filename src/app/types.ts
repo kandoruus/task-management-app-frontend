@@ -98,7 +98,30 @@ export type TimeInterval = {
   end: number;
 };
 
+export type IntervalSummary = {
+  taskNames: string;
+  totalTime: string;
+};
+
 export type TimesheetRowProps = {
   interval: TimeInterval;
-  isHourlyView: boolean;
+  viewDay: (day: TimeInterval) => void;
 };
+
+export interface TimesheetViewerProps extends IntervalSummary {
+  rowProps: TimeInterval[];
+}
+
+export interface TimeSheetRowData extends IntervalSummary {
+  intervalAsString: string;
+}
+
+export type TaskInfo = {
+  name: string;
+  id: string;
+};
+
+export interface LocalPunch extends TimePunch {
+  taskName: string;
+  isPunchedOut: boolean;
+}

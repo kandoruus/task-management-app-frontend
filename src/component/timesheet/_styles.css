@@ -23,3 +23,49 @@
   overflow-x: hidden;
   border-radius: 10px;
 }
+
+.viewer-wrapper {
+  margin: 10vh auto auto;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+}
+
+.viewer-header {
+  text-align: center;
+  padding: 4px;
+  border-radius: 12px 12px 0px 0px;
+}
+
+.viewer-pane {
+  margin: 32px;
+  border: 1px solid rgb(224, 224, 224);
+  display: flex;
+  flex-direction: row;
+}
+
+.hour-row {
+  border-right: 1px dashed rgb(224, 224, 224);
+}
+
+.hour-row:last-of-type {
+  border-right: none;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+  padding: 0px !important;
+}
+
+.punch-details {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  width: 370px;
+  padding: 25px;
+  margin: 0;
+}

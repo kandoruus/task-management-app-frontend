@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Table,
@@ -9,32 +9,28 @@ import {
   TableRow,
 } from '@mui/material';
 import 'component/timesheet/_styles.css';
-import {
-  useAppSelector,
-  usePunchlistInInterval,
-  useTaskNamesFromPunchList,
-} from 'app/hooks';
-import { durationFormatOptions } from 'helper/constants';
+import { useModal, useTimesheetViewerProps } from 'app/hooks';
 import { TimesheetRow } from 'component/timesheet/TimesheetRow';
-import {
-  getTimesheetRowProps,
-  getTotalDurationWithinInterval,
-} from 'helper/functions';
 import { SmTableCell } from 'component/_styled-mui-components/SmTableCell';
-import { formatDuration } from 'date-fns';
-import { selectPunchCtrl } from 'app/slices/punchCtrlSlice';
+import { DailyView } from 'component/timesheet/DailyView';
+import { TimeInterval } from 'app/types';
+import { BLANK_TIME_INTERVAL } from 'helper/constants';
 
 export const TimesheetViewer: React.FC = () => {
-  const { displayInterval } = useAppSelector((state) => selectPunchCtrl(state));
-  const punchlist = usePunchlistInInterval(displayInterval);
-  const taskNames = useTaskNamesFromPunchList(punchlist);
+  const { taskNames, totalTime, rowProps } = useTimesheetViewerProps();
+  const [dailyViewIsOpen, toggleDailyView] = useModal();
+  const [dayToView, setDayToView] = useState<TimeInterval>(BLANK_TIME_INTERVAL);
 
-  const getTotalTime = (): string => {
-    return formatDuration(
-      getTotalDurationWithinInterval(punchlist, displayInterval),
-      durationFormatOptions
-    );
+  const viewDay = (day: TimeInterval) => {
+    setDayToView(day);
+    toggleDailyView();
   };
+
+  const closeDay = () => {
+    setDayToView(BLANK_TIME_INTERVAL);
+    toggleDailyView();
+  };
+
   return (
     <Box
       className="timesheet-display"
@@ -44,25 +40,24 @@ export const TimesheetViewer: React.FC = () => {
         <TableHead>
           <TableRow>
             <SmTableCell>Date</SmTableCell>
-            <SmTableCell>Hours</SmTableCell>
+            <SmTableCell>Time</SmTableCell>
             <TableCell>Tasks</TableCell>
-            <SmTableCell>Edit</SmTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {getTimesheetRowProps(displayInterval).map((props, index) => (
-            <TimesheetRow {...props} key={'ts-row-' + index} />
+          {rowProps.map((interval, index) => (
+            <TimesheetRow {...{ interval, viewDay }} key={'ts-row-' + index} />
           ))}
         </TableBody>
         <TableFooter>
           <TableRow>
             <SmTableCell>Weekly total</SmTableCell>
-            <SmTableCell>{getTotalTime()}</SmTableCell>
+            <SmTableCell>{totalTime}</SmTableCell>
             <TableCell>{taskNames}</TableCell>
-            <SmTableCell></SmTableCell>
           </TableRow>
         </TableFooter>
       </Table>
+      <DailyView open={dailyViewIsOpen} day={dayToView} onClose={closeDay} />
     </Box>
   );
 };

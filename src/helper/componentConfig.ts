@@ -1,14 +1,13 @@
-import { punchCtrlSlice, fetchPunchlist } from 'app/slices/punchCtrlSlice';
+import { punchCtrlSlice /*, fetchPunchlist*/ } from 'app/slices/punchCtrlSlice';
 import {
   createNewTask,
-  deleteTasklist,
+  /*deleteTasklist,
   fetchTasklist,
-  saveTasklist,
+  saveTasklist,*/
 } from 'app/slices/taskCtrlSlice';
 import { TimeInterval } from 'app/types';
 import { TIME_OF_LOAD } from 'helper/constants';
 import {
-  getDailyTimeInterval,
   getMonthlyTimeInterval,
   getQuarterlyTimeInterval,
   getWeeklyTimeInterval,
@@ -24,7 +23,7 @@ export type MenuButtonConfig = {
 };
 
 export const tasklistCtrlBtns: MenuButtonConfig[] = [
-  {
+  /*{
     id: 'load-tl-btn',
     value: 'Load Tasks',
     action: fetchTasklist,
@@ -38,7 +37,7 @@ export const tasklistCtrlBtns: MenuButtonConfig[] = [
     id: 'save-tl-btn',
     value: 'Save Tasks',
     action: saveTasklist,
-  },
+  },*/
   {
     id: 'new-task-tl-btn',
     value: 'Create Task',
@@ -51,7 +50,7 @@ export const getTimeCtrlBtns = (
   customInterval?: TimeInterval
 ): MenuButtonConfig[] => {
   return [
-    {
+    /*{
       id: 'view-day-btn',
       value: 'Daily',
       action: () => {
@@ -59,7 +58,7 @@ export const getTimeCtrlBtns = (
           getDailyTimeInterval(TIME_OF_LOAD)
         );
       },
-    },
+    },*/
     {
       id: 'view-week-btn',
       value: 'Weekly',
@@ -96,13 +95,13 @@ export const getTimeCtrlBtns = (
         );
       },
     },
-    {
+    /*{
       id: 'fetch-punchlist-btn',
       value: 'Load Punches',
       action: () => {
         return fetchPunchlist();
       },
-    },
+    },*/
     /*{
       id: 'set-view-btn',
       value: 'Custom',

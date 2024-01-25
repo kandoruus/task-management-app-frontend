@@ -16,7 +16,9 @@ import {
 import { YesNoDialog } from 'component/_helper-components/YesNoDialog';
 import { TaskOption } from 'app/types';
 
-export const PunchController: React.FC = () => {
+export const PunchController: React.FC<{ toggleView: () => void }> = ({
+  toggleView,
+}) => {
   const dispatch = useAppDispatch();
   const { isClockedIn, currentActivity } = useAppSelector((state) =>
     selectPunchCtrl(state)
@@ -64,7 +66,7 @@ export const PunchController: React.FC = () => {
   };
 
   return (
-    <Box className="punch-interface">
+    <Box>
       <Box>
         <Typography variant="body1" sx={{ textAlign: 'center', mt: '20px' }}>
           Status: Clocked {isClockedIn ? 'In' : 'Out'}
@@ -72,7 +74,7 @@ export const PunchController: React.FC = () => {
         <Box
           sx={{
             m: '10px auto',
-            width: '300px',
+            width: '320px',
           }}
         >
           <ButtonGroup variant="contained" sx={{ width: '100%' }}>
@@ -93,6 +95,9 @@ export const PunchController: React.FC = () => {
           <TaskSelector
             {...(isClockedIn ? TaskSelectorProps.in : TaskSelectorProps.out)}
           />
+          <Button sx={{ width: '100%' }} onClick={toggleView}>
+            Manual Entry
+          </Button>
         </Box>
       </Box>
       <YesNoDialog
