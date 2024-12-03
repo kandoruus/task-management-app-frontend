@@ -24,14 +24,20 @@ export const TimesheetMasterPane: React.FC = () => {
     }
   });
   return (
-    <Box className="master-pane" data-testid="timesheet-master-pane">
+    <Box
+      className="master-pane"
+      data-testid="timesheet-master-pane"
+      id="timesheet-master-pane"
+    >
       <TimesheetToolbar />
       <TimesheetViewer />
-      {isManualEntry ? (
-        <PunchCreator toggleView={toggleEntryView} />
-      ) : (
-        <PunchController toggleView={toggleEntryView} />
-      )}
+      <Box id="punch-pane">
+        {isManualEntry ? (
+          <PunchCreator toggleView={toggleEntryView} />
+        ) : (
+          <PunchController toggleView={toggleEntryView} />
+        )}
+      </Box>
     </Box>
   );
 };

@@ -32,10 +32,7 @@ export const TimesheetViewer: React.FC = () => {
   };
 
   return (
-    <Box
-      className="timesheet-display"
-      sx={{ overflowY: 'auto', maxHeight: '70vh' }}
-    >
+    <Box className="timesheet-display">
       <Table size="small" sx={{ borderBottom: '1px solid lightgrey' }}>
         <TableHead>
           <TableRow>
