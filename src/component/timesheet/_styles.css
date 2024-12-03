@@ -67,11 +67,12 @@
   background-color: white;
   width: 370px;
   padding: 25px;
-  margin: 0;
 }
 
 #punch-pane {
   height: fit-content;
+  flex-grow: 1;
+  margin-bottom: 10px;
 }
 
 #timesheet-master-pane {
@@ -82,7 +83,6 @@
 .timesheet-display {
   margin-top: 0;
   overflow-y: auto;
-  flex-grow: 1;
   flex-shrink: 1;
   min-height: 85px;
 }
