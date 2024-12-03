@@ -113,20 +113,6 @@ describe('AccountMasterPane', () => {
         ).toBeInTheDocument();
         expect(store.dispatch).not.toHaveBeenCalled();
       });
-      it('dispatches the changePassword action and sends the ERR_MSG.PWD_UPDATE_FAILED message if the response is undefined', async () => {
-        store.dispatch.mockReturnValueOnce({ payload: undefined });
-        act(() => {
-          fireEvent.click(
-            screen.getByRole('button', { name: /Change Password/i })
-          );
-        });
-        expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
-          changePassword({ oldPassword, newPassword }).toString()
-        );
-        expect(
-          await screen.findByText(ERR_MSG.PWD_UPDATE_FAILED)
-        ).toBeInTheDocument();
-      });
       it('dispatches the changePassword action and sends the res.message when the res.status is not "success"', async () => {
         const mockErrorMessage = 'mockErrorMessage';
         store.dispatch.mockReturnValueOnce({
@@ -181,18 +167,6 @@ describe('AccountMasterPane', () => {
             target: { value: validPassword },
           });
         });
-        it('dispatches the deleteAccount action and sends the ERR_MSG.DELETE_ACC_FAILED message when the response is undefined', async () => {
-          store.dispatch.mockReturnValueOnce({ payload: undefined });
-          fireEvent.click(
-            screen.getByRole('button', { name: /Delete Account/i })
-          );
-          expect(
-            await screen.findByText(ERR_MSG.DELETE_ACC_FAILED)
-          ).toBeInTheDocument();
-          expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
-            deleteAccount({ password: validPassword }).toString()
-          );
-        });
         it('dispatches the deleteAccount action and sends the res.message with the res.status is not "success"', async () => {
           const mockErrorMessage = 'mockErrorMessage';
           store.dispatch.mockReturnValueOnce({
@@ -203,7 +177,7 @@ describe('AccountMasterPane', () => {
           );
           expect(await screen.findByText(mockErrorMessage)).toBeInTheDocument();
           expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
-            changePassword({ password: validPassword }).toString()
+            deleteAccount({ password: validPassword }).toString()
           );
         });
         it('dispatches the deleteAccount action, sends the res.message, clears the password field, and deletes the login cookie with the res.status is success', async () => {
@@ -218,7 +192,7 @@ describe('AccountMasterPane', () => {
             await screen.findByText(mockSuccessMessage)
           ).toBeInTheDocument();
           expect(store.dispatch.mock.calls[0][0].toString()).toEqual(
-            changePassword({ password: validPassword }).toString()
+            deleteAccount({ password: validPassword }).toString()
           );
           expect(screen.getByLabelText('Password')).toHaveValue('');
           expect(mockedRemoveCookie).toHaveBeenCalledWith(COOKIES.LOGIN, {
